@@ -31,6 +31,10 @@ func close() -> void:
 	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
 		socket.close(1000, "Client closed")
 
+func send(op_code: GameClient.OpCode, data: Dictionary =) -> void:
+	var packet: PackedByteArray = payload_manager.encode_packet(op_code, data)
+	socket.send(packet)
+
 func update() -> void:
 	if is_reconnecting and reconnect_timestamp > 0:
 		if Time.get_ticks_msec() >= reconnect_timestamp:

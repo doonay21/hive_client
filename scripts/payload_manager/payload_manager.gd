@@ -5,7 +5,7 @@ var buffer: StreamPeerBuffer = StreamPeerBuffer.new()
 func _init() -> void:
 	buffer.big_endian = false 
 
-func create_packet(opcode: GameClient.OpCode, data: Dictionary = {}) -> PackedByteArray:
+func encode_packet(opcode: GameClient.OpCode, data: Dictionary = {}) -> PackedByteArray:
 	buffer.clear()
 	buffer.put_32(0) # Placeholder for packet size
 	buffer.put_32(opcode)

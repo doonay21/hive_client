@@ -9,7 +9,7 @@ func _ready():
 	websocket_client.disconnected.connect(on_websocket_client_disconnected)
 	websocket_client.data_received.connect(on_websocket_client_data_received)
 	
-	game_client = GameClient.new()
+	game_client = GameClient.new(websocket_client)
 	
 	websocket_client.connect_to_host()
 
@@ -20,7 +20,7 @@ func _exit_tree() -> void:
 	websocket_client.close()
 
 func on_websocket_client_connected() -> void:
-	print("WS connected!")
+	game_client.authenticate()
 
 func on_websocket_client_disconnected(code: int, reason: String) -> void:
 	print("WS disconnected! code = %s, reason = %s" % [code, reason])
