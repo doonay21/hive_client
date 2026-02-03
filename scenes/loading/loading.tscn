@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://xskrcots3rci"]
+
+[ext_resource type="Script" uid="uid://c3jsserjpuif1" path="res://scenes/loading/loading.gd" id="1_23b5w"]
+
+[node name="Loading" type="Control" unique_id=1150319715]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_23b5w")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2110045455]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect" unique_id=41868678]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="ColorRect/CenterContainer" unique_id=1636130436]
+layout_mode = 2
+text = "Loading...."

@@ -11,13 +11,15 @@ config_version=5
 [application]
 
 config/name="HiveClient"
-run/main_scene="uid://c5a428fwvp2iq"
+run/main_scene="uid://xskrcots3rci"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Nakama="*uid://ckho07ucaxkun"
+Secrets="*uid://dofsr0rfp4j6"
+OnlineManager="*uid://bbjq6cjlo1pvb"
 
 [physics]
 
