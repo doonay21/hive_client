@@ -1,0 +1,268 @@
+[gd_scene format=3 uid="uid://cigwtfkwwnx2t"]
+
+[ext_resource type="Script" uid="uid://chnpkb158qg2i" path="res://scenes/brain_editor/brain_editor.gd" id="1_v67x2"]
+
+[node name="BrainEditor" type="Control" unique_id=1322940412]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v67x2")
+
+[node name="GraphEdit" type="GraphEdit" parent="." unique_id=2097049091]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+scroll_offset = Vector2(-33, -94)
+right_disconnects = true
+minimap_enabled = false
+
+[node name="ContextMenu" type="PopupMenu" parent="GraphEdit" unique_id=1634621929]
+
+[node name="InProximityUp" type="GraphNode" parent="GraphEdit" unique_id=1782561233]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 214.0
+offset_right = 216.0
+offset_bottom = 292.0
+mouse_filter = 1
+position_offset = Vector2(20, 120)
+title = "Input"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 0.8980392, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/InProximityUp" unique_id=1539660904]
+layout_mode = 2
+text = "Proximity Up"
+horizontal_alignment = 1
+
+[node name="InProximityDown" type="GraphNode" parent="GraphEdit" unique_id=407685767]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 314.0
+offset_right = 216.0
+offset_bottom = 392.0
+mouse_filter = 1
+position_offset = Vector2(20, 220)
+title = "Input"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 0.8980392, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/InProximityDown" unique_id=172527773]
+layout_mode = 2
+text = "Proximity Down"
+horizontal_alignment = 1
+
+[node name="InProximityLeft" type="GraphNode" parent="GraphEdit" unique_id=1513188477]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 414.0
+offset_right = 216.0
+offset_bottom = 492.0
+mouse_filter = 1
+position_offset = Vector2(20, 320)
+title = "Input"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 0.8980392, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/InProximityLeft" unique_id=8506473]
+layout_mode = 2
+text = "Proximity Left"
+horizontal_alignment = 1
+
+[node name="InProximityRight" type="GraphNode" parent="GraphEdit" unique_id=1582936713]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 514.0
+offset_right = 216.0
+offset_bottom = 592.0
+mouse_filter = 1
+position_offset = Vector2(20, 420)
+title = "Input"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 0.8980392, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/InProximityRight" unique_id=1603796659]
+layout_mode = 2
+text = "Proximity Right"
+horizontal_alignment = 1
+
+[node name="InRandom" type="GraphNode" parent="GraphEdit" unique_id=1227150367]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 614.0
+offset_right = 216.0
+offset_bottom = 692.0
+mouse_filter = 1
+position_offset = Vector2(20, 520)
+title = "Input"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 0.8980392, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/InRandom" unique_id=1529637337]
+layout_mode = 2
+text = "Random"
+horizontal_alignment = 1
+
+[node name="InConstant" type="GraphNode" parent="GraphEdit" unique_id=763515984]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 714.0
+offset_right = 216.0
+offset_bottom = 800.0
+mouse_filter = 1
+position_offset = Vector2(20, 620)
+title = "Input"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 0.8980392, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="SpinBox" type="SpinBox" parent="GraphEdit/InConstant" unique_id=1045294832]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+alignment = 1
+
+[node name="OutUp" type="GraphNode" parent="GraphEdit" unique_id=607172889]
+layout_mode = 0
+offset_left = 833.0
+offset_top = 214.0
+offset_right = 996.0
+offset_bottom = 292.0
+mouse_filter = 1
+position_offset = Vector2(800, 120)
+title = "Output"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 0.42745098, 0, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/OutUp" unique_id=1349549092]
+layout_mode = 2
+text = "Up"
+horizontal_alignment = 1
+
+[node name="OutDown" type="GraphNode" parent="GraphEdit" unique_id=2096811491]
+layout_mode = 0
+offset_left = 833.0
+offset_top = 314.0
+offset_right = 996.0
+offset_bottom = 392.0
+mouse_filter = 1
+position_offset = Vector2(800, 220)
+title = "Output"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 0.42745098, 0, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/OutDown" unique_id=1894809630]
+layout_mode = 2
+text = "Down"
+horizontal_alignment = 1
+
+[node name="OutLeft" type="GraphNode" parent="GraphEdit" unique_id=1960806865]
+layout_mode = 0
+offset_left = 833.0
+offset_top = 414.0
+offset_right = 996.0
+offset_bottom = 492.0
+mouse_filter = 1
+position_offset = Vector2(800, 320)
+title = "Output"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 0.42745098, 0, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/OutLeft" unique_id=374588574]
+layout_mode = 2
+text = "Left"
+horizontal_alignment = 1
+
+[node name="OutRight" type="GraphNode" parent="GraphEdit" unique_id=885622751]
+layout_mode = 0
+offset_left = 833.0
+offset_top = 514.0
+offset_right = 996.0
+offset_bottom = 592.0
+mouse_filter = 1
+position_offset = Vector2(800, 420)
+title = "Output"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 0.42745098, 0, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Label" type="Label" parent="GraphEdit/OutRight" unique_id=1813982207]
+layout_mode = 2
+text = "Right"
+horizontal_alignment = 1
