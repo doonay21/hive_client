@@ -1,15 +1,15 @@
-[gd_scene format=3 uid="uid://byrvle5y3cswg"]
+[gd_scene format=3 uid="uid://clao5pin0r2sv"]
 
-[ext_resource type="Script" uid="uid://dtyp37rpv2hre" path="res://scenes/brain_editor/node_script.gd" id="1_gl1pk"]
+[ext_resource type="Script" uid="uid://dtyp37rpv2hre" path="res://scenes/brain_editor/node_script.gd" id="1_bjgyw"]
 
-[node name="Not" type="GraphNode" unique_id=1643151440]
+[node name="EdgeDetector" type="GraphNode" unique_id=1643151440]
 offset_left = 459.0
 offset_top = 225.0
 offset_right = 622.0
 offset_bottom = 303.0
 mouse_filter = 1
 position_offset = Vector2(419, 225)
-title = "Not (Out = 1.0 - A)"
+title = "Edge Detector"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(0.4627451, 1, 0.011764706, 1)
@@ -19,8 +19,8 @@ slot/0/right_type = 0
 slot/0/right_color = Color(0.4627451, 1, 0.011764706, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
-script = ExtResource("1_gl1pk")
-node_type = 12
+script = ExtResource("1_bjgyw")
+node_type = 9
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2078851952]
 layout_mode = 2

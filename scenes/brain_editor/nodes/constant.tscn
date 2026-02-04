@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dhotfuqd245l4"]
+
+[ext_resource type="Script" uid="uid://dtyp37rpv2hre" path="res://scenes/brain_editor/node_script.gd" id="1_vsop0"]
+
+[node name="Constant" type="GraphNode" unique_id=1643151440]
+offset_left = 459.0
+offset_top = 225.0
+offset_right = 581.0
+offset_bottom = 311.0
+mouse_filter = 1
+position_offset = Vector2(419, 225)
+title = "Constant"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(0.4627451, 1, 0.011764706, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0.4627451, 1, 0.011764706, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_vsop0")
+node_type = 8
+
+[node name="SpinBox" type="SpinBox" parent="." unique_id=113559553]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+alignment = 1
