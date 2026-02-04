@@ -1,221 +1,131 @@
-[gd_scene format=3 uid="uid://cigwtfkwwnx2t"]
+[gd_scene format=3 uid="uid://baytmmjhubdgf"]
 
-[ext_resource type="Script" uid="uid://chnpkb158qg2i" path="res://scenes/brain_editor/brain_editor.gd" id="1_v67x2"]
-[ext_resource type="Script" uid="uid://dtyp37rpv2hre" path="res://scenes/brain_editor/node_script.gd" id="2_iva03"]
+[ext_resource type="PackedScene" uid="uid://cqr6altaq5hf4" path="res://scenes/brain_editor/slot.tscn" id="1_v67x2"]
+[ext_resource type="PackedScene" uid="uid://dlprvbnlpxja6" path="res://scenes/brain_editor/toolbox_item.tscn" id="2_iva03"]
+[ext_resource type="Resource" uid="uid://bk1wjpx3hdwjo" path="res://scenes/brain_editor/blocks/input_sight_front.tres" id="3_8j72b"]
 
-[node name="BrainEditor" type="Control" unique_id=1322940412]
-layout_mode = 3
+[node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
+
+[node name="Panel" type="Panel" parent="." unique_id=365442137]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_v67x2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=734219594]
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1666076810]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 120
 
-[node name="Panel" type="Panel" parent="VBoxContainer" unique_id=1560249880]
-custom_minimum_size = Vector2(0, 40)
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=128463159]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel" unique_id=1644907378]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer" unique_id=543178525]
+[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=662009417]
 layout_mode = 2
-
-[node name="ButtonSave" type="Button" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer" unique_id=1632774095]
-layout_mode = 2
-text = "Zapisz"
-
-[node name="Control" type="Control" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer" unique_id=818382564]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button2" type="Button" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer" unique_id=1641397677]
-layout_mode = 2
-text = "Zamknij"
-
-[node name="GraphEdit" type="GraphEdit" parent="VBoxContainer" unique_id=2097049091]
-layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
-right_disconnects = true
-minimap_enabled = false
 
-[node name="ContextMenu" type="PopupMenu" parent="VBoxContainer/GraphEdit" unique_id=1634621929]
-
-[node name="InSightFront" type="GraphNode" parent="VBoxContainer/GraphEdit" unique_id=1782561233]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 120.0
-offset_right = 183.0
-offset_bottom = 198.0
-mouse_filter = 1
-position_offset = Vector2(20, 120)
-title = "Input"
-slot/0/left_enabled = false
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 1, 1, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = true
-slot/0/right_type = 0
-slot/0/right_color = Color(0, 0.8980392, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-script = ExtResource("2_iva03")
-
-[node name="Label" type="Label" parent="VBoxContainer/GraphEdit/InSightFront" unique_id=1539660904]
+[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer/VBoxContainer/CenterContainer" unique_id=527822490]
 layout_mode = 2
-text = "Sight Front"
-horizontal_alignment = 1
+columns = 5
 
-[node name="InSightLeft" type="GraphNode" parent="VBoxContainer/GraphEdit" unique_id=407685767]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 220.0
-offset_right = 183.0
-offset_bottom = 298.0
-mouse_filter = 1
-position_offset = Vector2(20, 220)
-title = "Input"
-slot/0/left_enabled = false
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 1, 1, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = true
-slot/0/right_type = 0
-slot/0/right_color = Color(0, 0.8980392, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-script = ExtResource("2_iva03")
-node_type = 1
-id = 1
-
-[node name="Label" type="Label" parent="VBoxContainer/GraphEdit/InSightLeft" unique_id=172527773]
+[node name="Slot1" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1471067592 instance=ExtResource("1_v67x2")]
 layout_mode = 2
-text = "Sight Left (-45°)"
-horizontal_alignment = 1
 
-[node name="InightRight" type="GraphNode" parent="VBoxContainer/GraphEdit" unique_id=1513188477]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 320.0
-offset_right = 188.0
-offset_bottom = 398.0
-mouse_filter = 1
-position_offset = Vector2(20, 320)
-title = "Input"
-slot/0/left_enabled = false
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 1, 1, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = true
-slot/0/right_type = 0
-slot/0/right_color = Color(0, 0.8980392, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-script = ExtResource("2_iva03")
-node_type = 2
-id = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/GraphEdit/InightRight" unique_id=8506473]
+[node name="Slot2" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=37773408 instance=ExtResource("1_v67x2")]
 layout_mode = 2
-text = "Sight Right (+45°)"
-horizontal_alignment = 1
 
-[node name="OutGo" type="GraphNode" parent="VBoxContainer/GraphEdit" unique_id=607172889]
-layout_mode = 0
-offset_left = 800.0
-offset_top = 120.0
-offset_right = 963.0
-offset_bottom = 198.0
-mouse_filter = 1
-position_offset = Vector2(800, 120)
-title = "Output"
-slot/0/left_enabled = true
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 0.42745098, 0, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = false
-slot/0/right_type = 0
-slot/0/right_color = Color(1, 1, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-script = ExtResource("2_iva03")
-node_type = 3
-id = 3
-
-[node name="Label" type="Label" parent="VBoxContainer/GraphEdit/OutGo" unique_id=1349549092]
+[node name="Slot3" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1628941238 instance=ExtResource("1_v67x2")]
 layout_mode = 2
-text = "Go"
-horizontal_alignment = 1
 
-[node name="OutTurnLeft" type="GraphNode" parent="VBoxContainer/GraphEdit" unique_id=2096811491]
-layout_mode = 0
-offset_left = 800.0
-offset_top = 220.0
-offset_right = 963.0
-offset_bottom = 298.0
-mouse_filter = 1
-position_offset = Vector2(800, 220)
-title = "Output"
-slot/0/left_enabled = true
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 0.42745098, 0, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = false
-slot/0/right_type = 0
-slot/0/right_color = Color(1, 1, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-script = ExtResource("2_iva03")
-node_type = 4
-id = 4
-
-[node name="Label" type="Label" parent="VBoxContainer/GraphEdit/OutTurnLeft" unique_id=1894809630]
+[node name="Slot4" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=227092362 instance=ExtResource("1_v67x2")]
 layout_mode = 2
-text = "Turn Left"
-horizontal_alignment = 1
 
-[node name="OutTurnRight" type="GraphNode" parent="VBoxContainer/GraphEdit" unique_id=1960806865]
-layout_mode = 0
-offset_left = 800.0
-offset_top = 320.0
-offset_right = 963.0
-offset_bottom = 398.0
-mouse_filter = 1
-position_offset = Vector2(800, 320)
-title = "Output"
-slot/0/left_enabled = true
-slot/0/left_type = 0
-slot/0/left_color = Color(1, 0.42745098, 0, 1)
-slot/0/left_icon = null
-slot/0/right_enabled = false
-slot/0/right_type = 0
-slot/0/right_color = Color(1, 1, 1, 1)
-slot/0/right_icon = null
-slot/0/draw_stylebox = true
-script = ExtResource("2_iva03")
-node_type = 5
-id = 5
-
-[node name="Label" type="Label" parent="VBoxContainer/GraphEdit/OutTurnRight" unique_id=374588574]
+[node name="Slot5" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1983627009 instance=ExtResource("1_v67x2")]
 layout_mode = 2
-text = "Turn Right"
-horizontal_alignment = 1
+
+[node name="Slot6" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=650645013 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot7" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=2031631933 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot8" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=934006825 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot9" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1868414901 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot10" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1898245957 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot11" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1361679405 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot12" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=2091533496 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot13" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=76106399 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot14" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1002484875 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot15" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1547790896 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot16" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=2094999560 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot17" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1765854153 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot18" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=172057394 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot19" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=889248889 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot20" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=471668180 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot21" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1982472820 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot22" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=972960290 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot23" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1655325332 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot24" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1161605316 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="Slot25" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1270498965 instance=ExtResource("1_v67x2")]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=366413916]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer" unique_id=2052441005]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=397894088]
+layout_mode = 2
+
+[node name="ToolboxItem" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1095967668 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("3_8j72b")

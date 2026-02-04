@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cqr6altaq5hf4"]
+
+[ext_resource type="Texture2D" uid="uid://ctrqe03mtpddi" path="res://assets/images/brain_editor/glassPanel_gr.png" id="1_0lum2"]
+
+[node name="Slot" type="NinePatchRect" unique_id=1471067592]
+modulate = Color(1, 1, 1, 0.1254902)
+texture_filter = 1
+custom_minimum_size = Vector2(80, 80)
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_0lum2")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
