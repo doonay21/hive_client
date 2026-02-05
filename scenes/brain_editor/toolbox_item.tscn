@@ -1,26 +1,34 @@
 [gd_scene format=3 uid="uid://dlprvbnlpxja6"]
 
-[ext_resource type="Texture2D" uid="uid://cwi0jgaa3ryp0" path="res://assets/images/brain_editor/glassPanel.png" id="1_vykmd"]
+[ext_resource type="Texture2D" uid="uid://b5gxfcy1t82gt" path="res://assets/images/brain_editor/block.png" id="2_3kklg"]
 [ext_resource type="Script" uid="uid://btxx4h1gbiah5" path="res://scenes/brain_editor/toolbox_item.gd" id="2_kp65c"]
-[ext_resource type="Texture2D" uid="uid://b7su6fdp744ol" path="res://assets/images/brain_editor/arrow_up.png" id="3_omo0v"]
-[ext_resource type="Texture2D" uid="uid://dfauikxjxkfv1" path="res://assets/images/brain_editor/arrow_right.png" id="4_3kklg"]
+[ext_resource type="PackedScene" uid="uid://wkpixcjqofo5" path="res://scenes/brain_editor/connector.tscn" id="3_omo0v"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_w0c1j"]
+[sub_resource type="LabelSettings" id="LabelSettings_3kklg"]
 font_size = 10
 
-[node name="ToolboxItem" type="NinePatchRect" unique_id=1095967668]
+[node name="ToolboxItem" type="Control" unique_id=1385599306]
 texture_filter = 1
 custom_minimum_size = Vector2(80, 80)
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("1_vykmd")
-patch_margin_left = 7
-patch_margin_top = 7
-patch_margin_right = 7
-patch_margin_bottom = 7
+layout_mode = 3
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 80.0
 script = ExtResource("2_kp65c")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1403295132]
+[node name="Background" type="TextureRect" parent="." unique_id=1011409072]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+texture = ExtResource("2_3kklg")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1501903636]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,79 +36,71 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=760317973]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=268712884]
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Control" type="Control" parent="CenterContainer/VBoxContainer" unique_id=717196104]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="CenterContainer/VBoxContainer/Control" unique_id=1301341324]
+[node name="Icon" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=1809090692]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+stretch_mode = 3
 
-[node name="DisplayName" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1903047998]
+[node name="DisplayName" type="Label" parent="CenterContainer/VBoxContainer" unique_id=29687747]
 unique_name_in_owner = true
 layout_mode = 2
-label_settings = SubResource("LabelSettings_w0c1j")
+label_settings = SubResource("LabelSettings_3kklg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1805702578]
+[node name="Control" type="Control" parent="." unique_id=149653685]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 6
+mouse_filter = 1
 
-[node name="ArrowTop" type="TextureRect" parent="MarginContainer" unique_id=280526048]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-texture = ExtResource("3_omo0v")
-flip_v = true
+[node name="ConnectorTop" parent="Control" unique_id=1460381175 instance=ExtResource("3_omo0v")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
 
-[node name="ArrowRight" type="TextureRect" parent="MarginContainer" unique_id=1380482025]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-texture = ExtResource("4_3kklg")
-flip_h = true
+[node name="ConnectorRight" parent="Control" unique_id=1676378066 instance=ExtResource("3_omo0v")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_right = -2.0
+grow_horizontal = 0
+grow_vertical = 2
 
-[node name="ArrowBottom" type="TextureRect" parent="MarginContainer" unique_id=2112398075]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-texture = ExtResource("3_omo0v")
+[node name="ConnectorBottom" parent="Control" unique_id=1573827900 instance=ExtResource("3_omo0v")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="ArrowLeft" type="TextureRect" parent="MarginContainer" unique_id=1022136886]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-texture = ExtResource("4_3kklg")
+[node name="ConnectorLeft" parent="Control" unique_id=1758115866 instance=ExtResource("3_omo0v")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_right = 2.0
+grow_vertical = 2
