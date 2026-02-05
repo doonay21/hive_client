@@ -1,15 +1,18 @@
 [gd_scene format=3 uid="uid://cqr6altaq5hf4"]
 
 [ext_resource type="Texture2D" uid="uid://ctrqe03mtpddi" path="res://assets/images/brain_editor/glassPanel_gr.png" id="1_0lum2"]
+[ext_resource type="Script" uid="uid://b1mf2637ajiav" path="res://scenes/brain_editor/slot.gd" id="2_4xsqv"]
 
 [node name="Slot" type="NinePatchRect" unique_id=1471067592]
-modulate = Color(1, 1, 1, 0.1254902)
+self_modulate = Color(1, 1, 1, 0.1254902)
 texture_filter = 1
 custom_minimum_size = Vector2(80, 80)
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 texture = ExtResource("1_0lum2")
 patch_margin_left = 7
 patch_margin_top = 7
 patch_margin_right = 7
 patch_margin_bottom = 7
+script = ExtResource("2_4xsqv")

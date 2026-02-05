@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://bafikjlworvpo"]
+
+[ext_resource type="Texture2D" uid="uid://cbrh3yrji2wst" path="res://assets/images/brain_editor/icons/eye_right.png" id="1_p1ybm"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block_data.gd" id="2_in026"]
+
+[resource]
+script = ExtResource("2_in026")
+display_name = "Sight Right"
+icon = ExtResource("1_p1ybm")
+base_color = Color(0, 0.8980392, 1, 1)
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

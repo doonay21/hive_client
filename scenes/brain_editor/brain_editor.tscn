@@ -1,8 +1,14 @@
 [gd_scene format=3 uid="uid://baytmmjhubdgf"]
 
 [ext_resource type="PackedScene" uid="uid://cqr6altaq5hf4" path="res://scenes/brain_editor/slot.tscn" id="1_v67x2"]
-[ext_resource type="PackedScene" uid="uid://dlprvbnlpxja6" path="res://scenes/brain_editor/toolbox_item.tscn" id="2_iva03"]
+[ext_resource type="PackedScene" uid="uid://dlprvbnlpxja6" path="res://scenes/brain_editor/block.tscn" id="2_iva03"]
 [ext_resource type="Resource" uid="uid://bk1wjpx3hdwjo" path="res://scenes/brain_editor/blocks/input_sight_front.tres" id="3_8j72b"]
+[ext_resource type="Resource" uid="uid://3r24nx3afyf2" path="res://scenes/brain_editor/blocks/input_sight_left.tres" id="4_hy1fu"]
+[ext_resource type="Resource" uid="uid://bafikjlworvpo" path="res://scenes/brain_editor/blocks/input_sight_right.tres" id="5_m5nmr"]
+[ext_resource type="Resource" uid="uid://bgcjx6kpfsix7" path="res://scenes/brain_editor/blocks/output_walk.tres" id="6_8ex86"]
+[ext_resource type="Resource" uid="uid://bvwnjwnwx4e8n" path="res://scenes/brain_editor/blocks/inverter.tres" id="6_fwxd3"]
+[ext_resource type="Resource" uid="uid://1atatt16cc1b" path="res://scenes/brain_editor/blocks/output_rotate_left.tres" id="6_s5qgd"]
+[ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/output_rotate_right.tres" id="8_fwxd3"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
 
@@ -124,8 +130,46 @@ theme_override_constants/margin_bottom = 7
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=397894088]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="ToolboxItem" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1095967668 instance=ExtResource("2_iva03")]
+[node name="InputSightLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1385599306 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("4_hy1fu")
+is_toolbox_source = true
+
+[node name="InputSightFront" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1095967668 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("3_8j72b")
+is_toolbox_source = true
+
+[node name="InputSightRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=449198355 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("5_m5nmr")
+is_toolbox_source = true
+
+[node name="Inverter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1711346390 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("6_fwxd3")
+is_toolbox_source = true
+
+[node name="OutputRotateLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("6_s5qgd")
+is_toolbox_source = true
+
+[node name="OutputWalk" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=698935539 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("6_8ex86")
+is_toolbox_source = true
+
+[node name="OutputRotateRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1368696079 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("8_fwxd3")
+is_toolbox_source = true

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dndjv4c52jc5d"
-path="res://.godot/imported/conn_in.png-b122a1e443af421423dca42b7af575f6.ctex"
+uid="uid://bjjuan3tv5b2u"
+path="res://.godot/imported/invert.png-8dd00b2248ed4653636045a0f2a5016e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/brain_editor/conn_in.png"
-dest_files=["res://.godot/imported/conn_in.png-b122a1e443af421423dca42b7af575f6.ctex"]
+source_file="res://assets/images/brain_editor/icons/invert.png"
+dest_files=["res://.godot/imported/invert.png-8dd00b2248ed4653636045a0f2a5016e.ctex"]
 
 [params]
 
