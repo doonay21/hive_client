@@ -16,8 +16,7 @@ const COLORS: Dictionary = {
 @export var icon: Texture2D
 @export var display: Display = Display.ICON_TEXT
 @export var style: Style = Style.INPUT
-
 @export var ports: Array[Port] = [Port.NONE, Port.OUTPUT, Port.NONE, Port.NONE]
 
 func get_style_color() -> Color:
-	return COLORS[style]
+	return COLORS.get(style, Color.WHITE)
