@@ -1,7 +1,7 @@
 class_name BlockData extends Resource
 
 enum Port { NONE, INPUT, OUTPUT }
-enum Display { ICON_TEXT, BIG_ICON }
+enum Display { ICON_TEXT, BIG_ICON, ICON_VALUE_DRAG }
 enum Style { INPUT, FUNCTION, OUTPUT, CONSTANT, CONNECTION }
 
 const COLORS: Dictionary = {

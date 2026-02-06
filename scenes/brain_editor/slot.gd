@@ -13,10 +13,15 @@ func has_block() -> bool:
 	return false
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
-	var new_block = BLOCK_SCENE.instantiate()
+	var new_block: Control = BLOCK_SCENE.instantiate()
 	new_block.block_data = data["resource"]
-	new_block.is_toolbox_source = false 
+	new_block.is_toolbox_source = false
 	add_child(new_block)
+	
+	var value_drag: Label = new_block.get_node_or_null("CenterContainer/VBoxContainer/MarginContainer/PanelContainer/ValueDrag")
+	
+	if value_drag:
+		value_drag.mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	if "rotation_index" in data:
 		new_block.rotation_index = data["rotation_index"]

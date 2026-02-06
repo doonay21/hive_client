@@ -7,5 +7,6 @@
 script = ExtResource("2_m6rcq")
 display_name = "1.0"
 icon = ExtResource("1_mllro")
+display = 2
 style = 3
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

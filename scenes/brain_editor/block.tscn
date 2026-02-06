@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b5gxfcy1t82gt" path="res://assets/images/brain_editor/block.png" id="2_3kklg"]
 [ext_resource type="Script" uid="uid://btxx4h1gbiah5" path="res://scenes/brain_editor/block.gd" id="2_kp65c"]
 [ext_resource type="Texture2D" uid="uid://blu0mqikxp6jj" path="res://assets/images/brain_editor/conn_none.png" id="3_omo0v"]
+[ext_resource type="Script" uid="uid://svk1r5voxlxo" path="res://scenes/brain_editor/value_drag.gd" id="4_wal7v"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3kklg"]
 font_size = 10
@@ -145,15 +146,27 @@ stretch_mode = 3
 
 [node name="DisplayName" type="Label" parent="CenterContainer/VBoxContainer" unique_id=29687747]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 label_settings = SubResource("LabelSettings_3kklg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1068801039]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer" unique_id=2142354838]
 layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/VBoxContainer/MarginContainer" unique_id=674603715]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ValueDrag" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/PanelContainer" unique_id=1068801039]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 1
 text = "1.00"
 label_settings = SubResource("LabelSettings_ao15g")
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("4_wal7v")

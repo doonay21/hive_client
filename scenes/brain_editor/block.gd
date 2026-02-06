@@ -12,6 +12,7 @@ const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
 @onready var icon: TextureRect = %Icon
 @onready var display_name: Label = %DisplayName
 @onready var icon_big: TextureRect = %IconBig
+@onready var value_drag: Label = %ValueDrag
 
 @onready var port_sprites = [
 	%PortTop,
@@ -36,11 +37,17 @@ func load_data():
 	if block_data.display == BlockData.Display.ICON_TEXT:
 		icon.texture = block_data.icon
 		display_name.text = block_data.display_name
-	else:
+	elif block_data.display == BlockData.Display.BIG_ICON:
 		icon_big.texture = block_data.icon
 		display_name.text = ""
 		icon.visible = false
 		display_name.visible = false
+		value_drag.visible = false
+	elif block_data.display == BlockData.Display.ICON_VALUE_DRAG:
+		icon.texture = block_data.icon
+		display_name.text = block_data.display_name
+		display_name.visible = false
+		value_drag.visible = true
 	
 	background_container.modulate = block_data.get_style_color()
 
@@ -52,7 +59,7 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	preview.process_mode = Node.PROCESS_MODE_DISABLED
 	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
-	var preview_bg = preview.get_node("BackgroundContainer")
+	var preview_bg = preview.get_node_or_null("BackgroundContainer")
 	if preview_bg:
 		preview_bg.rotation_degrees = rotation_index * 90
 	
