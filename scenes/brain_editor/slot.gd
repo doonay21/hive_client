@@ -1,10 +1,16 @@
-class_name Slot extends NinePatchRect
+class_name Slot extends MarginContainer
 
 const BLOCK_SCENE = preload("res://scenes/brain_editor/block.tscn") 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	var has_data = typeof(data) == TYPE_DICTIONARY and data.has("resource")
-	return has_data and get_child_count() == 0
+	return has_data and not has_block()
+
+func has_block() -> bool:
+	for child in get_children():
+		if child is Block:
+			return true
+	return false
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
 	var new_block = BLOCK_SCENE.instantiate()

@@ -8,5 +8,6 @@ script = ExtResource("2_gq68a")
 display_name = "Rotate Right"
 icon = ExtResource("1_r0nqs")
 base_color = Color(0.4627451, 1, 0.011764706, 1)
+style = 2
 ports = Array[int]([0, 0, 0, 1])
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

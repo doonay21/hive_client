@@ -8,4 +8,6 @@ script = ExtResource("1_6je27")
 display_name = "Sight Front"
 icon = ExtResource("1_rmddq")
 base_color = Color(0, 0.8980392, 1, 1)
+style = null
+ports = null
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

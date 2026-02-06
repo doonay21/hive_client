@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://2doahj3wioao"]
+
+[ext_resource type="Texture2D" uid="uid://cqix853vyvwio" path="res://assets/images/brain_editor/icons/conn_cross_joined.png" id="1_nqigj"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block_data.gd" id="2_p0q6k"]
+
+[resource]
+script = ExtResource("2_p0q6k")
+display_name = ""
+icon = ExtResource("1_nqigj")
+display = 1
+style = 4
+ports = Array[int]([1, 2, 2, 1])
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

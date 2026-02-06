@@ -9,6 +9,14 @@
 [ext_resource type="Resource" uid="uid://bvwnjwnwx4e8n" path="res://scenes/brain_editor/blocks/inverter.tres" id="6_fwxd3"]
 [ext_resource type="Resource" uid="uid://1atatt16cc1b" path="res://scenes/brain_editor/blocks/output_rotate_left.tres" id="6_s5qgd"]
 [ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/output_rotate_right.tres" id="8_fwxd3"]
+[ext_resource type="Resource" uid="uid://c7t4h83eaf47u" path="res://scenes/brain_editor/blocks/constant.tres" id="10_61fpg"]
+[ext_resource type="Resource" uid="uid://ptnrs8ur786k" path="res://scenes/brain_editor/blocks/connection_we.tres" id="11_bbaqc"]
+[ext_resource type="Resource" uid="uid://q1le08jivo3h" path="res://scenes/brain_editor/blocks/connection_ws.tres" id="12_c6rrm"]
+[ext_resource type="Resource" uid="uid://dqapxs6yd4ymb" path="res://scenes/brain_editor/blocks/connection_es.tres" id="12_ybd03"]
+[ext_resource type="Resource" uid="uid://bi8gfd6b23rl4" path="res://scenes/brain_editor/blocks/connection_wes.tres" id="14_hneyx"]
+[ext_resource type="Resource" uid="uid://q0uo75hd23x4" path="res://scenes/brain_editor/blocks/connection_ews.tres" id="15_2vtrv"]
+[ext_resource type="Resource" uid="uid://l85ym1hysfni" path="res://scenes/brain_editor/blocks/connection_cross.tres" id="15_jojpm"]
+[ext_resource type="Resource" uid="uid://2doahj3wioao" path="res://scenes/brain_editor/blocks/connection_cross_joined.tres" id="17_5cbut"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
 
@@ -40,6 +48,8 @@ size_flags_vertical = 3
 
 [node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer/VBoxContainer/CenterContainer" unique_id=527822490]
 layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 5
 
 [node name="Slot1" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1471067592 instance=ExtResource("1_v67x2")]
@@ -128,48 +138,100 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 7
 theme_override_constants/margin_bottom = 7
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=397894088]
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=1061332702]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer" unique_id=397894088]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="InputSightLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1385599306 instance=ExtResource("2_iva03")]
+[node name="InputSightLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1385599306 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("4_hy1fu")
 is_toolbox_source = true
 
-[node name="InputSightFront" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1095967668 instance=ExtResource("2_iva03")]
+[node name="InputSightFront" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1095967668 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("3_8j72b")
 is_toolbox_source = true
 
-[node name="InputSightRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=449198355 instance=ExtResource("2_iva03")]
+[node name="InputSightRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=449198355 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("5_m5nmr")
 is_toolbox_source = true
 
-[node name="Inverter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1711346390 instance=ExtResource("2_iva03")]
+[node name="Inverter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1711346390 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_fwxd3")
 is_toolbox_source = true
 
-[node name="OutputRotateLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
+[node name="OutputRotateLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_s5qgd")
 is_toolbox_source = true
 
-[node name="OutputWalk" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=698935539 instance=ExtResource("2_iva03")]
+[node name="OutputWalk" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=698935539 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_8ex86")
 is_toolbox_source = true
 
-[node name="OutputRotateRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1368696079 instance=ExtResource("2_iva03")]
+[node name="OutputRotateRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1368696079 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("8_fwxd3")
+is_toolbox_source = true
+
+[node name="Constant" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1235760205 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("10_61fpg")
+is_toolbox_source = true
+
+[node name="ConnectionWE" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1239101729 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("11_bbaqc")
+is_toolbox_source = true
+
+[node name="ConnectionES" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1671278208 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("12_ybd03")
+is_toolbox_source = true
+
+[node name="ConnectionWS" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=370485439 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("12_c6rrm")
+is_toolbox_source = true
+
+[node name="ConnectionWES" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1643540771 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("14_hneyx")
+is_toolbox_source = true
+
+[node name="ConnectionEWS" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1215412519 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("15_2vtrv")
+is_toolbox_source = true
+
+[node name="ConnectionCross" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=704445449 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("15_jojpm")
+is_toolbox_source = true
+
+[node name="ConnectionCrossJoined" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1268295495 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("17_5cbut")
 is_toolbox_source = true

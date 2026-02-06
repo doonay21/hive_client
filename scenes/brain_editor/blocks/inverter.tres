@@ -8,5 +8,6 @@ script = ExtResource("2_5tloh")
 display_name = "Invert"
 icon = ExtResource("1_w7mfp")
 base_color = Color(0.8352941, 0, 0.9764706, 1)
+style = 1
 ports = Array[int]([0, 2, 0, 1])
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

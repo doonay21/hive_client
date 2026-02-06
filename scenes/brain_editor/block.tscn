@@ -7,6 +7,8 @@
 [sub_resource type="LabelSettings" id="LabelSettings_3kklg"]
 font_size = 10
 
+[sub_resource type="LabelSettings" id="LabelSettings_ao15g"]
+
 [node name="Block" type="Control" unique_id=1385599306]
 texture_filter = 1
 custom_minimum_size = Vector2(80, 80)
@@ -15,7 +17,6 @@ anchors_preset = 0
 offset_right = 80.0
 offset_bottom = 80.0
 script = ExtResource("2_kp65c")
-is_toolbox_source = null
 
 [node name="BackgroundContainer" type="Control" parent="." unique_id=1166566089]
 unique_name_in_owner = true
@@ -37,6 +38,21 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(40, 40)
 texture = ExtResource("2_3kklg")
+
+[node name="IconBig" type="TextureRect" parent="BackgroundContainer" unique_id=1571075203]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -43.0
+offset_right = 43.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Ports" type="Control" parent="BackgroundContainer" unique_id=149653685]
 layout_mode = 1
@@ -129,7 +145,15 @@ stretch_mode = 3
 
 [node name="DisplayName" type="Label" parent="CenterContainer/VBoxContainer" unique_id=29687747]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 label_settings = SubResource("LabelSettings_3kklg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1068801039]
+layout_mode = 2
+text = "1.00"
+label_settings = SubResource("LabelSettings_ao15g")
 horizontal_alignment = 1
 vertical_alignment = 1

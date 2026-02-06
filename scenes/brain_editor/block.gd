@@ -11,6 +11,7 @@ const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
 @onready var background: TextureRect = %Background
 @onready var icon: TextureRect = %Icon
 @onready var display_name: Label = %DisplayName
+@onready var icon_big: TextureRect = %IconBig
 
 @onready var port_sprites = [
 	%PortTop,
@@ -32,9 +33,16 @@ func _ready():
 		update_visuals()
 
 func load_data():
-	icon.texture = block_data.icon
-	display_name.text = block_data.display_name
-	background_container.modulate = block_data.base_color
+	if block_data.display == BlockData.Display.ICON_TEXT:
+		icon.texture = block_data.icon
+		display_name.text = block_data.display_name
+	else:
+		icon_big.texture = block_data.icon
+		display_name.text = ""
+		icon.visible = false
+		display_name.visible = false
+	
+	background_container.modulate = block_data.get_style_color()
 
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if not block_data: return
@@ -129,6 +137,9 @@ func _gui_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			rotate_clockwise()
 			accept_event()
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			accept_event()
+			delete_block_animated()
 
 func animate_rotation():
 	if rotation_tween: rotation_tween.kill()
@@ -138,3 +149,12 @@ func animate_rotation():
 	rotation_tween.set_ease(Tween.EASE_OUT)
 	
 	rotation_tween.tween_property(background_container, "rotation_degrees", target_rotation, 0.2)
+
+func delete_block_animated():
+	mouse_filter = Control.MOUSE_FILTER_IGNORE 
+	
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_CUBIC) 
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "modulate:a", 0.0, 0.2)
+	tween.finished.connect(queue_free)
