@@ -50,6 +50,12 @@ func load_data():
 		value_drag.visible = true
 	
 	background_container.modulate = block_data.get_style_color()
+	
+	if value_drag:
+		if is_toolbox_source:
+			value_drag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		else:
+			value_drag.mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if not block_data: return
@@ -58,6 +64,12 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	preview.script = null
 	preview.process_mode = Node.PROCESS_MODE_DISABLED
 	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	var preview_val_drag = preview.find_child("ValueDrag", true, false)
+	if preview_val_drag:
+		preview_val_drag.script = null
+		if value_drag:
+			preview_val_drag.text = value_drag.text
 	
 	var preview_bg = preview.get_node_or_null("BackgroundContainer")
 	if preview_bg:
@@ -90,6 +102,9 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 		"grab_offset": at_position,
 		"rotation_index": rotation_index
 	}
+	
+	if value_drag:
+		drag_info["stored_value"] = value_drag.value
 	
 	if not is_toolbox_source:
 		visible = false

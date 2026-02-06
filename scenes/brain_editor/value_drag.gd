@@ -11,7 +11,12 @@ var drag_start_position: Vector2 = Vector2.ZERO
 
 func _ready():
 	update_label()
-	mouse_filter = Control.MOUSE_FILTER_STOP
+	
+	mouse_filter = Control.MOUSE_FILTER_IGNORE 
+
+func set_editor_value(new_value: float) -> void:
+	value = new_value
+	update_label()
 
 func _gui_input(event):
 	if event is InputEventMouseButton:

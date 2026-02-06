@@ -22,6 +22,9 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	
 	if value_drag:
 		value_drag.mouse_filter = Control.MOUSE_FILTER_STOP
+		
+		if "stored_value" in data:
+			value_drag.set_editor_value(data["stored_value"])
 	
 	if "rotation_index" in data:
 		new_block.rotation_index = data["rotation_index"]
