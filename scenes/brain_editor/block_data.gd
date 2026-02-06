@@ -5,11 +5,11 @@ enum Display { ICON_TEXT, BIG_ICON, ICON_VALUE_DRAG }
 enum Style { INPUT, FUNCTION, OUTPUT, CONSTANT, CONNECTION }
 
 const COLORS: Dictionary = {
-	Style.INPUT: Color("00e5ff"),
-	Style.FUNCTION: Color("d500f9"),
-	Style.OUTPUT: Color("76ff03"),
-	Style.CONSTANT: Color("ff9100"),
-	Style.CONNECTION: Color("607d8b")
+	Style.INPUT: Color("64b5f6"),
+	Style.FUNCTION: Color("ba68c8"),
+	Style.OUTPUT: Color("81c784"),
+	Style.CONSTANT: Color("ffb74d"),
+	Style.CONNECTION: Color("90a4ae")
 }
 
 @export var display_name: String = "Block"

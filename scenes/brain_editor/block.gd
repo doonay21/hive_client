@@ -123,7 +123,9 @@ func create_drag_preview(at_position: Vector2) -> Control:
 	if value_drag:
 		var preview_val = preview.find_child("ValueDrag", true, false)
 		if preview_val:
+			preview_val.script = null
 			preview_val.text = value_drag.text
+			preview_val.horizontal_alignment = value_drag.horizontal_alignment
 	
 	var preview_bg = preview.get_node_or_null("BackgroundContainer")
 	if preview_bg:

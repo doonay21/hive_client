@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://xgmlalsgbxmo"]
+
+[ext_resource type="Texture2D" uid="uid://foxhobdkxko0" path="res://assets/images/brain_editor/icons/comparator.png" id="1_uksxh"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block_data.gd" id="2_63hyt"]
+
+[resource]
+script = ExtResource("2_63hyt")
+display_name = ""
+icon = ExtResource("1_uksxh")
+display = 1
+style = 1
+ports = Array[int]([0, 1, 2, 1])
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

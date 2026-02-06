@@ -170,3 +170,71 @@ label_settings = SubResource("LabelSettings_ao15g")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_wal7v")
+
+[node name="Labels" type="Control" parent="." unique_id=426882697]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Up" type="Label" parent="Labels" unique_id=1004067580]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = -23.0
+offset_right = 40.0
+grow_horizontal = 2
+text = "U"
+horizontal_alignment = 1
+
+[node name="Right" type="Label" parent="Labels" unique_id=431719246]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -11.5
+offset_right = 84.0
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "R"
+
+[node name="Down" type="Label" parent="Labels" unique_id=494632079]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_right = 40.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "D"
+horizontal_alignment = 1
+
+[node name="Left" type="Label" parent="Labels" unique_id=533020770]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -11.5
+offset_right = -4.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "L"
+horizontal_alignment = 2

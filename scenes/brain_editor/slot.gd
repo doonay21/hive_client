@@ -18,6 +18,8 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	
 	new_block.initialize(data)
 	
+	var center_offset = (size - new_block.custom_minimum_size) / 2.0
+	
 	if "grab_offset" in data:
 		new_block.position = at_position - data["grab_offset"]
 	else:
@@ -25,11 +27,11 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-	tween.tween_property(new_block, "position", Vector2.ZERO, 0.2)
+	tween.tween_property(new_block, "position", center_offset, 0.2)
 	
 	new_block.scale = Vector2(1.1, 1.1) 
 	tween.parallel().tween_property(new_block, "scale", Vector2.ONE, 0.2)
-	tween.finished.connect(func(): new_block.set_anchors_preset(Control.PRESET_FULL_RECT))
+	tween.finished.connect(func(): new_block.set_anchors_preset(Control.PRESET_CENTER))
 	
 	if not data.get("is_source", false):
 		var old_node = data.get("node_ref")

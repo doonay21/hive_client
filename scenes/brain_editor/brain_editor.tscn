@@ -8,8 +8,10 @@
 [ext_resource type="Resource" uid="uid://bgcjx6kpfsix7" path="res://scenes/brain_editor/blocks/output_walk.tres" id="6_8ex86"]
 [ext_resource type="Resource" uid="uid://bvwnjwnwx4e8n" path="res://scenes/brain_editor/blocks/inverter.tres" id="6_fwxd3"]
 [ext_resource type="Resource" uid="uid://1atatt16cc1b" path="res://scenes/brain_editor/blocks/output_rotate_left.tres" id="6_s5qgd"]
+[ext_resource type="Resource" uid="uid://xgmlalsgbxmo" path="res://scenes/brain_editor/blocks/comparator.tres" id="7_yf51x"]
 [ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/output_rotate_right.tres" id="8_fwxd3"]
 [ext_resource type="Resource" uid="uid://c7t4h83eaf47u" path="res://scenes/brain_editor/blocks/constant.tres" id="10_61fpg"]
+[ext_resource type="Resource" uid="uid://crvprij0g4k31" path="res://scenes/brain_editor/blocks/sinus.tres" id="11_2dt14"]
 [ext_resource type="Resource" uid="uid://ptnrs8ur786k" path="res://scenes/brain_editor/blocks/connection_we.tres" id="11_bbaqc"]
 [ext_resource type="Resource" uid="uid://q1le08jivo3h" path="res://scenes/brain_editor/blocks/connection_ws.tres" id="12_c6rrm"]
 [ext_resource type="Resource" uid="uid://dqapxs6yd4ymb" path="res://scenes/brain_editor/blocks/connection_es.tres" id="12_ybd03"]
@@ -170,6 +172,12 @@ mouse_filter = 1
 block_data = ExtResource("6_fwxd3")
 is_toolbox_source = true
 
+[node name="Comparator" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1505988531 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("7_yf51x")
+is_toolbox_source = true
+
 [node name="OutputRotateLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
@@ -192,6 +200,12 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("10_61fpg")
+is_toolbox_source = true
+
+[node name="Sinus" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=822287920 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("11_2dt14")
 is_toolbox_source = true
 
 [node name="ConnectionWE" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1239101729 instance=ExtResource("2_iva03")]

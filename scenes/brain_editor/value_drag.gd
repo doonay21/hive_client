@@ -12,7 +12,7 @@ var drag_start_position: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	update_label()
 	
-	mouse_filter = Control.MOUSE_FILTER_IGNORE 
+	mouse_filter = Control.MOUSE_FILTER_STOP
 
 func set_editor_value(new_value: float) -> void:
 	value = new_value
@@ -22,11 +22,14 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			start_drag()
+			accept_event()
 		else:
 			end_drag()
+			accept_event()
 
 	if event is InputEventMouseMotion and dragging:
 		handle_drag(event)
+		accept_event()
 
 func start_drag() -> void:
 	dragging = true
