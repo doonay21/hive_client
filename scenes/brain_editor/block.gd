@@ -86,11 +86,7 @@ func load_data() -> void:
 	if value_drag:
 		value_drag.mouse_filter = Control.MOUSE_FILTER_IGNORE if is_toolbox_source else Control.MOUSE_FILTER_STOP
 	
-	for i in range(4):
-		var label: Label = labels.get_child(i)
-		
-		if label:
-			label.text = block_data.port_labels[i]
+	update_labels_text()
 
 func update_visuals() -> void:
 	if not block_data: return
@@ -186,11 +182,13 @@ func rotate_clockwise():
 	rotation_index = (rotation_index + 1) % 4
 	target_rotation += 90.0
 	animate_rotation()
+	animate_labels_change()
 
 func rotate_counter_clockwise():
 	rotation_index = (rotation_index - 1 + 4) % 4
 	target_rotation -= 90.0
 	animate_rotation()
+	animate_labels_change()
 
 func animate_rotation():
 	if rotation_tween: rotation_tween.kill()
@@ -230,3 +228,23 @@ func animate_labels(target_alpha: float) -> void:
 	
 	if target_alpha == 0.0:
 		labels_tween.tween_callback(labels.hide)
+
+func update_labels_text() -> void:
+	if not block_data: return
+
+	for i in range(4):
+		var label: Label = labels.get_child(i)
+		if label:
+			var data_index = (i - rotation_index + 4) % 4
+			label.text = block_data.port_labels[data_index]
+
+func animate_labels_change() -> void:
+	if not labels.visible or labels.modulate.a == 0.0:
+		update_labels_text()
+		return
+
+	if labels_tween: labels_tween.kill()
+	labels_tween = create_tween()
+	labels_tween.tween_property(labels, "modulate:a", 0.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	labels_tween.tween_callback(update_labels_text)
+	labels_tween.tween_property(labels, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
