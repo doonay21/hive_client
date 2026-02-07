@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://dbpbvocdtblt8"]
+
+[ext_resource type="Texture2D" uid="uid://ojmcnp7dxs5p" path="res://assets/images/brain_editor/icons/mininum.png" id="1_m03tr"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_un0ha"]
+
+[resource]
+script = ExtResource("2_un0ha")
+display_name = "BLOCK_MINIMUM_TITLE"
+icon = ExtResource("1_m03tr")
+style = 1
+ports = Array[int]([0, 1, 2, 1])
+port_labels = Array[String](["", "B", "", "A"])
+info_text = "BLOCK_MINIMUM_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

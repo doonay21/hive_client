@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://bk1wjpx3hdwjo"]
+
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="1_6je27"]
+[ext_resource type="Texture2D" uid="uid://dgbdvtulwvohj" path="res://assets/images/brain_editor/icons/eye_front.png" id="1_rmddq"]
+
+[resource]
+script = ExtResource("1_6je27")
+display_name = "BLOCK_SIGHT_FRONT_TITLE"
+icon = ExtResource("1_rmddq")
+info_text = "BLOCK_SIGHT_FRONT_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

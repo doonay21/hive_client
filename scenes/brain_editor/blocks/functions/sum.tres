@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://dv6c8d1558tdj"]
+
+[ext_resource type="Texture2D" uid="uid://bax8lnq6aadde" path="res://assets/images/brain_editor/icons/sum.png" id="1_8717p"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_j8fal"]
+
+[resource]
+script = ExtResource("2_j8fal")
+display_name = "BLOCK_SUM_TITLE"
+icon = ExtResource("1_8717p")
+style = 1
+ports = Array[int]([0, 1, 2, 1])
+port_labels = Array[String](["", "B", "", "A"])
+info_text = "BLOCK_SUM_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

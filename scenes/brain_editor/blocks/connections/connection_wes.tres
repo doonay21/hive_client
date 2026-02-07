@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://bi8gfd6b23rl4"]
+
+[ext_resource type="Texture2D" uid="uid://bjp13s6dxs7n" path="res://assets/images/brain_editor/icons/conn_wes.png" id="1_0t32f"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_f45df"]
+
+[resource]
+script = ExtResource("2_f45df")
+display_name = ""
+icon = ExtResource("1_0t32f")
+display = 1
+style = 4
+ports = Array[int]([0, 2, 2, 1])
+port_labels = Array[String](["", "B", "C", "A"])
+info_text = "BLOCK_WIRE_WES_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

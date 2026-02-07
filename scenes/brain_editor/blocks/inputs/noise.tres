@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://7rg33x607o1"]
+
+[ext_resource type="Texture2D" uid="uid://di0lm7w6vurtd" path="res://assets/images/brain_editor/icons/noise.png" id="1_t75jc"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_wjanc"]
+
+[resource]
+script = ExtResource("2_wjanc")
+display_name = "BLOCK_NOISE_TITLE"
+icon = ExtResource("1_t75jc")
+style = 3
+info_text = "BLOCK_NOISE_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -20,11 +20,16 @@ config/icon="res://icon.svg"
 Nakama="*uid://ckho07ucaxkun"
 Secrets="*uid://dofsr0rfp4j6"
 OnlineManager="*uid://bbjq6cjlo1pvb"
+Events="*uid://cubqdy5xq2vl6"
 
 [display]
 
 window/size/viewport_width=1200
 window/size/viewport_height=800
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://translations/translations_block.en.translation", "res://translations/translations_block.pl.translation")
 
 [physics]
 

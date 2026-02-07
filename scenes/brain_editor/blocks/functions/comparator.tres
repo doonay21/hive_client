@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://xgmlalsgbxmo"]
+
+[ext_resource type="Texture2D" uid="uid://juh02mqw7ls3" path="res://assets/images/brain_editor/icons/compare.png" id="1_uksxh"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_63hyt"]
+
+[resource]
+script = ExtResource("2_63hyt")
+display_name = "BLOCK_COMPARE_TITLE"
+icon = ExtResource("1_uksxh")
+style = 1
+ports = Array[int]([0, 1, 2, 1])
+port_labels = Array[String](["", "B", "", "A"])
+info_text = "BLOCK_COMPARE_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"
