@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4cba2a8cib71"
-path="res://.godot/imported/rotate_right.png-ccd70521fd7239bce54ef1bba757cf6d.ctex"
+uid="uid://2vxw2nvjxq20"
+path="res://.godot/imported/go.png-1bd50fe90703b8257cca34680ac45001.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/brain_editor/icons/rotate_right.png"
-dest_files=["res://.godot/imported/rotate_right.png-ccd70521fd7239bce54ef1bba757cf6d.ctex"]
+source_file="res://assets/images/brain_editor/icons/go.png"
+dest_files=["res://.godot/imported/go.png-1bd50fe90703b8257cca34680ac45001.ctex"]
 
 [params]
 

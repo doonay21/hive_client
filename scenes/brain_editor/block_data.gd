@@ -17,6 +17,7 @@ const COLORS: Dictionary = {
 @export var display: Display = Display.ICON_TEXT
 @export var style: Style = Style.INPUT
 @export var ports: Array[Port] = [Port.NONE, Port.OUTPUT, Port.NONE, Port.NONE]
+@export var port_labels: Array[String] = ["", "", "", ""]
 
 func get_style_color() -> Color:
 	return COLORS.get(style, Color.WHITE)

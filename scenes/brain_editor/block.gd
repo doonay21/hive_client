@@ -13,6 +13,7 @@ const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
 @onready var display_name_label: Label = %DisplayName
 @onready var icon_big: TextureRect = %IconBig
 @onready var value_drag: Label = %ValueDrag
+@onready var labels: Control = $Labels
 
 @onready var port_sprites: Array[TextureRect] = [
 	%PortTop,
@@ -24,6 +25,7 @@ const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
 var rotation_index: int = 0
 var rotation_tween: Tween
 var target_rotation: float = 0.0
+var labels_tween: Tween
 
 func _ready() -> void:
 	if block_data:
@@ -32,6 +34,13 @@ func _ready() -> void:
 		target_rotation = rotation_index * 90.0
 		background_container.rotation_degrees = target_rotation
 		update_visuals()
+	
+	if not is_toolbox_source:
+		mouse_entered.connect(on_mouse_entered)
+		mouse_exited.connect(on_mouse_exited)
+	
+	labels.modulate.a = 0.0
+	labels.visible = false
 
 func initialize(data: Dictionary) -> void:
 	block_data = data["resource"]
@@ -76,6 +85,12 @@ func load_data() -> void:
 	
 	if value_drag:
 		value_drag.mouse_filter = Control.MOUSE_FILTER_IGNORE if is_toolbox_source else Control.MOUSE_FILTER_STOP
+	
+	for i in range(4):
+		var label: Label = labels.get_child(i)
+		
+		if label:
+			label.text = block_data.port_labels[i]
 
 func update_visuals() -> void:
 	if not block_data: return
@@ -195,3 +210,23 @@ func delete_block_animated():
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(self, "modulate:a", 0.0, 0.2)
 	tween.finished.connect(queue_free)
+
+func on_mouse_entered() -> void:
+	animate_labels(1.0)
+
+func on_mouse_exited() -> void:
+	animate_labels(0.0)
+
+func animate_labels(target_alpha: float) -> void:
+	if labels_tween: labels_tween.kill()
+	
+	labels_tween = create_tween()
+	labels_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	if target_alpha > 0.0:
+		labels.visible = true
+		
+	labels_tween.tween_property(labels, "modulate:a", target_alpha, 0.2)
+	
+	if target_alpha == 0.0:
+		labels_tween.tween_callback(labels.hide)

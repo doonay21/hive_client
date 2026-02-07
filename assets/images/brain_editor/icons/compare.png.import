@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtq36vvaisbgg"
-path="res://.godot/imported/rotate_left.png-ec691231e76e0a633504410fad8f26a4.ctex"
+uid="uid://juh02mqw7ls3"
+path="res://.godot/imported/compare.png-6aa1579fcd5bb61a5e686f6bfcc47c8f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/brain_editor/icons/rotate_left.png"
-dest_files=["res://.godot/imported/rotate_left.png-ec691231e76e0a633504410fad8f26a4.ctex"]
+source_file="res://assets/images/brain_editor/icons/compare.png"
+dest_files=["res://.godot/imported/compare.png-6aa1579fcd5bb61a5e686f6bfcc47c8f.ctex"]
 
 [params]
 

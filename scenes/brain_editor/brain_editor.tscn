@@ -5,11 +5,11 @@
 [ext_resource type="Resource" uid="uid://bk1wjpx3hdwjo" path="res://scenes/brain_editor/blocks/input_sight_front.tres" id="3_8j72b"]
 [ext_resource type="Resource" uid="uid://3r24nx3afyf2" path="res://scenes/brain_editor/blocks/input_sight_left.tres" id="4_hy1fu"]
 [ext_resource type="Resource" uid="uid://bafikjlworvpo" path="res://scenes/brain_editor/blocks/input_sight_right.tres" id="5_m5nmr"]
-[ext_resource type="Resource" uid="uid://bgcjx6kpfsix7" path="res://scenes/brain_editor/blocks/output_walk.tres" id="6_8ex86"]
+[ext_resource type="Resource" uid="uid://bgcjx6kpfsix7" path="res://scenes/brain_editor/blocks/output_go.tres" id="6_8ex86"]
 [ext_resource type="Resource" uid="uid://bvwnjwnwx4e8n" path="res://scenes/brain_editor/blocks/inverter.tres" id="6_fwxd3"]
-[ext_resource type="Resource" uid="uid://1atatt16cc1b" path="res://scenes/brain_editor/blocks/output_rotate_left.tres" id="6_s5qgd"]
+[ext_resource type="Resource" uid="uid://1atatt16cc1b" path="res://scenes/brain_editor/blocks/output_turn_left.tres" id="6_s5qgd"]
 [ext_resource type="Resource" uid="uid://xgmlalsgbxmo" path="res://scenes/brain_editor/blocks/comparator.tres" id="7_yf51x"]
-[ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/output_rotate_right.tres" id="8_fwxd3"]
+[ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/output_turn_right.tres" id="8_fwxd3"]
 [ext_resource type="Resource" uid="uid://c7t4h83eaf47u" path="res://scenes/brain_editor/blocks/constant.tres" id="10_61fpg"]
 [ext_resource type="Resource" uid="uid://crvprij0g4k31" path="res://scenes/brain_editor/blocks/sinus.tres" id="11_2dt14"]
 [ext_resource type="Resource" uid="uid://ptnrs8ur786k" path="res://scenes/brain_editor/blocks/connection_we.tres" id="11_bbaqc"]
@@ -178,19 +178,19 @@ mouse_filter = 1
 block_data = ExtResource("7_yf51x")
 is_toolbox_source = true
 
-[node name="OutputRotateLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
+[node name="OutputTurnLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_s5qgd")
 is_toolbox_source = true
 
-[node name="OutputWalk" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=698935539 instance=ExtResource("2_iva03")]
+[node name="OutputGo" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=698935539 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_8ex86")
 is_toolbox_source = true
 
-[node name="OutputRotateRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1368696079 instance=ExtResource("2_iva03")]
+[node name="OutputTurnRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1368696079 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("8_fwxd3")
