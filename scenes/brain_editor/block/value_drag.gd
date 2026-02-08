@@ -1,8 +1,8 @@
 class_name ValueDrag extends Label
 
-const PIXELS_PER_STEP: float = 20.0
+var pixels_per_step: float = 20.0
 
-var value: float = 1.0 
+var value: float = 0.0
 var dragging: bool = false
 var drag_accumulator: float = 0.0
 var drag_start_position: Vector2 = Vector2.ZERO
@@ -13,14 +13,18 @@ var max_val: float = 1.0
 var step_size: float = 0.05
 var step_precise: float = 0.01
 
+var options_list: Array[String] = []
+
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	mouse_entered.connect(on_mouse_entered)
 	mouse_exited.connect(on_mouse_exited)
-	update_label()
 
-func setup(p_mode: int, p_min: float, p_max: float) -> void:
+func setup(p_mode: int, p_min: float, p_max: float, p_strings: Array[String] = []) -> void:
 	mode = p_mode
+	options_list = p_strings
+	
+	pixels_per_step = 20.0
 	
 	match mode:
 		0: # FLOAT_01
@@ -32,23 +36,33 @@ func setup(p_mode: int, p_min: float, p_max: float) -> void:
 			min_val = p_min
 			max_val = p_max
 			step_size = (max_val - min_val) / 100.0 
-			
 			if step_size == 0: step_size = 0.1
-			
-			step_precise = step_size / 5.0
+			step_precise = 0.01
 		2: # INT_RANGE
 			min_val = p_min
 			max_val = p_max
 			step_size = 1.0
 			step_precise = 1.0 
+		3: # STRING_LIST (NOWY TRYB)
+			min_val = 0.0
+			max_val = float(max(0, options_list.size() - 1))
+			step_size = 1.0
+			step_precise = 1.0
+			pixels_per_step = 60.0
 			
 	value = clamp(value, min_val, max_val)
-	if mode == 2:
+	
+	if mode == 2 or mode == 3:
 		value = round(value)
+		
 	update_label()
 
 func set_editor_value(new_value: float) -> void:
 	value = new_value
+	
+	if mode == 3:
+		value = clamp(value, min_val, max_val)
+	
 	update_label()
 
 func _gui_input(event: InputEvent) -> void:
@@ -73,6 +87,7 @@ func start_drag() -> void:
 func end_drag() -> void:
 	if not dragging: return
 	dragging = false
+	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Input.warp_mouse(drag_start_position)
 
@@ -81,26 +96,34 @@ func handle_drag(event: InputEventMouseMotion) -> void:
 
 	drag_accumulator -= event.relative.y
 	
-	if abs(drag_accumulator) >= PIXELS_PER_STEP:
-		var steps_taken = int(drag_accumulator / PIXELS_PER_STEP)
+	if abs(drag_accumulator) >= pixels_per_step:
+		var steps_taken = int(drag_accumulator / pixels_per_step)
 		
 		value += steps_taken * current_step
 		value = clamp(value, min_val, max_val)
 		
-		if mode == 2: # INT
+		if mode == 2 or mode == 3: # INT lub STRING
 			value = round(value)
 		else:
 			value = snapped(value, current_step)
 		
 		update_label()
 		
-		drag_accumulator -= steps_taken * PIXELS_PER_STEP
+		drag_accumulator -= steps_taken * pixels_per_step
 
 func update_label() -> void:
-	if mode == 2: # INT_RANGE
-		text = "%d" % int(value)
-	else:
-		text = "%.2f" % value
+	match mode:
+		2: # INT_RANGE
+			text = "%d" % int(value)
+		3: # STRING_LIST
+			if options_list.size() > 0:
+				var idx = int(value)
+				idx = clampi(idx, 0, options_list.size() - 1)
+				text = options_list[idx]
+			else:
+				text = "EMPTY"
+		_: # FLOATs
+			text = "%.2f" % value
 
 func on_mouse_entered() -> void:
 	Events.info_text_requested.emit("BLOCK_CONSTANT_VALUE_DRAG")

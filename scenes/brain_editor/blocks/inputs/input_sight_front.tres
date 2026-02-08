@@ -7,5 +7,8 @@
 script = ExtResource("1_6je27")
 display_name = "BLOCK_SIGHT_FRONT_TITLE"
 icon = ExtResource("1_rmddq")
+display = 2
 info_text = "BLOCK_SIGHT_FRONT_INFO"
+value_mode = 3
+value_strings = Array[String](["BLOCK_SIGHT_WALL", "BLOCK_SIGHT_MATTER", "BLOCK_SIGHT_GOLD", "BLOCK_SIGHT_ROBOT"])
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

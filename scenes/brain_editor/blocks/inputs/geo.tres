@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://dj8h5lk448t5w"]
+
+[ext_resource type="Texture2D" uid="uid://cseggd1yrx7uo" path="res://assets/images/brain_editor/icons/geo.png" id="1_48fkb"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_hv3qd"]
+
+[resource]
+script = ExtResource("2_hv3qd")
+display_name = "BLOCK_GEO_TITLE"
+icon = ExtResource("1_48fkb")
+info_text = "BLOCK_GEO_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

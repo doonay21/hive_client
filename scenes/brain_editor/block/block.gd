@@ -88,7 +88,8 @@ func load_data() -> void:
 		value_drag.setup(
 			block_data.value_mode,
 			block_data.custom_min,
-			block_data.custom_max
+			block_data.custom_max,
+			block_data.value_strings 
 		)
 
 	update_labels_text()

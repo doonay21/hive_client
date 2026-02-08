@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://d17von4pkiuun"]
+
+[ext_resource type="Texture2D" uid="uid://cce63t8dkmu1m" path="res://assets/images/brain_editor/icons/broadcast.png" id="1_oco7a"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_suuey"]
+
+[resource]
+script = ExtResource("2_suuey")
+display_name = "BLOCK_BROADCAST_TITLE"
+icon = ExtResource("1_oco7a")
+display = 2
+style = 1
+ports = Array[int]([0, 0, 0, 1])
+port_labels = Array[String](["", "", "", "A"])
+info_text = "BLOCK_BROADCAST_INFO"
+value_mode = 1
+custom_max = 10.0
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

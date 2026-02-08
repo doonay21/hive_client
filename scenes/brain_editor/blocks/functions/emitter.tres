@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://bf7p8fir0rbnb"]
+
+[ext_resource type="Texture2D" uid="uid://c4lb2m3nerroq" path="res://assets/images/brain_editor/icons/emitter.png" id="1_rmehh"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_4mnh8"]
+
+[resource]
+script = ExtResource("2_4mnh8")
+display_name = "BLOCK_EMITTER_TITLE"
+icon = ExtResource("1_rmehh")
+display = 2
+style = 1
+ports = Array[int]([0, 0, 0, 1])
+port_labels = Array[String](["", "", "", "A"])
+info_text = "BLOCK_EMITTER_INFO"
+value_mode = 3
+value_strings = Array[String](["BLOCK_EMITTER_CH1", "BLOCK_EMITTER_CH2", "BLOCK_EMITTER_CH3", "BLOCK_EMITTER_CH4", "BLOCK_EMITTER_CH5"])
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bax8lnq6aadde"
-path="res://.godot/imported/sum.png-860e69af1f38c54f872c6b6ed40fe659.ctex"
+uid="uid://dmfxsbrn6c0ev"
+path="res://.godot/imported/random.png-cc4ea1c3a737c64cf0f9a3c1e830b57b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/brain_editor/icons/sum.png"
-dest_files=["res://.godot/imported/sum.png-860e69af1f38c54f872c6b6ed40fe659.ctex"]
+source_file="res://assets/images/brain_editor/icons/random.png"
+dest_files=["res://.godot/imported/random.png-cc4ea1c3a737c64cf0f9a3c1e830b57b.ctex"]
 
 [params]
 

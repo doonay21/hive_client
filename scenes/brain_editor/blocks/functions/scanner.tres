@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://dkr4w026yn4g"]
+
+[ext_resource type="Texture2D" uid="uid://dsap7fsp8agwa" path="res://assets/images/brain_editor/icons/scanner.png" id="1_uwxfo"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_nkbgh"]
+
+[resource]
+script = ExtResource("2_nkbgh")
+display_name = "BLOCK_SCANNER_TITLE"
+icon = ExtResource("1_uwxfo")
+display = 2
+style = 1
+port_labels = Array[String](["", "A", "", ""])
+info_text = "BLOCK_SCANNER_INFO"
+value_mode = 1
+custom_max = 10.0
+metadata/_custom_type_script = "uid://bxvoxmctemal6"
