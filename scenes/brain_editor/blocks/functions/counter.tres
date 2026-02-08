@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://dho708bcqiknr"]
+
+[ext_resource type="Texture2D" uid="uid://b082nrwvbiw5h" path="res://assets/images/brain_editor/icons/counter.png" id="1_epj8v"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_qnvxm"]
+
+[resource]
+script = ExtResource("2_qnvxm")
+display_name = "BLOCK_COUNTER_TITLE"
+icon = ExtResource("1_epj8v")
+style = 1
+ports = Array[int]([0, 2, 0, 1])
+port_labels = Array[String](["", "B", "", "A"])
+info_text = "BLOCK_COUNTER_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

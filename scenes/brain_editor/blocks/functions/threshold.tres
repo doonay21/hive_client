@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://dbw86f1rbwyix"]
+
+[ext_resource type="Texture2D" uid="uid://caau77lwhvofk" path="res://assets/images/brain_editor/icons/threshold.png" id="1_lihr7"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_pyg2y"]
+
+[resource]
+script = ExtResource("2_pyg2y")
+display_name = "BLOCK_THRESHOLD_TITLE"
+icon = ExtResource("1_lihr7")
+style = 1
+ports = Array[int]([0, 2, 0, 1])
+port_labels = Array[String](["", "", "", "A"])
+info_text = "BLOCK_THRESHOLD_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

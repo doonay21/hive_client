@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://himcabx7yebj"]
+
+[ext_resource type="Texture2D" uid="uid://ch2o0uo068cbt" path="res://assets/images/brain_editor/icons/latch.png" id="1_mk772"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_jgl8x"]
+
+[resource]
+script = ExtResource("2_jgl8x")
+display_name = "BLOCK_LATCH_TITLE"
+icon = ExtResource("1_mk772")
+style = 1
+ports = Array[int]([0, 1, 2, 1])
+port_labels = Array[String](["", "B", "", "A"])
+info_text = "BLOCK_LATCH_INFO"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

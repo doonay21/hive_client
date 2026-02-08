@@ -1,21 +1,51 @@
 class_name ValueDrag extends Label
 
 const PIXELS_PER_STEP: float = 20.0
-const STEP: float = 0.05
-const STEP_PRECISE: float = 0.01
 
-var value: float = 1.0
+var value: float = 1.0 
 var dragging: bool = false
 var drag_accumulator: float = 0.0
 var drag_start_position: Vector2 = Vector2.ZERO
 
+var mode: int = 0 
+var min_val: float = 0.0
+var max_val: float = 1.0
+var step_size: float = 0.05
+var step_precise: float = 0.01
+
 func _ready() -> void:
-	update_label()
-	
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	
 	mouse_entered.connect(on_mouse_entered)
 	mouse_exited.connect(on_mouse_exited)
+	update_label()
+
+func setup(p_mode: int, p_min: float, p_max: float) -> void:
+	mode = p_mode
+	
+	match mode:
+		0: # FLOAT_01
+			min_val = 0.0
+			max_val = 1.0
+			step_size = 0.05
+			step_precise = 0.01
+		1: # FLOAT_RANGE
+			min_val = p_min
+			max_val = p_max
+			step_size = (max_val - min_val) / 100.0 
+			
+			if step_size == 0: step_size = 0.1
+			
+			step_precise = step_size / 5.0
+		2: # INT_RANGE
+			min_val = p_min
+			max_val = p_max
+			step_size = 1.0
+			step_precise = 1.0 
+			
+	value = clamp(value, min_val, max_val)
+	if mode == 2:
+		value = round(value)
+	update_label()
 
 func set_editor_value(new_value: float) -> void:
 	value = new_value
@@ -47,23 +77,30 @@ func end_drag() -> void:
 	Input.warp_mouse(drag_start_position)
 
 func handle_drag(event: InputEventMouseMotion) -> void:
-	var step = STEP_PRECISE if Input.is_key_pressed(KEY_SHIFT) else STEP
+	var current_step = step_precise if Input.is_key_pressed(KEY_SHIFT) else step_size
 
 	drag_accumulator -= event.relative.y
 	
 	if abs(drag_accumulator) >= PIXELS_PER_STEP:
 		var steps_taken = int(drag_accumulator / PIXELS_PER_STEP)
 		
-		value += steps_taken * step
-		value = clamp(value, 0.00, 1.00)
-		value = snapped(value, step)
+		value += steps_taken * current_step
+		value = clamp(value, min_val, max_val)
+		
+		if mode == 2: # INT
+			value = round(value)
+		else:
+			value = snapped(value, current_step)
 		
 		update_label()
 		
 		drag_accumulator -= steps_taken * PIXELS_PER_STEP
 
 func update_label() -> void:
-	text = "%.2f" % value
+	if mode == 2: # INT_RANGE
+		text = "%d" % int(value)
+	else:
+		text = "%.2f" % value
 
 func on_mouse_entered() -> void:
 	Events.info_text_requested.emit("BLOCK_CONSTANT_VALUE_DRAG")

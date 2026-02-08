@@ -84,7 +84,13 @@ func load_data() -> void:
 	
 	if value_drag:
 		value_drag.mouse_filter = Control.MOUSE_FILTER_IGNORE if is_toolbox_source else Control.MOUSE_FILTER_STOP
-	
+		
+		value_drag.setup(
+			block_data.value_mode,
+			block_data.custom_min,
+			block_data.custom_max
+		)
+
 	update_labels_text()
 
 func update_visuals() -> void:

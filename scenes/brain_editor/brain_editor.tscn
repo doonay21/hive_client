@@ -20,11 +20,16 @@
 [ext_resource type="Resource" uid="uid://q1le08jivo3h" path="res://scenes/brain_editor/blocks/connections/connection_ws.tres" id="12_c6rrm"]
 [ext_resource type="Resource" uid="uid://dqapxs6yd4ymb" path="res://scenes/brain_editor/blocks/connections/connection_es.tres" id="12_ybd03"]
 [ext_resource type="Resource" uid="uid://cbdfrsquj4mnn" path="res://scenes/brain_editor/blocks/functions/delay.tres" id="12_yfkju"]
+[ext_resource type="Resource" uid="uid://himcabx7yebj" path="res://scenes/brain_editor/blocks/functions/latch.tres" id="13_6lhc5"]
 [ext_resource type="Resource" uid="uid://bi8gfd6b23rl4" path="res://scenes/brain_editor/blocks/connections/connection_wes.tres" id="14_hneyx"]
+[ext_resource type="Resource" uid="uid://dho708bcqiknr" path="res://scenes/brain_editor/blocks/functions/counter.tres" id="14_opfkc"]
 [ext_resource type="Resource" uid="uid://q0uo75hd23x4" path="res://scenes/brain_editor/blocks/connections/connection_ews.tres" id="15_2vtrv"]
+[ext_resource type="Resource" uid="uid://bwowdbex3h55m" path="res://scenes/brain_editor/blocks/functions/switch.tres" id="15_0323i"]
 [ext_resource type="Resource" uid="uid://l85ym1hysfni" path="res://scenes/brain_editor/blocks/connections/connection_cross.tres" id="15_jojpm"]
 [ext_resource type="Resource" uid="uid://7rg33x607o1" path="res://scenes/brain_editor/blocks/inputs/noise.tres" id="15_vw4n1"]
+[ext_resource type="Resource" uid="uid://crwxy36ajluhj" path="res://scenes/brain_editor/blocks/functions/edge.tres" id="16_ne0bp"]
 [ext_resource type="Resource" uid="uid://2doahj3wioao" path="res://scenes/brain_editor/blocks/connections/connection_cross_joined.tres" id="17_5cbut"]
+[ext_resource type="Resource" uid="uid://dbw86f1rbwyix" path="res://scenes/brain_editor/blocks/functions/threshold.tres" id="17_54ksm"]
 [ext_resource type="Script" uid="uid://bjxrpyvrlsgip" path="res://scenes/brain_editor/info_box.gd" id="20_j144m"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
@@ -216,6 +221,36 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("12_yfkju")
+is_toolbox_source = true
+
+[node name="Latch" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=227895057 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("13_6lhc5")
+is_toolbox_source = true
+
+[node name="Counter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1787815659 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("14_opfkc")
+is_toolbox_source = true
+
+[node name="Switch" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=2128746107 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("15_0323i")
+is_toolbox_source = true
+
+[node name="Edge" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=517170861 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("16_ne0bp")
+is_toolbox_source = true
+
+[node name="Threshold" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1364750662 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("17_54ksm")
 is_toolbox_source = true
 
 [node name="OutputTurnLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
