@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://baytmmjhubdgf"]
 
-[ext_resource type="PackedScene" uid="uid://cqr6altaq5hf4" path="res://scenes/brain_editor/slot/slot.tscn" id="1_v67x2"]
+[ext_resource type="Script" uid="uid://dnf70qrremrjr" path="res://scenes/brain_editor/brain_editor.gd" id="1_84dns"]
 [ext_resource type="PackedScene" uid="uid://dlprvbnlpxja6" path="res://scenes/brain_editor/block/block.tscn" id="2_iva03"]
 [ext_resource type="Resource" uid="uid://bk1wjpx3hdwjo" path="res://scenes/brain_editor/blocks/inputs/input_sight_front.tres" id="3_8j72b"]
 [ext_resource type="Resource" uid="uid://3r24nx3afyf2" path="res://scenes/brain_editor/blocks/inputs/input_sight_left.tres" id="4_hy1fu"]
@@ -50,422 +50,426 @@
 [ext_resource type="Resource" uid="uid://cbc8wik2qmecs" path="res://scenes/brain_editor/blocks/functions/dish.tres" id="31_oshdk"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
+script = ExtResource("1_84dns")
+size = 3
 
-[node name="Panel" type="Panel" parent="." unique_id=365442137]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=448820270]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1666076810]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1780120968]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SidebarContainer" type="Control" parent="VBoxContainer/HBoxContainer" unique_id=240465244]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/SidebarContainer" unique_id=816241252]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_top = 60
-theme_override_constants/margin_right = 60
-theme_override_constants/margin_bottom = 120
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=128463159]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel" unique_id=2007567977]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer" unique_id=661795442]
 layout_mode = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=662009417]
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer" unique_id=1891679830]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_horizontal = 3
 
-[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer/VBoxContainer/CenterContainer" unique_id=527822490]
-layout_mode = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
-columns = 5
-
-[node name="Slot1" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1471067592 instance=ExtResource("1_v67x2")]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer" unique_id=1859328697]
 layout_mode = 2
 
-[node name="Slot2" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=37773408 instance=ExtResource("1_v67x2")]
+[node name="LabelInputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=251025321]
 layout_mode = 2
+text = "BE_SIDEBAR_CATEGORY_INPUTS"
 
-[node name="Slot3" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1628941238 instance=ExtResource("1_v67x2")]
+[node name="GridInputs" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1010064984]
 layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
 
-[node name="Slot4" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=227092362 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot5" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1983627009 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot6" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=650645013 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot7" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=2031631933 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot8" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=934006825 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot9" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1868414901 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot10" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1898245957 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot11" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1361679405 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot12" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=2091533496 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot13" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=76106399 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot14" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1002484875 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot15" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1547790896 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot16" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=2094999560 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot17" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1765854153 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot18" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=172057394 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot19" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=889248889 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot20" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=471668180 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot21" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1982472820 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot22" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=972960290 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot23" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1655325332 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot24" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1161605316 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="Slot25" parent="Panel/MarginContainer/VBoxContainer/CenterContainer/GridContainer" unique_id=1270498965 instance=ExtResource("1_v67x2")]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=366413916]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer" unique_id=2052441005]
-layout_mode = 2
-theme_override_constants/margin_left = 7
-theme_override_constants/margin_top = 7
-theme_override_constants/margin_right = 7
-theme_override_constants/margin_bottom = 7
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=1061332702]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer" unique_id=397894088]
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="MarginLeft" type="Control" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=365080274]
-layout_mode = 2
-
-[node name="InputSightLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1385599306 instance=ExtResource("2_iva03")]
+[node name="InputSightLeft" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1385599306 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("4_hy1fu")
 is_toolbox_source = true
 
-[node name="InputSightFront" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1095967668 instance=ExtResource("2_iva03")]
+[node name="InputSightFront" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1095967668 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("3_8j72b")
 is_toolbox_source = true
 
-[node name="InputSightRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=449198355 instance=ExtResource("2_iva03")]
+[node name="InputSightRight" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=449198355 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("5_m5nmr")
 is_toolbox_source = true
 
-[node name="InputMoved" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=850464390 instance=ExtResource("2_iva03")]
+[node name="InputMoved" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=850464390 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_j6oka")
 is_toolbox_source = true
 
-[node name="InputGeo" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1739791132 instance=ExtResource("2_iva03")]
+[node name="InputGeo" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1739791132 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("7_xsm4g")
 is_toolbox_source = true
 
-[node name="InputCompass" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=390730601 instance=ExtResource("2_iva03")]
+[node name="InputCompass" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=390730601 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("27_jfl5t")
 is_toolbox_source = true
 
-[node name="InputClock" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1165599403 instance=ExtResource("2_iva03")]
+[node name="InputClock" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1165599403 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("9_olgwc")
 is_toolbox_source = true
 
-[node name="Inverter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1711346390 instance=ExtResource("2_iva03")]
+[node name="Separator" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=62041208]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="LabelFunctions" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=839105719]
+layout_mode = 2
+text = "BE_SIDEBAR_CATEGORY_FUNCTIONS"
+
+[node name="GridFunctions" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=191569912]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="Inverter" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1711346390 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_fwxd3")
 is_toolbox_source = true
 
-[node name="Comparator" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1505988531 instance=ExtResource("2_iva03")]
+[node name="Comparator" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1505988531 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("7_yf51x")
 is_toolbox_source = true
 
-[node name="Minimum" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=401929906 instance=ExtResource("2_iva03")]
+[node name="Minimum" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=401929906 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("8_gvqid")
 is_toolbox_source = true
 
-[node name="Maximum" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1533974017 instance=ExtResource("2_iva03")]
+[node name="Maximum" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1533974017 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("9_r6xee")
 is_toolbox_source = true
 
-[node name="Add" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=668373957 instance=ExtResource("2_iva03")]
+[node name="Add" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=668373957 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("10_8ovbo")
 is_toolbox_source = true
 
-[node name="Sub" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=12935546 instance=ExtResource("2_iva03")]
+[node name="Sub" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=12935546 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("11_m8lne")
 is_toolbox_source = true
 
-[node name="Mul" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=758032794 instance=ExtResource("2_iva03")]
+[node name="Mul" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=758032794 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("11_kmfab")
 is_toolbox_source = true
 
-[node name="Div" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=648730452 instance=ExtResource("2_iva03")]
+[node name="Div" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=648730452 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("16_6eqnj")
 is_toolbox_source = true
 
-[node name="Modulo" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=272403707 instance=ExtResource("2_iva03")]
+[node name="Modulo" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=272403707 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("17_ls3y5")
 is_toolbox_source = true
 
-[node name="Avg" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=421642391 instance=ExtResource("2_iva03")]
+[node name="Avg" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=421642391 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("18_nufi7")
 is_toolbox_source = true
 
-[node name="Abs" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=340074433 instance=ExtResource("2_iva03")]
+[node name="Abs" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=340074433 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("14_228nc")
 is_toolbox_source = true
 
-[node name="Delay" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=22221292 instance=ExtResource("2_iva03")]
+[node name="Delay" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=22221292 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("12_yfkju")
 is_toolbox_source = true
 
-[node name="Latch" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=227895057 instance=ExtResource("2_iva03")]
+[node name="Latch" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=227895057 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("13_6lhc5")
 is_toolbox_source = true
 
-[node name="Counter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1787815659 instance=ExtResource("2_iva03")]
+[node name="Counter" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1787815659 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("14_opfkc")
 is_toolbox_source = true
 
-[node name="Switch" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=2128746107 instance=ExtResource("2_iva03")]
+[node name="Switch" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=2128746107 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("15_0323i")
 is_toolbox_source = true
 
-[node name="Edge" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=517170861 instance=ExtResource("2_iva03")]
+[node name="Edge" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=517170861 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("16_ne0bp")
 is_toolbox_source = true
 
-[node name="Threshold" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1364750662 instance=ExtResource("2_iva03")]
+[node name="Threshold" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1364750662 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("17_54ksm")
 is_toolbox_source = true
 
-[node name="Emitter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=446482537 instance=ExtResource("2_iva03")]
+[node name="Emitter" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=446482537 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("29_ltgp1")
 is_toolbox_source = true
 
-[node name="Receiver" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=887190371 instance=ExtResource("2_iva03")]
+[node name="Receiver" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=887190371 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("21_fvgwa")
 is_toolbox_source = true
 
-[node name="Broadcast" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=806958736 instance=ExtResource("2_iva03")]
+[node name="Broadcast" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=806958736 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("28_t25mb")
 is_toolbox_source = true
 
-[node name="Scanner" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1921968592 instance=ExtResource("2_iva03")]
+[node name="Scanner" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1921968592 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("29_olgwc")
 is_toolbox_source = true
 
-[node name="Dish" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=770604081 instance=ExtResource("2_iva03")]
+[node name="Dish" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=770604081 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("31_oshdk")
 is_toolbox_source = true
 
-[node name="OutputTurnLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]
+[node name="Separator2" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1254500277]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="LabelOutputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=959530097]
+layout_mode = 2
+text = "BE_SIDEBAR_CATEGORY_OUTPUTS"
+
+[node name="GridOutputs" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1597513450]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="OutputTurnLeft" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridOutputs" unique_id=1362377854 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_s5qgd")
 is_toolbox_source = true
 
-[node name="OutputGo" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=698935539 instance=ExtResource("2_iva03")]
+[node name="OutputGo" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridOutputs" unique_id=698935539 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("6_8ex86")
 is_toolbox_source = true
 
-[node name="OutputTurnRight" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1368696079 instance=ExtResource("2_iva03")]
+[node name="OutputTurnRight" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridOutputs" unique_id=1368696079 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("8_fwxd3")
 is_toolbox_source = true
 
-[node name="OutputTurn180" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=532354908 instance=ExtResource("2_iva03")]
+[node name="OutputTurn180" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridOutputs" unique_id=532354908 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("21_dibky")
 is_toolbox_source = true
 
-[node name="OutputDig" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1710751778 instance=ExtResource("2_iva03")]
+[node name="OutputDig" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridOutputs" unique_id=1710751778 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("22_ev8rl")
 is_toolbox_source = true
 
-[node name="Constant" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1235760205 instance=ExtResource("2_iva03")]
+[node name="Separator3" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1951071649]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="LabelConstants" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1687582440]
+layout_mode = 2
+text = "BE_SIDEBAR_CATEGORY_CONSTANTS"
+
+[node name="GridConstants" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1283290339]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="Constant" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConstants" unique_id=1235760205 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("10_61fpg")
 is_toolbox_source = true
 
-[node name="Sinus" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=822287920 instance=ExtResource("2_iva03")]
+[node name="Sinus" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConstants" unique_id=822287920 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("11_2dt14")
 is_toolbox_source = true
 
-[node name="Noise" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=183559854 instance=ExtResource("2_iva03")]
+[node name="Noise" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConstants" unique_id=183559854 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("15_vw4n1")
 is_toolbox_source = true
 
-[node name="Random" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1037052810 instance=ExtResource("2_iva03")]
+[node name="Random" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConstants" unique_id=1037052810 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("31_8ed7p")
 is_toolbox_source = true
 
-[node name="ConnectionWE" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1239101729 instance=ExtResource("2_iva03")]
+[node name="Separator4" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=2104508640]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="LabelConnectors" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=482922452]
+layout_mode = 2
+text = "BE_SIDEBAR_CATEGORY_CONNECTORS"
+
+[node name="GridConnectros" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=649845217]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="ConnectionWE" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1239101729 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("11_bbaqc")
 is_toolbox_source = true
 
-[node name="ConnectionES" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1671278208 instance=ExtResource("2_iva03")]
+[node name="ConnectionES" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1671278208 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("12_ybd03")
 is_toolbox_source = true
 
-[node name="ConnectionWS" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=370485439 instance=ExtResource("2_iva03")]
+[node name="ConnectionWS" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=370485439 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("12_c6rrm")
 is_toolbox_source = true
 
-[node name="ConnectionWES" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1643540771 instance=ExtResource("2_iva03")]
+[node name="ConnectionWES" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1643540771 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("14_hneyx")
 is_toolbox_source = true
 
-[node name="ConnectionEWS" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1215412519 instance=ExtResource("2_iva03")]
+[node name="ConnectionEWS" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1215412519 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("15_2vtrv")
 is_toolbox_source = true
 
-[node name="ConnectionCross" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=704445449 instance=ExtResource("2_iva03")]
+[node name="ConnectionCross" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=704445449 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("15_jojpm")
 is_toolbox_source = true
 
-[node name="ConnectionCrossJoined" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1268295495 instance=ExtResource("2_iva03")]
+[node name="ConnectionCrossJoined" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1268295495 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("17_5cbut")
 is_toolbox_source = true
 
-[node name="MarginRight" type="Control" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=2018204302]
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer" unique_id=365442137]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="InfoBoxPanel" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=397392555]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel" unique_id=1666076810]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=662009417]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer" unique_id=527822490]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+
+[node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=397392555]
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/InfoBoxPanel" unique_id=48746310]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/InfoBoxPanel" unique_id=48746310]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 4
 
-[node name="InfoBox" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer/InfoBoxPanel/MarginContainer" unique_id=777336926]
+[node name="InfoBox" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/InfoBoxPanel/MarginContainer" unique_id=777336926]
 layout_mode = 2
 bbcode_enabled = true
 script = ExtResource("20_j144m")

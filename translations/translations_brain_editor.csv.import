@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dmeyir7kpsdnj"
+
+[deps]
+
+files=["res://translations/translations_brain_editor.en.translation", "res://translations/translations_brain_editor.pl.translation"]
+
+source_file="res://translations/translations_brain_editor.csv"
+dest_files=["res://translations/translations_brain_editor.en.translation", "res://translations/translations_brain_editor.pl.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
