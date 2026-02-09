@@ -50,6 +50,7 @@
 [ext_resource type="Resource" uid="uid://cbc8wik2qmecs" path="res://scenes/brain_editor/blocks/functions/dish.tres" id="31_oshdk"]
 [ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
 [ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/brain_grid/brain_grid.tscn" id="49_ag5fd"]
+[ext_resource type="Script" uid="uid://cos632v5xm3iv" path="res://scenes/brain_editor/new_block_dialog.gd" id="51_tamat"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
 script = ExtResource("1_84dns")
@@ -114,6 +115,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer" unique_id=1859328697]
+layout_mode = 2
+
+[node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 instance=ExtResource("48_84dns")]
 layout_mode = 2
 
 [node name="LabelInputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=251025321]
@@ -456,9 +460,6 @@ is_toolbox_source = true
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 instance=ExtResource("48_84dns")]
-layout_mode = 2
-
 [node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer" unique_id=365442137]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -491,6 +492,7 @@ metadata/_tab_index = 0
 metadata/_tab_name = "BE_TABS_0"
 
 [node name="BrainGrid" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/TabContainer/CenterContainer" unique_id=758641771 instance=ExtResource("49_ag5fd")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=397392555]
@@ -517,5 +519,24 @@ bbcode_enabled = true
 fit_content = true
 script = ExtResource("20_j144m")
 
+[node name="NewBlockDialog" type="ConfirmationDialog" parent="." unique_id=644871974]
+oversampling_override = 1.0
+title = "BE_NEW_BLOCK_DIALOG_TITLE"
+exclusive = false
+ok_button_text = "BE_NEW_BLOCK_DIALOG_OK"
+cancel_button_text = "BE_NEW_BLOCK_DIALOG_CANCEL"
+script = ExtResource("51_tamat")
+
+[node name="BlockName" type="LineEdit" parent="NewBlockDialog" unique_id=1193225721]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 51.0
+placeholder_text = "BE_NEW_BLOCK_DIALOG_BLOCK_NAME_PLACEHOLDER"
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonSave" to="." method="on_button_save_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonClear" to="." method="on_button_clear_pressed"]
+[connection signal="add_new_block" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/CustomBlocks" to="." method="on_custom_blocks_add_new_block"]
+[connection signal="canceled" from="NewBlockDialog" to="NewBlockDialog" method="on_canceled"]
+[connection signal="confirmed" from="NewBlockDialog" to="NewBlockDialog" method="on_confirmed"]
+[connection signal="text_changed" from="NewBlockDialog/BlockName" to="NewBlockDialog" method="on_block_name_text_changed"]
