@@ -6,7 +6,7 @@ const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn")
 static func save_brain(brain_editor: BrainEditor) -> void:
 	var brain: Brain = Brain.new()
 	brain.size = brain_editor.size
-	brain.edge_ports_active = brain_editor.edge_ports_active
+	brain.in_nested_view = brain_editor.in_nested_view
 	
 	var grid_container: GridContainer = brain_editor.grid_container
 	
@@ -59,7 +59,7 @@ static func load_brain(brain_editor: BrainEditor) -> void:
 	var grid_container: GridContainer = brain_editor.grid_container
 	
 	brain_editor.size = brain.size
-	brain_editor.edge_ports_active = brain.edge_ports_active
+	brain_editor.in_nested_view = brain.in_nested_view
 	brain_editor.initialize_grid()
 	
 	var children = grid_container.get_children()

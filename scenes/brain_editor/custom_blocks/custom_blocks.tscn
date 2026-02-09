@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://gi3rom78yju3"]
+
+[ext_resource type="Script" uid="uid://b3clgkfq23qcn" path="res://scenes/brain_editor/custom_blocks/custom_blocks.gd" id="1_3f13w"]
+
+[node name="CustomBlocks" type="Control" unique_id=706812218]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3f13w")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=379220776]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Separator" type="Control" parent="VBoxContainer" unique_id=711680404]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=284271923]
+layout_mode = 2
+text = "BE_SIDEBAR_CATEGORY_CUSTOM"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1464799090]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/PanelContainer" unique_id=1245216565]
+layout_mode = 2
+bbcode_enabled = true
+text = "BE_CUSTOM_BLOCKS_EMPTY"
+fit_content = true
+
+[node name="Separator2" type="Control" parent="VBoxContainer" unique_id=279032635]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[connection signal="meta_clicked" from="VBoxContainer/PanelContainer/RichTextLabel" to="." method="on_rich_text_label_meta_clicked"]

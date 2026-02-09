@@ -48,6 +48,8 @@
 [ext_resource type="Resource" uid="uid://dkr4w026yn4g" path="res://scenes/brain_editor/blocks/functions/scanner.tres" id="29_olgwc"]
 [ext_resource type="Resource" uid="uid://ief65dh3y1la" path="res://scenes/brain_editor/blocks/inputs/random.tres" id="31_8ed7p"]
 [ext_resource type="Resource" uid="uid://cbc8wik2qmecs" path="res://scenes/brain_editor/blocks/functions/dish.tres" id="31_oshdk"]
+[ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
+[ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/brain_grid/brain_grid.tscn" id="49_ag5fd"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
 script = ExtResource("1_84dns")
@@ -454,6 +456,9 @@ is_toolbox_source = true
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
+[node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 instance=ExtResource("48_84dns")]
+layout_mode = 2
+
 [node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer" unique_id=365442137]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -470,30 +475,37 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=662009417]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=1769810203]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=660046651]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
+tab_0/title = "BE_TABS_0"
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer" unique_id=527822490]
-unique_name_in_owner = true
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/TabContainer" unique_id=662009417]
 layout_mode = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
-columns = 7
+size_flags_vertical = 3
+metadata/_tab_index = 0
+metadata/_tab_name = "BE_TABS_0"
 
-[node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=397392555]
+[node name="BrainGrid" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/TabContainer/CenterContainer" unique_id=758641771 instance=ExtResource("49_ag5fd")]
+layout_mode = 2
+
+[node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=397392555]
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/InfoBoxPanel" unique_id=48746310]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/InfoBoxPanel" unique_id=48746310]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 4
 
-[node name="InfoBox" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/InfoBoxPanel/MarginContainer" unique_id=777336926]
+[node name="InfoBox" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/InfoBoxPanel/MarginContainer" unique_id=777336926]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 12

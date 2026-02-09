@@ -8,9 +8,9 @@ enum Size {
 }
 
 @export var size: Size = Size._5x5
-@export var edge_ports_active: bool = false 
+@export var in_nested_view: bool = false 
 
-@onready var grid_container: GridContainer = %GridContainer
+@onready var grid_container: GridContainer = get_node("VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/TabContainer/CenterContainer/BrainGrid")
 
 const slot_scene: PackedScene = preload("res://scenes/brain_editor/slot/slot.tscn")
 const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_port/edge_port.tscn")
@@ -46,7 +46,7 @@ func initialize_grid() -> void:
 		Size._7x7: internal_dim = 7
 		Size._9x9: internal_dim = 9
 
-	var total_dim: int = internal_dim + 2 if edge_ports_active else internal_dim
+	var total_dim: int = internal_dim + 2 if in_nested_view else internal_dim
 	
 	grid_container.columns = total_dim
 
@@ -58,7 +58,7 @@ func initialize_grid() -> void:
 			var node: Control
 			var is_port_node: bool = false
 
-			if not edge_ports_active:
+			if not in_nested_view:
 				node = slot_scene.instantiate()
 			else:
 				var is_edge: bool = (x == 0 or x == total_dim - 1 or y == 0 or y == total_dim - 1)

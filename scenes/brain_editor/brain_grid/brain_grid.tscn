@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://df8v6ufd87dd4"]
+
+[node name="BrainGrid" type="GridContainer" unique_id=758641771]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
