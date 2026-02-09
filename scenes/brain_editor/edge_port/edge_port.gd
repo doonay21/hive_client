@@ -38,7 +38,14 @@ func update_visuals() -> void:
 func on_mouse_entered() -> void:
 	if hover_tween: hover_tween.kill()
 	
-	Events.info_text_requested.emit("BE_EDGE_PORT_INFO")
+	var port_name: String = ""
+	
+	match port_type:
+		Port.NONE: port_name = tr("BE_EDGE_PORT_NONE")
+		Port.INPUT: port_name = tr("BE_EDGE_PORT_INPUT")
+		Port.OUTPUT: port_name = tr("BE_EDGE_PORT_OUTPUT")
+		
+	Events.info_text_requested.emit(tr("BE_EDGE_PORT_INFO").format({ "port_name": port_name }))
 	
 	hover_tween = create_tween()
 	hover_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
