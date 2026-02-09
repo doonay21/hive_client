@@ -1,6 +1,6 @@
 keys,en,pl
-BE_LOAD,"Load","Wczytaj"
 BE_SAVE,"Save","Zapisz"
+BE_CLEAR,"Clead","Czyść"
 BE_SIDEBAR_CATEGORY_INPUTS,"Inputs","Wejścia"
 BE_SIDEBAR_CATEGORY_FUNCTIONS,"Functions","Funkcje"
 BE_SIDEBAR_CATEGORY_CONSTANTS,"Constants","Stałe"

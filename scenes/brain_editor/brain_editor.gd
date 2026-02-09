@@ -113,3 +113,19 @@ func on_context_menu_id_pressed(id: int) -> void:
 
 func on_button_save_pressed() -> void:
 	BrainManager.save_brain(self)
+
+func on_button_clear_pressed() -> void:
+	var children = grid_container.get_children()
+	
+	for i in range(children.size()):
+		var child = children[i]
+		
+		if child is Slot and child.has_block():
+			var block: Block = null
+			for sub_child in child.get_children():
+				if sub_child is Block and not sub_child.is_queued_for_deletion():
+					block = sub_child
+					break
+			
+			if block:
+				block.queue_free()
