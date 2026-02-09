@@ -20,7 +20,8 @@ var current_selected_node: Control
 
 func _ready() -> void:
 	setup_context_menu()
-	initialize_grid()
+	
+	BrainManager.load_brain(self)
 
 func setup_context_menu() -> void:
 	context_menu = PopupMenu.new()
@@ -109,3 +110,6 @@ func on_context_menu_id_pressed(id: int) -> void:
 
 	if current_selected_node.has_method("update_visuals"):
 		current_selected_node.update_visuals()
+
+func on_button_save_pressed() -> void:
+	BrainManager.save_brain(self)

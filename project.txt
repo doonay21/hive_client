@@ -18,7 +18,7 @@ Opis:
 		złoto: złote, schowane za ziemią lub kamieniem, wymaga 5 akcji kopania
 		ściana: białe, niezniszczalne
 		ziemia: jasno szare, zniszczalne, wymaga 2 akcji kopania
-		kamień: ciemno szare, zniszczalne, wymaga 10 akcji kopania
+		skała: ciemno szare, zniszczalne, wymaga 10 akcji kopania
 
 Generacja mapy:
     Wykorzystywane jest 2 warstwowe generowanie z wykorzystaniem funkcji szumu.
@@ -80,7 +80,7 @@ Klocki:
                 E - wyjście
                 S - NIC
                 W - NIC
-            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, kamień, pustka, złoto, ściana, robot)
+            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, skała, pustka, złoto, ściana, robot)
         
         Wzrok prosto
             Opis: Dystans do widzianej przeszkody przed robotem. Maksymalnie 10 jednostek (pikseli).
@@ -89,7 +89,7 @@ Klocki:
                 E - wyjście
                 S - NIC
                 W - NIC
-            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, kamień, pustka, złoto, ściana, robot)
+            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, skała, pustka, złoto, ściana, robot)
 
         Wzrok prawo
             Opis: Dystans do widzianej przeszkody z prawej strony robota. Maksymalnie 10 jednostek (pikseli).
@@ -98,7 +98,7 @@ Klocki:
                 E - wyjście
                 S - NIC
                 W - NIC
-            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, kamień, pustka, złoto, ściana, robot)
+            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, skała, pustka, złoto, ściana, robot)
 
         Ruch?
             Opis: Ustawia na wyjściu wartość 1.0 jeśli w poprzednim takcie robot wykonał ruch (tylko zmiana pozycji w świecie).
