@@ -51,7 +51,6 @@
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
 script = ExtResource("1_84dns")
-size = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=448820270]
 anchors_preset = 15
@@ -83,6 +82,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer" unique_id=661795442]
 layout_mode = 2
@@ -100,8 +103,8 @@ text = "BE_SIDEBAR_CATEGORY_INPUTS"
 
 [node name="GridInputs" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1010064984]
 layout_mode = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
 columns = 3
 
 [node name="InputSightLeft" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1385599306 instance=ExtResource("2_iva03")]
@@ -156,8 +159,8 @@ text = "BE_SIDEBAR_CATEGORY_FUNCTIONS"
 
 [node name="GridFunctions" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=191569912]
 layout_mode = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
 columns = 3
 
 [node name="Inverter" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1711346390 instance=ExtResource("2_iva03")]
@@ -302,8 +305,8 @@ text = "BE_SIDEBAR_CATEGORY_OUTPUTS"
 
 [node name="GridOutputs" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1597513450]
 layout_mode = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
 columns = 3
 
 [node name="OutputTurnLeft" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridOutputs" unique_id=1362377854 instance=ExtResource("2_iva03")]
@@ -346,8 +349,8 @@ text = "BE_SIDEBAR_CATEGORY_CONSTANTS"
 
 [node name="GridConstants" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1283290339]
 layout_mode = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
 columns = 3
 
 [node name="Constant" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConstants" unique_id=1235760205 instance=ExtResource("2_iva03")]
@@ -384,8 +387,8 @@ text = "BE_SIDEBAR_CATEGORY_CONNECTORS"
 
 [node name="GridConnectros" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=649845217]
 layout_mode = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
 columns = 3
 
 [node name="ConnectionWE" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1239101729 instance=ExtResource("2_iva03")]
@@ -430,6 +433,10 @@ mouse_filter = 1
 block_data = ExtResource("17_5cbut")
 is_toolbox_source = true
 
+[node name="Separator5" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=2132006449]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
 [node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer" unique_id=365442137]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -455,7 +462,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
-columns = 5
+columns = 7
 
 [node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=397392555]
 custom_minimum_size = Vector2(0, 31)

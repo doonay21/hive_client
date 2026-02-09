@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://btoeb3y2m0wnm"]
+
+[ext_resource type="Texture2D" uid="uid://cm08m10y5kbgm" path="res://assets/images/brain_editor/edge_port.png" id="1_40ysu"]
+[ext_resource type="Script" uid="uid://bribjugovk62m" path="res://scenes/brain_editor/edge_port/edge_port.gd" id="1_et6ps"]
+[ext_resource type="Texture2D" uid="uid://blu0mqikxp6jj" path="res://assets/images/brain_editor/conn_none.png" id="2_g0s30"]
+
+[node name="EdgePort" type="MarginContainer" unique_id=1894090129]
+modulate = Color(1, 1, 1, 0.2509804)
+custom_minimum_size = Vector2(84, 26)
+offset_right = 86.0
+offset_bottom = 28.0
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+script = ExtResource("1_et6ps")
+
+[node name="Control" type="Control" parent="." unique_id=1730278076]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Block" type="TextureRect" parent="Control" unique_id=1048938839]
+texture_filter = 1
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 22.0
+pivot_offset = Vector2(40, 40)
+texture = ExtResource("1_40ysu")
+stretch_mode = 2
+
+[node name="Port" type="TextureRect" parent="Control/Block" unique_id=65962033]
+layout_mode = 0
+offset_left = 26.0
+offset_top = -7.0
+offset_right = 54.0
+offset_bottom = 11.0
+texture = ExtResource("2_g0s30")
+stretch_mode = 2
