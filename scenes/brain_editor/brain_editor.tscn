@@ -13,6 +13,7 @@
 [ext_resource type="Resource" uid="uid://xgmlalsgbxmo" path="res://scenes/brain_editor/blocks/functions/comparator.tres" id="7_yf51x"]
 [ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/outputs/output_turn_right.tres" id="8_fwxd3"]
 [ext_resource type="Resource" uid="uid://dbpbvocdtblt8" path="res://scenes/brain_editor/blocks/functions/minimum.tres" id="8_gvqid"]
+[ext_resource type="Resource" uid="uid://caj6rsjfp6awv" path="res://scenes/brain_editor/blocks/inputs/clock.tres" id="9_olgwc"]
 [ext_resource type="Resource" uid="uid://b6tenloknv6xl" path="res://scenes/brain_editor/blocks/functions/maximum.tres" id="9_r6xee"]
 [ext_resource type="Resource" uid="uid://dv6c8d1558tdj" path="res://scenes/brain_editor/blocks/functions/add.tres" id="10_8ovbo"]
 [ext_resource type="Resource" uid="uid://c7t4h83eaf47u" path="res://scenes/brain_editor/blocks/inputs/constant.tres" id="10_61fpg"]
@@ -46,6 +47,7 @@
 [ext_resource type="Resource" uid="uid://bf7p8fir0rbnb" path="res://scenes/brain_editor/blocks/functions/emitter.tres" id="29_ltgp1"]
 [ext_resource type="Resource" uid="uid://dkr4w026yn4g" path="res://scenes/brain_editor/blocks/functions/scanner.tres" id="29_olgwc"]
 [ext_resource type="Resource" uid="uid://ief65dh3y1la" path="res://scenes/brain_editor/blocks/inputs/random.tres" id="31_8ed7p"]
+[ext_resource type="Resource" uid="uid://cbc8wik2qmecs" path="res://scenes/brain_editor/blocks/functions/dish.tres" id="31_oshdk"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
 
@@ -214,6 +216,12 @@ mouse_filter = 1
 block_data = ExtResource("27_jfl5t")
 is_toolbox_source = true
 
+[node name="InputClock" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1165599403 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("9_olgwc")
+is_toolbox_source = true
+
 [node name="Inverter" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1711346390 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
@@ -338,6 +346,12 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("29_olgwc")
+is_toolbox_source = true
+
+[node name="Dish" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=770604081 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("31_oshdk")
 is_toolbox_source = true
 
 [node name="OutputTurnLeft" parent="Panel/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1362377854 instance=ExtResource("2_iva03")]

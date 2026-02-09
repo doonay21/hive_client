@@ -10,5 +10,5 @@ icon = ExtResource("1_5tek2")
 display = 2
 info_text = "BLOCK_SIGHT_LEFT_INFO"
 value_mode = 3
-value_strings = Array[String](["BLOCK_SIGHT_WALL", "BLOCK_SIGHT_MATTER", "BLOCK_SIGHT_GOLD"])
+value_strings = Array[String](["BLOCK_SIGHT_MATTER", "BLOCK_SIGHT_VOID", "BLOCK_SIGHT_GOLD", "BLOCK_SIGHT_WALL", "BLOCK_SIGHT_ROBOT"])
 metadata/_custom_type_script = "uid://bxvoxmctemal6"
