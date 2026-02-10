@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://df8v6ufd87dd4"]
 
-[ext_resource type="Script" uid="uid://c0iy64o4vcqqe" path="res://scenes/brain_editor/brain_grid/brain_grid.gd" id="1_hqa88"]
+[ext_resource type="Script" uid="uid://c0iy64o4vcqqe" path="res://scenes/brain_editor/program_grid/program_grid.gd" id="1_mfx10"]
 
-[node name="BrainGrid" type="VBoxContainer" unique_id=54899681]
+[node name="ProgramGrid" type="VBoxContainer" unique_id=54899681]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_hqa88")
+script = ExtResource("1_mfx10")
 matrix_size = 2
 
 [node name="Label" type="Label" parent="." unique_id=1747844189]

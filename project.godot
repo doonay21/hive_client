@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+DatabaseManager="*uid://ch5t1hp4oohjt"
 Nakama="*uid://ckho07ucaxkun"
 Secrets="*uid://dofsr0rfp4j6"
 OnlineManager="*uid://bbjq6cjlo1pvb"
@@ -29,7 +30,7 @@ window/size/viewport_height=800
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/context_generator/plugin.cfg")
+enabled=PackedStringArray("res://addons/context_generator/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg")
 
 [internationalization]
 

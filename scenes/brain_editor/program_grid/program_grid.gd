@@ -1,4 +1,4 @@
-class_name BrainGrid extends VBoxContainer
+class_name ProgramGrid extends VBoxContainer
 
 enum MatrixSize {
 	_3x3,
@@ -19,7 +19,7 @@ const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_por
 var grid_uid: String = "":
 	set(value):
 		grid_uid = value
-		label.text = tr("BE_GRID_UID").format({ "grid_uid": grid_uid})
+		label.text = tr("BE_GRID_UUID").format({ "grid_uid": grid_uid})
 		
 var context_menu: PopupMenu
 var current_selected_node: Control
