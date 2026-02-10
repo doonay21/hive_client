@@ -8,10 +8,14 @@ const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/brain_g
 @onready var tabs: TabContainer = %BrainEditorTabs
 @onready var program_uid_label: Label = %ProgramUIDLabel
 
-var program_uid: String = UUID.v4()
+var program_uid: String = "":
+	set(value):
+		program_uid = value
+		program_uid_label.text = tr("BE_PROGRAM_UID").format({ "program_uid": program_uid })
 
 func _ready() -> void:
-	program_uid_label.text = tr("BE_PROGRAM_UID").format({ "program_uid": program_uid })
+	program_uid = UUID.v4()
+	
 	BrainManager.load_brain(self)
 
 func on_button_save_pressed() -> void:

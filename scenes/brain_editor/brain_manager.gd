@@ -7,9 +7,25 @@ static func save_brain(brain_editor: BrainEditor) -> void:
 	var brain_grid: BrainGrid = brain_editor.main_brain_grid
 	
 	var brain: Brain = Brain.new()
+	brain.program_uid = brain_editor.program_uid
 	brain.size = brain_grid.matrix_size
 	brain.in_nested_view = brain_grid.in_nested_view
 	
+	var brain_grid_data: Dictionary = {
+		"uuid": brain_grid.grid_uid,
+		"grid": get_block_data(brain_grid)
+	}
+	
+	brain.brain_grids.append(brain_grid_data)
+	
+	var error = ResourceSaver.save(brain, SAVE_PATH)
+	if error != OK:
+		push_error("Nie udało się zapisać układu: ", error)
+	else:
+		print("Układ zapisany do: ", SAVE_PATH)
+
+static func get_block_data(brain_grid: BrainGrid) -> Dictionary[Vector2i, Dictionary]:
+	var block_data: Dictionary[Vector2i, Dictionary] = {}
 	var children = brain_grid.grid_container.get_children()
 	var cols = brain_grid.grid_container.columns
 	
@@ -35,13 +51,9 @@ static func save_brain(brain_editor: BrainEditor) -> void:
 					if "value" in block.value_drag:
 						data["stored_value"] = block.value_drag.value
 				
-				brain.blocks[coords] = data
+				block_data[coords] = data
 	
-	var error = ResourceSaver.save(brain, SAVE_PATH)
-	if error != OK:
-		push_error("Nie udało się zapisać układu: ", error)
-	else:
-		print("Układ zapisany do: ", SAVE_PATH)
+	return block_data
 
 static func load_brain(brain_editor: BrainEditor) -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
@@ -56,21 +68,27 @@ static func load_brain(brain_editor: BrainEditor) -> void:
 		brain_editor.main_brain_grid.initialize()
 		return
 	
-	var brin_grid: BrainGrid = brain_editor.main_brain_grid
+	brain_editor.program_uid = brain.program_uid
 	
-	brin_grid.matrix_size = brain.size
-	brin_grid.in_nested_view = brain.in_nested_view
-	brin_grid.initialize()
+	load_brain_grid(brain_editor.main_brain_grid, brain, 0)
+
+static func load_brain_grid(brain_grid: BrainGrid, brain: Brain, brain_grid_index: int) -> void:
+	brain_grid.matrix_size = brain.size
+	brain_grid.in_nested_view = brain.in_nested_view
+	brain_grid.initialize()
 	
-	var children = brin_grid.grid_container.get_children()
-	var cols = brin_grid.grid_container.columns
+	var children = brain_grid.grid_container.get_children()
+	var cols = brain_grid.grid_container.columns
 	
-	for coords in brain.blocks:
+	var brain_grid_data: Dictionary = brain.brain_grids[brain_grid_index]
+	brain_grid.grid_uid = brain_grid_data["uuid"]
+	
+	for coords in brain_grid_data["grid"]:
 		var index = coords.y * cols + coords.x
 		if index < children.size():
 			var slot = children[index]
 			if slot is Slot:
-				var data = brain.blocks[coords]
+				var data = brain_grid_data["grid"][coords]
 				spawn_block_in_slot(slot, data)
 
 static func spawn_block_in_slot(slot: Slot, data: Dictionary) -> void:

@@ -16,12 +16,16 @@ const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_por
 @onready var label: Label = $Label
 @onready var grid_container: GridContainer = %GridContainer
 
-var grid_uid: String = UUID.v4()
+var grid_uid: String = "":
+	set(value):
+		grid_uid = value
+		label.text = tr("BE_GRID_UID").format({ "grid_uid": grid_uid})
+		
 var context_menu: PopupMenu
 var current_selected_node: Control
 
 func _ready() -> void:
-	label.text = tr("BE_GRID_UID").format({ "grid_uid": grid_uid})
+	grid_uid = UUID.v4()
 
 func initialize() -> void:
 	for child in grid_container.get_children():
