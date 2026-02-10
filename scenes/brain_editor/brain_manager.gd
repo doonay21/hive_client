@@ -4,14 +4,14 @@ const SAVE_PATH: String = "user://brain.tres"
 const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn")
 
 static func save_brain(brain_editor: BrainEditor) -> void:
+	var brain_grid: BrainGrid = brain_editor.main_brain_grid
+	
 	var brain: Brain = Brain.new()
-	brain.size = brain_editor.brain_grid.matrix_size
-	brain.in_nested_view = brain_editor.brain_grid.in_nested_view
+	brain.size = brain_grid.matrix_size
+	brain.in_nested_view = brain_grid.in_nested_view
 	
-	var grid_container: BrainGrid = brain_editor.brain_grid
-	
-	var children = grid_container.get_children()
-	var cols = grid_container.columns
+	var children = brain_grid.grid_container.get_children()
+	var cols = brain_grid.grid_container.columns
 	
 	for i in range(children.size()):
 		var child = children[i]
@@ -45,25 +45,25 @@ static func save_brain(brain_editor: BrainEditor) -> void:
 
 static func load_brain(brain_editor: BrainEditor) -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
-		push_error("Plik nie istnieje: ", SAVE_PATH)
-		brain_editor.brain_grid.initialize()
+		print("Plik nie istnieje: ", SAVE_PATH)
+		brain_editor.main_brain_grid.initialize()
 		return
 		
 	var brain = load(SAVE_PATH) as Brain
 	
 	if not brain:
 		push_error("Niepoprawny format pliku zapisu.")
-		brain_editor.brain_grid.initialize()
+		brain_editor.main_brain_grid.initialize()
 		return
 	
-	var grid_container: BrainGrid = brain_editor.brain_grid
+	var brin_grid: BrainGrid = brain_editor.main_brain_grid
 	
-	brain_editor.brain_grid.matrix_size = brain.size
-	brain_editor.brain_grid.in_nested_view = brain.in_nested_view
-	brain_editor.brain_grid.initialize()
+	brin_grid.matrix_size = brain.size
+	brin_grid.in_nested_view = brain.in_nested_view
+	brin_grid.initialize()
 	
-	var children = grid_container.get_children()
-	var cols = grid_container.columns
+	var children = brin_grid.grid_container.get_children()
+	var cols = brin_grid.grid_container.columns
 	
 	for coords in brain.blocks:
 		var index = coords.y * cols + coords.x

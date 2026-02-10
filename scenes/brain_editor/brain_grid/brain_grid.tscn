@@ -2,9 +2,24 @@
 
 [ext_resource type="Script" uid="uid://c0iy64o4vcqqe" path="res://scenes/brain_editor/brain_grid/brain_grid.gd" id="1_hqa88"]
 
-[node name="BrainGrid" type="GridContainer" unique_id=758641771]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="BrainGrid" type="VBoxContainer" unique_id=54899681]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hqa88")
+matrix_size = 2
+
+[node name="Label" type="Label" parent="." unique_id=1747844189]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2020567786]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer" unique_id=758641771]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
-script = ExtResource("1_hqa88")

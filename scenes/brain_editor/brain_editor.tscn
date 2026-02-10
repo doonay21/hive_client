@@ -479,35 +479,38 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=1769810203]
 layout_mode = 2
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=660046651]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=1838956727]
+layout_mode = 2
+
+[node name="ProgramUIDLabel" type="Label" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2101450915]
+unique_name_in_owner = true
+layout_mode = 2
+text = "sdfsdf"
+
+[node name="BrainEditorTabs" type="TabContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=660046651]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
-tab_0/title = "BE_TABS_0"
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/TabContainer" unique_id=662009417]
-layout_mode = 2
-size_flags_vertical = 3
-metadata/_tab_index = 0
-metadata/_tab_name = "BE_TABS_0"
-
-[node name="BrainGrid" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/TabContainer/CenterContainer" unique_id=758641771 instance=ExtResource("49_ag5fd")]
+[node name="BrainGrid" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" unique_id=758641771 instance=ExtResource("49_ag5fd")]
 unique_name_in_owner = true
 layout_mode = 2
+metadata/_tab_index = 0
 
-[node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=397392555]
+[node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer" unique_id=397392555]
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/InfoBoxPanel" unique_id=48746310]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/InfoBoxPanel" unique_id=48746310]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 4
 
-[node name="InfoBox" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/InfoBoxPanel/MarginContainer" unique_id=777336926]
+[node name="InfoBox" type="RichTextLabel" parent="VBoxContainer/InfoBoxPanel/MarginContainer" unique_id=777336926]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 12
@@ -534,9 +537,31 @@ offset_right = 192.0
 offset_bottom = 51.0
 placeholder_text = "BE_NEW_BLOCK_DIALOG_BLOCK_NAME_PLACEHOLDER"
 
+[node name="ClearBrainGridDialog" type="ConfirmationDialog" parent="." unique_id=416133571]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "BE_CLEAR_BRAIN_GRID_DIALOG_TITLE"
+size = Vector2i(745, 100)
+ok_button_text = "BE_CLEAR_BRAIN_GRID_DIALOG_BUTTON_YES"
+cancel_button_text = "BE_CLEAR_BRAIN_GRID_DIALOG_BUTTON_NO"
+
+[node name="Label" type="Label" parent="ClearBrainGridDialog" unique_id=503844202]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 737.0
+offset_bottom = 51.0
+text = "BE_CLEAR_BRAIN_GRID_DIALOG_TEXT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonSave" to="." method="on_button_save_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonClear" to="." method="on_button_clear_pressed"]
 [connection signal="add_new_block" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/CustomBlocks" to="." method="on_custom_blocks_add_new_block"]
+[connection signal="about_to_popup" from="NewBlockDialog" to="NewBlockDialog" method="on_about_to_popup"]
 [connection signal="canceled" from="NewBlockDialog" to="NewBlockDialog" method="on_canceled"]
 [connection signal="confirmed" from="NewBlockDialog" to="NewBlockDialog" method="on_confirmed"]
+[connection signal="create_new_block" from="NewBlockDialog" to="." method="on_new_block_dialog_create_new_block"]
+[connection signal="visibility_changed" from="NewBlockDialog" to="NewBlockDialog" method="on_visibility_changed"]
 [connection signal="text_changed" from="NewBlockDialog/BlockName" to="NewBlockDialog" method="on_block_name_text_changed"]
+[connection signal="text_submitted" from="NewBlockDialog/BlockName" to="NewBlockDialog" method="on_block_name_text_submitted"]
+[connection signal="confirmed" from="ClearBrainGridDialog" to="." method="on_clear_brain_grid_dialog_confirmed"]

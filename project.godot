@@ -22,6 +22,11 @@ Secrets="*uid://dofsr0rfp4j6"
 OnlineManager="*uid://bbjq6cjlo1pvb"
 Events="*uid://cubqdy5xq2vl6"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=800
+
 [internationalization]
 
 locale/translations=PackedStringArray("res://translations/translations_block.en.translation", "res://translations/translations_block.pl.translation", "res://translations/translations_brain_editor.en.translation", "res://translations/translations_brain_editor.pl.translation")

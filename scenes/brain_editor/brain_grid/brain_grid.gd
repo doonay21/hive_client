@@ -1,4 +1,4 @@
-class_name BrainGrid extends GridContainer
+class_name BrainGrid extends VBoxContainer
 
 enum MatrixSize {
 	_3x3,
@@ -13,11 +13,18 @@ const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_por
 @export var matrix_size: MatrixSize = MatrixSize._5x5
 @export var in_nested_view: bool = false
 
+@onready var label: Label = $Label
+@onready var grid_container: GridContainer = %GridContainer
+
+var grid_uid: String = UUID.v4()
 var context_menu: PopupMenu
 var current_selected_node: Control
 
+func _ready() -> void:
+	label.text = tr("BE_GRID_UID").format({ "grid_uid": grid_uid})
+
 func initialize() -> void:
-	for child in get_children():
+	for child in grid_container.get_children():
 		child.queue_free()
 
 	var internal_dim: int = 5
@@ -30,7 +37,7 @@ func initialize() -> void:
 
 	var total_dim: int = internal_dim + 2 if in_nested_view else internal_dim
 	
-	columns = total_dim
+	grid_container.columns = total_dim
 
 	@warning_ignore("integer_division")
 	var center_index: int = total_dim / 2
@@ -69,7 +76,7 @@ func initialize() -> void:
 					node = slot_scene.instantiate()
 			
 			node.name = "Node_%d_%d" % [x, y]
-			add_child(node)
+			grid_container.add_child(node)
 			
 			if is_port_node:
 				node.gui_input.connect(on_node_gui_input.bind(node))
@@ -77,7 +84,7 @@ func initialize() -> void:
 	setup_context_menu()
 
 func clear() -> void:
-	var children = get_children()
+	var children = grid_container.get_children()
 	
 	for i in range(children.size()):
 		var child = children[i]
