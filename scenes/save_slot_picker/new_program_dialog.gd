@@ -8,7 +8,7 @@ signal create_new_program(program_name: String)
 var regex = RegEx.new()
 
 func _ready():
-	regex.compile("^[a-zA-Z][a-zA-Z0-9_]{2,7}$")
+	regex.compile("^[a-zA-Z0-9][a-zA-Z0-9 ]{1,63}$")
 	program_name.max_length = 32
 	ok_button.disabled = true
 
@@ -32,6 +32,8 @@ func on_about_to_popup() -> void:
 func on_visibility_changed() -> void:
 	if visible: program_name.grab_focus()
 
-func on_block_name_text_submitted(_new_text: String) -> void:
+func on_block_name_text_submitted(new_text: String) -> void:
+	if regex.search(new_text) == null: return
+	
 	submit()
 	hide()

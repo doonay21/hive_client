@@ -11,6 +11,12 @@ func has_block() -> bool:
 			return true
 	return false
 
+func get_block() -> Block:
+	for child in get_children():
+		if child is Block and not child.is_queued_for_deletion():
+			return child
+	return null
+
 func _drop_data(at_position: Vector2, data: Variant) -> void:
 	var new_block: Block = BLOCK_SCENE.instantiate()
 	new_block.is_toolbox_source = false

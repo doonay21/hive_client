@@ -28,8 +28,8 @@ func from_dict(data: Dictionary) -> void:
 	super.from_dict(data)
 	
 	program_id = int(data.get("program_id", -1))
-	name = data.get("name", "Unknown")
-	size = int(data.get("size", ProgramGrid.MatrixSize._7x7))
+	name = data.get("name", tr("BE_MAIN_BRAIN_GRID"))
+	size = data.get("size", ProgramGrid.MatrixSize._7x7)
 	is_block = bool(data.get("is_block", false))
 	
 	var raw_blocks = data.get("blocks", "")
@@ -65,8 +65,18 @@ static func delete_by_id(target_id: int) -> void:
 
 static func get_all_by_program_id(p_id: int) -> Array[ProgramGridModel]:
 	var db = DatabaseManager.db
-	db.query_with_bindings("SELECT * FROM " + TABLE + " WHERE program_id = ?", [p_id])
+	db.query_with_bindings("SELECT * FROM " + TABLE + " WHERE program_id = ? ORDER BY id", [p_id])
 	var result: Array[ProgramGridModel] = []
 	for row in db.query_result:
 		result.append(ProgramGridModel.new(row))
 	return result
+
+static func get_schema() -> Dictionary:
+	return {
+		"id": { "data_type": "int", "primary_key": true, "not_null": true, "auto_increment": true },
+		"program_id": { "data_type": "int", "not_null": true },
+		"name": { "data_type": "text", "not_null": true },
+		"size": { "data_type": "int", "not_null": true, "default": ProgramGrid.MatrixSize._7x7 },
+		"is_block": { "data_type": "bool", "not_null": true, "default": false },
+		"blocks": { "data_type": "text" }
+	}

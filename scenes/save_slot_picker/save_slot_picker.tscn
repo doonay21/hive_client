@@ -44,6 +44,7 @@ offset_right = 192.0
 offset_bottom = 51.0
 placeholder_text = "BE_NEW_PROGRAM_NAME_PLACEHOLDER"
 
+[connection signal="item_activated" from="CenterContainer/VBoxContainer/ProgramList" to="." method="on_program_list_item_activated"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ButtonNew" to="." method="on_button_new_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ButtonLoad" to="." method="on_button_load_pressed"]
 [connection signal="about_to_popup" from="NewProgramDialog" to="NewProgramDialog" method="on_about_to_popup"]

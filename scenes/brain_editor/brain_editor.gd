@@ -8,6 +8,10 @@ const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/program
 @onready var tabs: TabContainer = %BrainEditorTabs
 @onready var program_uuid_label: Label = %ProgramUUIDLabel
 
+var program_id: int = -1
+var program_name: String = tr("BE_DEFAULT_PRORGAM_NAME")
+var program_grids: Array[ProgramGrid] = []
+
 var program_uuid: String = "":
 	set(value):
 		program_uuid = value
@@ -16,10 +20,14 @@ var program_uuid: String = "":
 func _ready() -> void:
 	program_uuid = UUID.v4()
 	
-	BrainManager.load_program(self)
+	program_grids.append(main_program_grid)
+	
+	ProgramManager.load_program(self)
+	#BrainManager.load_program(self)
 
 func on_button_save_pressed() -> void:
-	BrainManager.save_program(self)
+	pass
+	#BrainManager.save_program(self)
 
 func on_button_clear_pressed() -> void:
 	clear_program_grid_dialog.reset_size()
@@ -45,6 +53,7 @@ func create_new_tab(tab_name: String) -> void:
 	program_grid.matrix_size = ProgramGrid.MatrixSize._5x5
 	program_grid.in_nested_view = true
 	tabs.add_child(program_grid)
+	program_grids.append(program_grid)
 	
 	program_grid.initialize()
 	

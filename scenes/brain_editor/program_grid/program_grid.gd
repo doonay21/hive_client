@@ -16,6 +16,9 @@ const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_por
 @onready var label: Label = $Label
 @onready var grid_container: GridContainer = %GridContainer
 
+var program_grid_id: int = -1
+var program_grid_name: String = tr("BE_MAIN_BRAIN_GRID")
+
 var grid_uid: String = "":
 	set(value):
 		grid_uid = value
@@ -23,6 +26,14 @@ var grid_uid: String = "":
 		
 var context_menu: PopupMenu
 var current_selected_node: Control
+
+static func matrix_size_total(target_size: MatrixSize) -> int:
+	match target_size:
+		MatrixSize._3x3: return 9
+		MatrixSize._5x5: return 25
+		MatrixSize._7x7: return 49
+		MatrixSize._9x9: return 81
+		_: return 49
 
 func _ready() -> void:
 	grid_uid = UUID.v4()

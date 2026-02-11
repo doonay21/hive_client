@@ -3,11 +3,11 @@ class_name BaseModel extends RefCounted
 var id: int = -1
 
 func get_table_name() -> String:
-	push_error("BaseModel: _get_table_name() not implemented")
+	assert(false, "BaseModel: get_table_name() not implemented")
 	return ""
 
 func to_dict() -> Dictionary:
-	push_error("BaseModel: _to_dict() not implemented")
+	assert(false, "BaseModel: to_dict() not implemented")
 	return {}
 
 func from_dict(data: Dictionary) -> void:
@@ -33,6 +33,10 @@ func delete() -> void:
 	if id != -1:
 		BaseModel.delete_by_id_helper(get_table_name(), id)
 		id = -1
+
+static func get_schema() -> Dictionary:
+	assert(false, "BaseModel: get_schema() not implemented")
+	return {}
 
 static func delete_by_id_helper(table_name: String, target_id: int) -> void:
 	var db = DatabaseManager.db
