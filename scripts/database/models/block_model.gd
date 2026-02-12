@@ -1,7 +1,8 @@
-class_name ProgramModel extends BaseModel
+class_name BlockModel extends BaseModel
 
-const TABLE = "programs"
+const TABLE = "blocks"
 
+var uuid: String = UUID.v4()
 var name: String = ""
 var size: ProgramGrid.MatrixSize = ProgramGrid.MatrixSize._7x7
 var grid: Dictionary = {}
@@ -15,6 +16,7 @@ func get_table_name() -> String:
 
 func to_dict() -> Dictionary:
 	return {
+		"uuid": uuid,
 		"name": name,
 		"size": size,
 		"grid": var_to_bytes(grid)
@@ -22,6 +24,7 @@ func to_dict() -> Dictionary:
 
 func from_dict(data: Dictionary) -> void:
 	super.from_dict(data)
+	uuid = data.get("uuid", UUID.v4())
 	name = data.get("name", tr("BE_DEFAULT_PRORGAM_NAME"))
 	size = data.get("size", ProgramGrid.MatrixSize._7x7)
 	
@@ -59,6 +62,7 @@ static func delete_by_id(target_id: int) -> void:
 static func get_schema() -> Dictionary:
 	return {
 		"id": { "data_type": "int", "primary_key": true, "not_null": true, "auto_increment": true },
+		"uuid": { "data_type": "text", "not_null": true, "unique": true },
 		"name": { "data_type": "text", "not_null": true, "unique": true },
 		"size": { "data_type": "int", "not_null": true },
 		"grid": { "data_type": "blob" }

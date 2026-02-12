@@ -4,8 +4,7 @@ var db: SQLite = SQLite.new()
 const DB_PATH = "user://data.db"
 
 var registered_models: Array = [
-	ProgramModel,
-	ProgramGridModel
+	ProgramModel
 ]
 
 func _ready():

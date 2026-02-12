@@ -143,3 +143,6 @@ func on_context_menu_id_pressed(id: int) -> void:
 
 	if current_selected_node.has_method("update_visuals"):
 		current_selected_node.update_visuals()
+
+func get_grid() -> Dictionary:
+	return {}

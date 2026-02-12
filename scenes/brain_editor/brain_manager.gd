@@ -68,19 +68,19 @@ static func get_block_data(program_grid: ProgramGrid) -> Dictionary[Vector2i, Di
 static func load_program(brain_editor: BrainEditor) -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		print("Plik nie istnieje: ", SAVE_PATH)
-		brain_editor.main_program_grid.initialize()
+		brain_editor.program_grid.initialize()
 		return
 		
 	var program = load(SAVE_PATH) as SaveProgram
 	
 	if not program:
 		push_error("Niepoprawny format pliku zapisu.")
-		brain_editor.main_program_grid.initialize()
+		brain_editor.program_grid.initialize()
 		return
 	
 	brain_editor.program_uuid = program.uuid
 	
-	load_brain_grid(brain_editor.main_program_grid, program, 0)
+	load_brain_grid(brain_editor.program_grid, program, 0)
 
 static func load_brain_grid(program_grid: ProgramGrid, program: SaveProgram, program_grid_index: int) -> void:
 	var brain_grid_data: Dictionary = program.brains[program_grid_index]

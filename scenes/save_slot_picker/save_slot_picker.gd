@@ -34,10 +34,10 @@ func on_button_load_pressed() -> void:
 		var program_name: String = program_list.get_item_text(index)
 		
 		open_program(programs[index], program_name)
-		
 
 func on_new_program_dialog_create_new_program(program_name: String) -> void:
-	ProgramModel.create_with_default_grid(program_name)
+	var program: ProgramModel = ProgramModel.new({ "name": program_name })
+	program.save()
 
 	load_programs()
 
