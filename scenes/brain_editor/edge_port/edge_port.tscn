@@ -7,8 +7,8 @@
 [node name="EdgePort" type="MarginContainer" unique_id=1894090129]
 modulate = Color(1, 1, 1, 0.2509804)
 custom_minimum_size = Vector2(84, 26)
-offset_right = 86.0
-offset_bottom = 28.0
+offset_right = 84.0
+offset_bottom = 26.0
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
