@@ -15,6 +15,15 @@ static func load_program(brain_editor: BrainEditor) -> void:
 		program_grid.label.text = "\"%s\"" % TranslationServer.translate("BE_PROGRAM_GRID_DEFAULT_LABEL")
 		
 		load_grid_save_data(program_grid, program.grid)
+	
+	load_custom_blocks(brain_editor)
+
+static func load_custom_blocks(brain_editor: BrainEditor) -> void:
+	var custom_blocks: Array[BlockModel] = BlockModel.all()
+	if custom_blocks.is_empty(): return
+	
+	for custom_block in custom_blocks:
+		brain_editor.custom_blocks.add_block_to_sidebar(custom_block)
 
 static func save_program(brain_editor: BrainEditor) -> void:
 	var program: ProgramModel = ProgramModel.get_by_id(brain_editor.program_id)

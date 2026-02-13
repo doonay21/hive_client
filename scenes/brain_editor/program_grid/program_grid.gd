@@ -108,9 +108,9 @@ func on_context_menu_id_pressed(id: int) -> void:
 		return
 
 	match id:
-		0: current_selected_node.change_type(EdgePort.Port.NONE)
-		1: current_selected_node.change_type(EdgePort.Port.INPUT)
-		2: current_selected_node.change_type(EdgePort.Port.OUTPUT)
+		0: current_selected_node.change_type(BlockData.Port.NONE)
+		1: current_selected_node.change_type(BlockData.Port.INPUT)
+		2: current_selected_node.change_type(BlockData.Port.OUTPUT)
 	
 	notify_custom_block_changed()
 
@@ -118,19 +118,13 @@ func notify_custom_block_changed() -> void:
 	if not is_block or custom_block_uuid.is_empty(): return
 	
 	var new_ports = [
-		map_edge_to_block_port(edge_port_top.port_type),
-		map_edge_to_block_port(edge_port_right.port_type),
-		map_edge_to_block_port(edge_port_bottom.port_type),
-		map_edge_to_block_port(edge_port_left.port_type)
+		edge_port_top.port_type,
+		edge_port_right.port_type,
+		edge_port_bottom.port_type,
+		edge_port_left.port_type
 	]
 	
 	Events.custom_block_changed.emit(custom_block_uuid, new_ports)
-
-func map_edge_to_block_port(edge_type: EdgePort.Port) -> BlockData.Port:
-	match edge_type:
-		EdgePort.Port.INPUT: return BlockData.Port.INPUT
-		EdgePort.Port.OUTPUT: return BlockData.Port.OUTPUT
-		_: return BlockData.Port.NONE
 
 func get_grid() -> Array:
 	var block_data: Array = []
@@ -150,3 +144,13 @@ func get_grid() -> Array:
 		block_data[i] = child_save_data
 	
 	return block_data
+
+func get_ports_state() -> Array:
+	if not is_block: return []
+		
+	return [
+		edge_port_top.port_type,
+		edge_port_right.port_type,
+		edge_port_bottom.port_type,
+		edge_port_left.port_type
+	]

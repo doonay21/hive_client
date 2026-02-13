@@ -5,7 +5,8 @@ const TABLE = "blocks"
 var uuid: String = UUID.v4()
 var name: String = ""
 var size: ProgramGrid.MatrixSize = ProgramGrid.MatrixSize._7x7
-var grid: Dictionary = {}
+var grid: Array = []
+var ports: Array = [BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE]
 
 func _init(data: Dictionary = {}):
 	if not data.is_empty():
@@ -19,7 +20,8 @@ func to_dict() -> Dictionary:
 		"uuid": uuid,
 		"name": name,
 		"size": size,
-		"grid": var_to_bytes(grid)
+		"grid": var_to_bytes(grid),
+		"ports": var_to_bytes(ports)
 	}
 
 func from_dict(data: Dictionary) -> void:
@@ -33,26 +35,32 @@ func from_dict(data: Dictionary) -> void:
 	if raw_blob is PackedByteArray:
 		grid = bytes_to_var(raw_blob)
 	else:
-		grid = {}
+		grid = []
+	
+	var raw_ports = data.get("ports")
+	if raw_ports is PackedByteArray:
+		ports = bytes_to_var(raw_ports)
+	else:
+		ports = [BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE]
 
-static func get_by_id(target_id: int) -> ProgramModel:
+static func get_by_id(target_id: int) -> BlockModel:
 	var data = BaseModel.fetch_one_by_id(TABLE, target_id)
 	if data:
-		return ProgramModel.new(data)
+		return BlockModel.new(data)
 	return null
 
-static func where(column: String, value: Variant) -> ProgramModel:
+static func where(column: String, value: Variant) -> BlockModel:
 	var data = BaseModel.fetch_one_where(TABLE, column, value)
 	if data:
-		return ProgramModel.new(data)
+		return BlockModel.new(data)
 	return null
 
-static func all() -> Array[ProgramModel]:
+static func all() -> Array[BlockModel]:
 	var raw_data = BaseModel.fetch_all(TABLE)
-	var result: Array[ProgramModel] = []
+	var result: Array[BlockModel] = []
 	
 	for row in raw_data:
-		result.append(ProgramModel.new(row))
+		result.append(BlockModel.new(row))
 		
 	return result
 
@@ -65,5 +73,6 @@ static func get_schema() -> Dictionary:
 		"uuid": { "data_type": "text", "not_null": true, "unique": true },
 		"name": { "data_type": "text", "not_null": true, "unique": true },
 		"size": { "data_type": "int", "not_null": true },
-		"grid": { "data_type": "blob" }
+		"grid": { "data_type": "blob" },
+		"ports": { "data_type": "blob" }
 	}

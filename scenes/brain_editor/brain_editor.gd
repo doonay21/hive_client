@@ -6,6 +6,7 @@ const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/program
 @onready var clear_program_grid_dialog: ConfirmationDialog = $ClearProgramGridDialog
 @onready var tabs: TabContainer = %BrainEditorTabs
 @onready var program_name_label: Label = %ProgramNameLabel
+@onready var custom_blocks: CustomBlocks = %CustomBlocks
 
 var program_id: int = -1
 var program_name: String = tr("BE_DEFAULT_PRORGAM_NAME")

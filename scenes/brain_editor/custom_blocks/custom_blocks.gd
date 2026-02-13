@@ -29,18 +29,11 @@ func add_block_to_sidebar(block_model: BlockModel) -> void:
 	var new_block_ui: Block = BLOCK_SCENE.instantiate()
 	new_block_ui.is_toolbox_source = true
 	new_block_ui.custom_block_uuid = block_model.uuid
-	
-	var initial_ports: Array[BlockData.Port] = [
-		BlockData.Port.NONE, 
-		BlockData.Port.NONE, 
-		BlockData.Port.NONE, 
-		BlockData.Port.NONE
-	]
-	
+
 	var custom_data = CustomBlockData.new(
 		block_model.id,
 		block_model.name,
-		initial_ports
+		block_model.ports
 	)
 	
 	new_block_ui.block_data = custom_data

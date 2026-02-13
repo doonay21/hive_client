@@ -40,6 +40,9 @@ func on_new_program_dialog_create_new_program(program_name: String) -> void:
 	program.save()
 
 	load_programs()
+	
+	var index: int = program_list.item_count - 1
+	open_program(programs[index], program_name)
 
 func open_program(program_id: int, program_name: String) -> void:
 	var brain_editor = brain_editor_scene.instantiate()

@@ -2,13 +2,11 @@ class_name EdgePort extends Control
 
 signal port_type_changed()
 
-enum Port { NONE, INPUT, OUTPUT }
-
 const TEX_NONE = preload("res://assets/images/brain_editor/edge_port_none.png")
 const TEX_IN = preload("res://assets/images/brain_editor/edge_port_in.png")
 const TEX_OUT = preload("res://assets/images/brain_editor/edge_port_out.png")
 
-@export var port_type: Port = Port.NONE
+@export var port_type: BlockData.Port = BlockData.Port.NONE
 
 @onready var texture: TextureRect = $TextureRect
 
@@ -20,7 +18,7 @@ func _ready() -> void:
 	mouse_entered.connect(on_mouse_entered)
 	mouse_exited.connect(on_mouse_exited)
 
-func change_type(new_port_type: Port) -> void:
+func change_type(new_port_type: BlockData.Port) -> void:
 	if port_type == new_port_type: return
 	
 	port_type = new_port_type
@@ -32,9 +30,9 @@ func update_visuals() -> void:
 	if not is_node_ready(): return
 	
 	match port_type:
-		Port.NONE: texture.texture = TEX_NONE
-		Port.INPUT: texture.texture = TEX_IN
-		Port.OUTPUT: texture.texture = TEX_OUT
+		BlockData.Port.NONE: texture.texture = TEX_NONE
+		BlockData.Port.INPUT: texture.texture = TEX_IN
+		BlockData.Port.OUTPUT: texture.texture = TEX_OUT
 
 func on_mouse_entered() -> void:
 	if hover_tween: hover_tween.kill()
@@ -42,9 +40,9 @@ func on_mouse_entered() -> void:
 	var port_name: String = ""
 	
 	match port_type:
-		Port.NONE: port_name = tr("BE_EDGE_PORT_NONE")
-		Port.INPUT: port_name = tr("BE_EDGE_PORT_INPUT")
-		Port.OUTPUT: port_name = tr("BE_EDGE_PORT_OUTPUT")
+		BlockData.Port.NONE: port_name = tr("BE_EDGE_PORT_NONE")
+		BlockData.Port.INPUT: port_name = tr("BE_EDGE_PORT_INPUT")
+		BlockData.Port.OUTPUT: port_name = tr("BE_EDGE_PORT_OUTPUT")
 		
 	Events.info_text_requested.emit(tr("BE_EDGE_PORT_INFO").format({ "port_name": port_name }))
 	
