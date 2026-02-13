@@ -9,7 +9,7 @@ const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/program
 @onready var custom_blocks: CustomBlocks = %CustomBlocks
 
 var program_id: int = -1
-var program_name: String = tr("BE_DEFAULT_PRORGAM_NAME")
+var program_name: String = tr("BE_DEFAULT_PRORGRAM_NAME")
 
 func _ready() -> void:
 	if program_id != -1:
@@ -25,11 +25,10 @@ func on_button_clear_pressed() -> void:
 	clear_program_grid_dialog.popup_centered()
 
 func on_clear_brain_grid_dialog_confirmed() -> void:
-	var active_tab: CenterContainer = tabs.get_current_tab_control()
+	var active_tab = tabs.get_current_tab_control()
 
-	if active_tab:
-		var grid: ProgramGrid = active_tab.get_child(0)
-		if grid: grid.clear()
+	if active_tab is ProgramGrid:
+		active_tab.clear()
 
 func create_new_tab(block_model: BlockModel) -> void:
 	for i in range(tabs.get_child_count()):
