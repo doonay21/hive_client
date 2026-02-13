@@ -409,49 +409,49 @@ layout_mode = 2
 layout_mode = 2
 text = "BE_SIDEBAR_CATEGORY_CONNECTORS"
 
-[node name="GridConnectros" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=649845217]
+[node name="GridConnectors" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=649845217]
 layout_mode = 2
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 3
 
-[node name="ConnectionWE" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1239101729 instance=ExtResource("2_iva03")]
+[node name="ConnectionWE" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectors" unique_id=1239101729 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("11_bbaqc")
 is_toolbox_source = true
 
-[node name="ConnectionES" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1671278208 instance=ExtResource("2_iva03")]
+[node name="ConnectionES" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectors" unique_id=1671278208 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("12_ybd03")
 is_toolbox_source = true
 
-[node name="ConnectionWS" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=370485439 instance=ExtResource("2_iva03")]
+[node name="ConnectionWS" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectors" unique_id=370485439 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("12_c6rrm")
 is_toolbox_source = true
 
-[node name="ConnectionWES" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1643540771 instance=ExtResource("2_iva03")]
+[node name="ConnectionWES" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectors" unique_id=1643540771 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("14_hneyx")
 is_toolbox_source = true
 
-[node name="ConnectionEWS" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1215412519 instance=ExtResource("2_iva03")]
+[node name="ConnectionEWS" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectors" unique_id=1215412519 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("15_2vtrv")
 is_toolbox_source = true
 
-[node name="ConnectionCross" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=704445449 instance=ExtResource("2_iva03")]
+[node name="ConnectionCross" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectors" unique_id=704445449 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("15_jojpm")
 is_toolbox_source = true
 
-[node name="ConnectionCrossJoined" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectros" unique_id=1268295495 instance=ExtResource("2_iva03")]
+[node name="ConnectionCrossJoined" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConnectors" unique_id=1268295495 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("17_5cbut")

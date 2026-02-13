@@ -25,7 +25,6 @@ static func load_custom_blocks(brain_editor: BrainEditor) -> void:
 		brain_editor.custom_blocks.add_block_to_sidebar(custom_block)
 
 static func save_program(brain_editor: BrainEditor) -> void:
-	var main_grid: ProgramGrid = brain_editor.tabs.get_child(0)
 	var program: ProgramModel = ProgramModel.get_by_id(brain_editor.program_id)
 	
 	if not program:
@@ -34,7 +33,7 @@ static func save_program(brain_editor: BrainEditor) -> void:
 		brain_editor.program_id = program.id
 	
 	program.name = brain_editor.program_name
-	program.grid = main_grid.get_grid()
+	program.grid = brain_editor.program_grid.get_grid()
 	program.save()
 	
 	for i in range(1, brain_editor.tabs.get_child_count()):

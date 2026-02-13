@@ -27,7 +27,7 @@ func to_dict() -> Dictionary:
 func from_dict(data: Dictionary) -> void:
 	super.from_dict(data)
 	uuid = data.get("uuid", UUID.v4())
-	name = data.get("name", tr("BE_DEFAULT_PRORGRAM_NAME"))
+	name = data.get("name", tr("BE_DEFAULT_PROGRAM_NAME"))
 	size = data.get("size", ProgramGrid.MatrixSize._7x7)
 	
 	var raw_blob = data.get("grid")

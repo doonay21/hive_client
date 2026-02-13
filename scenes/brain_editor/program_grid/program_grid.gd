@@ -8,7 +8,6 @@ enum MatrixSize {
 }
 
 const slot_scene: PackedScene = preload("res://scenes/brain_editor/slot/slot.tscn")
-const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_port/edge_port.tscn")
 
 @export var matrix_size: MatrixSize = MatrixSize._5x5
 @export var is_block: bool = false

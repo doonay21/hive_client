@@ -139,7 +139,6 @@ func load_save_data(saved_data: Dictionary) -> void:
 		
 		if block_model:
 			block_data = CustomBlockData.new(
-				block_model.id,
 				block_model.name,
 				block_model.ports
 			)
@@ -255,11 +254,6 @@ func animate_rotation():
 	rotation_tween = create_tween()
 	rotation_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 	rotation_tween.tween_property(background_container, "rotation_degrees", target_rotation, 0.2)
-
-func get_port_at_side(side: int) -> int:
-	if not block_data: return BlockData.Port.NONE
-	var original_index = (side - rotation_index + 4) % 4
-	return block_data.ports[original_index]
 
 func delete_block_animated():
 	mouse_filter = Control.MOUSE_FILTER_IGNORE 

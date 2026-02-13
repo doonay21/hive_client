@@ -9,7 +9,7 @@ const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/program
 @onready var custom_blocks: CustomBlocks = %CustomBlocks
 
 var program_id: int = -1
-var program_name: String = tr("BE_DEFAULT_PRORGRAM_NAME")
+var program_name: String = tr("BE_DEFAULT_PROGRAM_NAME")
 
 func _ready() -> void:
 	if program_id != -1:

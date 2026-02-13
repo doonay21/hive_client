@@ -32,7 +32,6 @@ func add_block_to_sidebar(block_model: BlockModel) -> void:
 	new_block_ui.custom_block_uuid = block_model.uuid
 
 	var custom_data = CustomBlockData.new(
-		block_model.id,
 		block_model.name,
 		block_model.ports
 	)

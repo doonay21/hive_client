@@ -1,9 +1,6 @@
 class_name CustomBlockData extends BlockData
 
-var custom_block_id: int = -1
-
-func _init(p_id: int, p_name: String, p_ports: Array) -> void:
-	custom_block_id = p_id
+func _init(p_name: String, p_ports: Array) -> void:
 	display_name = p_name
 	display = Display.ICON_TEXT
 	style = Style.CUSTOM
