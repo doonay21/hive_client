@@ -24,27 +24,11 @@ static func save_program(brain_editor: BrainEditor) -> void:
 		program.save()
 	
 	program.name = brain_editor.program_name
-	program.grid = get_grid_save_data(brain_editor.tabs.get_child(0))
+	
+	var program_grid: ProgramGrid = brain_editor.tabs.get_child(0)
+	
+	program.grid = program_grid.get_grid()
 	program.save()
-
-static func get_grid_save_data(program_grid: ProgramGrid) -> Array:
-	var block_data: Array = []
-	block_data.resize(program_grid.matrix_size_total())
-	block_data.fill({})
-	
-	var children = program_grid.grid_container.get_children()
-	
-	for i in range(children.size()):
-		var slot = children[i]
-		var child_save_data = {}
-		
-		if slot is Slot and slot.has_block():
-			var block: Block = slot.get_block()
-			child_save_data = block.get_save_data()
-		
-		block_data[i] = child_save_data
-	
-	return block_data
 
 static func load_grid_save_data(program_grid: ProgramGrid, grid_data: Array) -> void:
 	var children = program_grid.grid_container.get_children()

@@ -133,5 +133,21 @@ func on_context_menu_id_pressed(id: int) -> void:
 	if current_selected_node.has_method("update_visuals"):
 		current_selected_node.update_visuals()
 
-func get_grid() -> Dictionary:
-	return {}
+func get_grid() -> Array:
+	var block_data: Array = []
+	block_data.resize(matrix_size_total())
+	block_data.fill({})
+	
+	var children = grid_container.get_children()
+	
+	for i in range(children.size()):
+		var slot = children[i]
+		var child_save_data = {}
+		
+		if slot is Slot and slot.has_block():
+			var block: Block = slot.get_block()
+			child_save_data = block.get_save_data()
+		
+		block_data[i] = child_save_data
+	
+	return block_data

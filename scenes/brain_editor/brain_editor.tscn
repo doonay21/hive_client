@@ -50,7 +50,6 @@
 [ext_resource type="Resource" uid="uid://cbc8wik2qmecs" path="res://scenes/brain_editor/blocks/functions/dish.tres" id="31_oshdk"]
 [ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
 [ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/program_grid/program_grid.tscn" id="49_ag5fd"]
-[ext_resource type="Script" uid="uid://cos632v5xm3iv" path="res://scenes/brain_editor/new_block_dialog.gd" id="51_tamat"]
 
 [node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
 script = ExtResource("1_84dns")
@@ -117,9 +116,10 @@ size_flags_horizontal = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer" unique_id=1859328697]
 layout_mode = 2
 
-[node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 instance=ExtResource("48_84dns")]
+[node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 node_paths=PackedStringArray("brain_editor") instance=ExtResource("48_84dns")]
 unique_name_in_owner = true
 layout_mode = 2
+brain_editor = NodePath("../../../../../../../../../..")
 
 [node name="LabelInputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=251025321]
 layout_mode = 2
@@ -524,21 +524,6 @@ bbcode_enabled = true
 fit_content = true
 script = ExtResource("20_j144m")
 
-[node name="NewBlockDialog" type="ConfirmationDialog" parent="." unique_id=644871974]
-oversampling_override = 1.0
-title = "BE_NEW_BLOCK_DIALOG_TITLE"
-exclusive = false
-ok_button_text = "BE_NEW_BLOCK_DIALOG_OK"
-cancel_button_text = "BE_NEW_BLOCK_DIALOG_CANCEL"
-script = ExtResource("51_tamat")
-
-[node name="BlockName" type="LineEdit" parent="NewBlockDialog" unique_id=1193225721]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 192.0
-offset_bottom = 51.0
-placeholder_text = "BE_NEW_BLOCK_DIALOG_BLOCK_NAME_PLACEHOLDER"
-
 [node name="ClearProgramGridDialog" type="ConfirmationDialog" parent="." unique_id=416133571]
 unique_name_in_owner = true
 oversampling_override = 1.0
@@ -558,13 +543,5 @@ vertical_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonSave" to="." method="on_button_save_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonClear" to="." method="on_button_clear_pressed"]
-[connection signal="add_new_block" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/CustomBlocks" to="." method="on_custom_blocks_add_new_block"]
 [connection signal="tab_selected" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" to="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" method="on_tab_selected"]
-[connection signal="about_to_popup" from="NewBlockDialog" to="NewBlockDialog" method="on_about_to_popup"]
-[connection signal="canceled" from="NewBlockDialog" to="NewBlockDialog" method="on_canceled"]
-[connection signal="confirmed" from="NewBlockDialog" to="NewBlockDialog" method="on_confirmed"]
-[connection signal="create_new_block" from="NewBlockDialog" to="." method="on_new_block_dialog_create_new_block"]
-[connection signal="visibility_changed" from="NewBlockDialog" to="NewBlockDialog" method="on_visibility_changed"]
-[connection signal="text_changed" from="NewBlockDialog/BlockName" to="NewBlockDialog" method="on_block_name_text_changed"]
-[connection signal="text_submitted" from="NewBlockDialog/BlockName" to="NewBlockDialog" method="on_block_name_text_submitted"]
 [connection signal="confirmed" from="ClearProgramGridDialog" to="." method="on_clear_brain_grid_dialog_confirmed"]
