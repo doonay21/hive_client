@@ -123,7 +123,7 @@ func get_save_data() -> Dictionary:
 		"custom_block_uuid": custom_block_uuid
 	}
 	
-	if block_data:
+	if block_data and custom_block_uuid.is_empty() and not block_data.resource_path.is_empty():
 		save_data["resource"] = block_data.resource_path.trim_prefix(BLOCK_RESOURCE_PREFIX)
 	
 	if value_drag and value_drag.visible and "value" in value_drag:
@@ -132,13 +132,26 @@ func get_save_data() -> Dictionary:
 	return save_data
 
 func load_save_data(saved_data: Dictionary) -> void:
-	var resource_path = BLOCK_RESOURCE_PREFIX.path_join(saved_data["resource"])
-	block_data = load(resource_path)
-	rotation_index = saved_data["rotation_index"]
-	
-	if "custom_block_uuid" in saved_data:
+	if "custom_block_uuid" in saved_data and not saved_data["custom_block_uuid"].is_empty():
 		custom_block_uuid = saved_data["custom_block_uuid"]
-	
+		
+		var block_model = BlockModel.where("uuid", custom_block_uuid)
+		
+		if block_model:
+			block_data = CustomBlockData.new(
+				block_model.id,
+				block_model.name,
+				block_model.ports
+			)
+	elif "resource" in saved_data and not saved_data["resource"].is_empty():
+		var resource_path = BLOCK_RESOURCE_PREFIX.path_join(saved_data["resource"])
+		
+		if ResourceLoader.exists(resource_path):
+			block_data = load(resource_path)
+
+	if "rotation_index" in saved_data:
+		rotation_index = saved_data["rotation_index"]
+
 	load_data()
 	
 	if "stored_value" in saved_data and value_drag and value_drag.visible and "value" in value_drag:

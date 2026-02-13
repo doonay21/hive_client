@@ -32,6 +32,12 @@ func on_clear_brain_grid_dialog_confirmed() -> void:
 		if grid: grid.clear()
 
 func create_new_tab(block_model: BlockModel) -> void:
+	for i in range(tabs.get_child_count()):
+		var child = tabs.get_child(i)
+		if child is ProgramGrid and child.custom_block_uuid == block_model.uuid:
+			tabs.current_tab = i
+			return
+
 	var grid: ProgramGrid = BRAIN_GRID_SCENE.instantiate()
 	grid.matrix_size = ProgramGrid.MatrixSize._5x5
 	grid.is_block = true
@@ -39,6 +45,14 @@ func create_new_tab(block_model: BlockModel) -> void:
 	tabs.add_child(grid)
 	
 	grid.initialize()
+	
+	grid.edge_port_top.change_type(block_model.ports[0])
+	grid.edge_port_right.change_type(block_model.ports[1])
+	grid.edge_port_bottom.change_type(block_model.ports[2])
+	grid.edge_port_left.change_type(block_model.ports[3])
+	
+	if not block_model.grid.is_empty():
+		ProgramManager.load_grid_save_data(grid, block_model.grid)
 	
 	var index = tabs.get_child_count() - 1
 	tabs.set_tab_title(index, block_model.name)

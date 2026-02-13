@@ -20,7 +20,8 @@ func save_block_to_db(block_name: String) -> BlockModel:
 	var new_block_model = BlockModel.new({
 		"name": block_name,
 		"size": ProgramGrid.MatrixSize._5x5,
-		"grid": {}
+		"grid": [],
+		"ports": [0, 0, 0, 0]
 	})
 	
 	return new_block_model if new_block_model.save() else null
