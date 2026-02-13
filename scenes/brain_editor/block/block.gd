@@ -15,13 +15,8 @@ const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
 @onready var icon_big: TextureRect = %IconBig
 @onready var value_drag: Label = %ValueDrag
 @onready var labels: Control = $Labels
-
-@onready var port_sprites: Array[TextureRect] = [
-	%PortTop,
-	%PortRight,
-	%PortBottom,
-	%PortLeft
-]
+@onready var label_nodes: Array[Label] = [ $Labels/Top, $Labels/Right, $Labels/Bottom, $Labels/Left ]
+@onready var port_sprites: Array[TextureRect] = [ %PortTop, %PortRight, %PortBottom, %PortLeft ]
 
 var custom_block_uuid: String = ""
 var rotation_index: int = 0
@@ -293,7 +288,7 @@ func update_labels_text() -> void:
 	if not block_data: return
 
 	for i in range(4):
-		var label: Label = labels.get_child(i)
+		var label: Label = label_nodes[i]
 		if label:
 			var data_index = (i - rotation_index + 4) % 4
 			label.text = block_data.port_labels[data_index]

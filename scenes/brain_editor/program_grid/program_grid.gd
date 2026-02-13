@@ -88,10 +88,10 @@ func setup_context_menu() -> void:
 	context_menu = PopupMenu.new()
 	add_child(context_menu)
 	
-	context_menu.add_separator("BE_EDGE_PORT_POPUP_MENU")
-	context_menu.add_item("BE_EDGE_PORT_NONE", 0)
-	context_menu.add_item("BE_EDGE_PORT_INPUT", 1)
-	context_menu.add_item("BE_EDGE_PORT_OUTPUT", 2)
+	context_menu.add_separator(tr("BE_EDGE_PORT_POPUP_MENU"))
+	context_menu.add_item(tr("BE_EDGE_PORT_NONE"), 0)
+	context_menu.add_item(tr("BE_EDGE_PORT_INPUT"), 1)
+	context_menu.add_item(tr("BE_EDGE_PORT_OUTPUT"), 2)
 	
 	context_menu.id_pressed.connect(on_context_menu_id_pressed)
 
