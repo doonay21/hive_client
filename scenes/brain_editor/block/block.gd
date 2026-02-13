@@ -23,6 +23,7 @@ const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
 	%PortLeft
 ]
 
+var custom_block_uuid: String = ""
 var rotation_index: int = 0
 var rotation_tween: Tween
 var target_rotation: float = 0.0
@@ -41,6 +42,8 @@ func _ready() -> void:
 	
 	labels.modulate.a = 0.0
 	labels.visible = false
+	
+	Events.custom_block_changed.connect(on_events_custom_block_changed)
 
 func initialize(data: Dictionary) -> void:
 	block_data = data["resource"]
@@ -290,3 +293,8 @@ func animate_labels_change() -> void:
 	labels_tween.tween_property(labels, "modulate:a", 0.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	labels_tween.tween_callback(update_labels_text)
 	labels_tween.tween_property(labels, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+func on_events_custom_block_changed(uuid: String) -> void:
+	if uuid != custom_block_uuid: return
+	
+	print(self)

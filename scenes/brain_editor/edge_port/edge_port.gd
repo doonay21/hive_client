@@ -1,5 +1,7 @@
 class_name EdgePort extends Control
 
+signal port_type_changed()
+
 enum Port { NONE, INPUT, OUTPUT }
 
 const TEX_NONE = preload("res://assets/images/brain_editor/edge_port_none.png")
@@ -17,6 +19,14 @@ func _ready() -> void:
 	
 	mouse_entered.connect(on_mouse_entered)
 	mouse_exited.connect(on_mouse_exited)
+
+func change_type(new_port_type: Port) -> void:
+	if port_type == new_port_type: return
+	
+	port_type = new_port_type
+	update_visuals()
+	
+	port_type_changed.emit()
 
 func update_visuals() -> void:
 	if not is_node_ready(): return

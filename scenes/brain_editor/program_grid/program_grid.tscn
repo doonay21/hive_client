@@ -127,3 +127,8 @@ offset_right = 39.0
 offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[connection signal="port_type_changed" from="CenterContainer/VBoxContainer/EdgePortTopContainer/EdgePortTop" to="." method="on_edge_port_type_changed"]
+[connection signal="port_type_changed" from="CenterContainer/VBoxContainer/HBoxContainer/EdgePortLeftContainer/EdgePortLeft" to="." method="on_edge_port_type_changed"]
+[connection signal="port_type_changed" from="CenterContainer/VBoxContainer/HBoxContainer/EdgePortRightContainer/EdgePortRight" to="." method="on_edge_port_type_changed"]
+[connection signal="port_type_changed" from="CenterContainer/VBoxContainer/EdgePortBottomContainer/EdgePortBottom" to="." method="on_edge_port_type_changed"]

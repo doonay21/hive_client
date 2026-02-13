@@ -24,6 +24,7 @@ const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_por
 @onready var edge_port_left_container: Control = %EdgePortLeftContainer
 @onready var edge_port_left: Control = %EdgePortLeft
 
+var custom_block_uuid: String = ""
 var context_menu: PopupMenu
 var current_selected_node: Control
 
@@ -107,12 +108,9 @@ func on_context_menu_id_pressed(id: int) -> void:
 		return
 
 	match id:
-		0: current_selected_node.port_type = EdgePort.Port.NONE
-		1: current_selected_node.port_type = EdgePort.Port.INPUT
-		2: current_selected_node.port_type = EdgePort.Port.OUTPUT
-
-	if current_selected_node.has_method("update_visuals"):
-		current_selected_node.update_visuals()
+		0: current_selected_node.change_type(EdgePort.Port.NONE)
+		1: current_selected_node.change_type(EdgePort.Port.INPUT)
+		2: current_selected_node.change_type(EdgePort.Port.OUTPUT)
 
 func get_grid() -> Array:
 	var block_data: Array = []
@@ -132,3 +130,8 @@ func get_grid() -> Array:
 		block_data[i] = child_save_data
 	
 	return block_data
+
+func on_edge_port_type_changed() -> void:
+	if not is_block or custom_block_uuid.is_empty(): return
+	
+	Events.custom_block_changed.emit(custom_block_uuid)

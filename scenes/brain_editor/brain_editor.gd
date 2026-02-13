@@ -30,14 +30,15 @@ func on_clear_brain_grid_dialog_confirmed() -> void:
 		var grid: ProgramGrid = active_tab.get_child(0)
 		if grid: grid.clear()
 
-func create_new_tab(tab_name: String) -> void:
+func create_new_tab(block_model: BlockModel) -> void:
 	var grid: ProgramGrid = BRAIN_GRID_SCENE.instantiate()
 	grid.matrix_size = ProgramGrid.MatrixSize._5x5
 	grid.is_block = true
+	grid.custom_block_uuid = block_model.uuid
 	tabs.add_child(grid)
 	
 	grid.initialize()
 	
 	var index = tabs.get_child_count() - 1
-	tabs.set_tab_title(index, tab_name)
+	tabs.set_tab_title(index, block_model.name)
 	tabs.current_tab = index
