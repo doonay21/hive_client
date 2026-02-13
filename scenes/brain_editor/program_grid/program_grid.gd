@@ -15,6 +15,14 @@ const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_por
 
 @onready var label: Label = $MarginContainer/Label
 @onready var grid_container: GridContainer = %GridContainer
+@onready var edge_port_top_container: Control = %EdgePortTopContainer
+@onready var edge_port_top: Control = %EdgePortTop
+@onready var edge_port_right_container: Control = %EdgePortRightContainer
+@onready var edge_port_right: Control = %EdgePortRight
+@onready var edge_port_bottom_container: Control = %EdgePortBottomContainer
+@onready var edge_port_bottom: Control = %EdgePortBottom
+@onready var edge_port_left_container: Control = %EdgePortLeftContainer
+@onready var edge_port_left: Control = %EdgePortLeft
 
 var context_menu: PopupMenu
 var current_selected_node: Control
@@ -31,51 +39,24 @@ func initialize() -> void:
 		MatrixSize._7x7: internal_dim = 7
 		MatrixSize._9x9: internal_dim = 9
 
-	var total_dim: int = internal_dim + 2 if is_block else internal_dim
-	
-	grid_container.columns = total_dim
+	grid_container.columns = internal_dim
 
-	@warning_ignore("integer_division")
-	var center_index: int = total_dim / 2
-
-	for y in range(total_dim):
-		for x in range(total_dim):
+	for y in range(internal_dim):
+		for x in range(internal_dim):
 			var node: Control
-			var is_port_node: bool = false
-
-			if not is_block:
-				node = slot_scene.instantiate()
-			else:
-				var is_edge: bool = (x == 0 or x == total_dim - 1 or y == 0 or y == total_dim - 1)
-				
-				if is_edge:
-					var is_horizontal_center: bool = (x == center_index and (y == 0 or y == total_dim - 1))
-					var is_vertical_center: bool = (y == center_index and (x == 0 or x == total_dim - 1))
-					
-					if is_horizontal_center or is_vertical_center:
-						node = edge_port_scene.instantiate()
-						node.port_type = EdgePort.Port.NONE
-						is_port_node = true
-						
-						if y == 0:
-							node.direction = EdgePort.Direction.DOWN
-						elif y == total_dim - 1:
-							node.direction = EdgePort.Direction.UP
-						elif x == 0:
-							node.direction = EdgePort.Direction.RIGHT
-						elif x == total_dim - 1:
-							node.direction = EdgePort.Direction.LEFT
-					else:
-						node = Control.new()
-						node.custom_minimum_size = Vector2(84, 84)
-				else:
-					node = slot_scene.instantiate()
-			
+			node = slot_scene.instantiate()
 			node.name = "Node_%d_%d" % [x, y]
 			grid_container.add_child(node)
-			
-			if is_port_node:
-				node.gui_input.connect(on_node_gui_input.bind(node))
+
+	if is_block:
+		edge_port_top.gui_input.connect(on_node_gui_input.bind(edge_port_top))
+		edge_port_top_container.show()
+		edge_port_right.gui_input.connect(on_node_gui_input.bind(edge_port_right))
+		edge_port_right_container.show()
+		edge_port_bottom.gui_input.connect(on_node_gui_input.bind(edge_port_bottom))
+		edge_port_bottom_container.show()
+		edge_port_left.gui_input.connect(on_node_gui_input.bind(edge_port_left))
+		edge_port_left_container.show()
 
 	setup_context_menu()
 

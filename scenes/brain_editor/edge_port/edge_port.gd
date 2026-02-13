@@ -1,17 +1,14 @@
-class_name EdgePort extends MarginContainer
+class_name EdgePort extends Control
 
 enum Port { NONE, INPUT, OUTPUT }
-enum Direction { UP, RIGHT, DOWN, LEFT }
 
-const TEX_NONE = preload("res://assets/images/brain_editor/conn_none.png")
-const TEX_IN = preload("res://assets/images/brain_editor/conn_in.png")
-const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
+const TEX_NONE = preload("res://assets/images/brain_editor/edge_port_none.png")
+const TEX_IN = preload("res://assets/images/brain_editor/edge_port_in.png")
+const TEX_OUT = preload("res://assets/images/brain_editor/edge_port_out.png")
 
 @export var port_type: Port = Port.NONE
-@export var direction: Direction = Direction.UP
 
-@onready var block: TextureRect = $Control/Block
-@onready var port: TextureRect = $Control/Block/Port
+@onready var texture: TextureRect = $TextureRect
 
 var hover_tween: Tween
 
@@ -25,15 +22,9 @@ func update_visuals() -> void:
 	if not is_node_ready(): return
 	
 	match port_type:
-		Port.NONE: port.texture = TEX_NONE
-		Port.INPUT: port.texture = TEX_OUT
-		Port.OUTPUT: port.texture = TEX_IN
-	
-	match direction:
-		Direction.UP: block.rotation_degrees = 0
-		Direction.RIGHT: block.rotation_degrees = 90
-		Direction.DOWN: block.rotation_degrees = 180
-		Direction.LEFT: block.rotation_degrees = 270
+		Port.NONE: texture.texture = TEX_NONE
+		Port.INPUT: texture.texture = TEX_IN
+		Port.OUTPUT: texture.texture = TEX_OUT
 
 func on_mouse_entered() -> void:
 	if hover_tween: hover_tween.kill()

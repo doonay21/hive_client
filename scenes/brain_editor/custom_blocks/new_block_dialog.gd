@@ -28,6 +28,7 @@ func on_block_name_text_changed(new_text: String) -> void:
 
 func on_about_to_popup() -> void:
 	block_name.text = ""
+	ok_button.disabled = true
 
 func on_visibility_changed() -> void:
 	if visible: block_name.grab_focus()
