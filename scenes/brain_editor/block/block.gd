@@ -1,5 +1,6 @@
 class_name Block extends Control
 
+const BLOCK_RESOURCE_PREFIX = "res://scenes/brain_editor/blocks/"
 const TEX_NONE = preload("res://assets/images/brain_editor/conn_none.png")
 const TEX_IN = preload("res://assets/images/brain_editor/conn_in.png")
 const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
@@ -108,6 +109,34 @@ func update_visuals() -> void:
 				sprite.texture = TEX_IN
 			BlockData.Port.OUTPUT:
 				sprite.texture = TEX_OUT
+
+func get_save_data() -> Dictionary:
+	var save_data: Dictionary = {
+		"resource": "",
+		"rotation_index": rotation_index
+	}
+	
+	if block_data:
+		save_data["resource"] = block_data.resource_path.trim_prefix(BLOCK_RESOURCE_PREFIX)
+	
+	if value_drag and value_drag.visible and "value" in value_drag:
+		save_data["stored_value"] = value_drag.value
+	
+	return save_data
+
+func load_save_data(saved_data: Dictionary) -> void:
+	var resource_path = BLOCK_RESOURCE_PREFIX.path_join(saved_data["resource"])
+	block_data = load(resource_path)
+	rotation_index = saved_data["rotation_index"]
+	
+	load_data()
+	
+	if "stored_value" in saved_data and value_drag and value_drag.visible and "value" in value_drag:
+		value_drag.set_editor_value(saved_data["stored_value"])
+		
+	target_rotation = rotation_index * 90.0
+	background_container.rotation_degrees = target_rotation
+	update_visuals()
 
 func _get_drag_data(at_position: Vector2) -> Variant:
 	if not block_data: return null

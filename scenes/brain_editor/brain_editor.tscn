@@ -118,6 +118,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 
 [node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 instance=ExtResource("48_84dns")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="LabelInputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=251025321]
@@ -482,10 +483,9 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=1838956727]
 layout_mode = 2
 
-[node name="ProgramUUIDLabel" type="Label" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2101450915]
+[node name="ProgramNameLabel" type="Label" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2101450915]
 unique_name_in_owner = true
 layout_mode = 2
-text = "sdfsdf"
 
 [node name="BrainEditorTabs" type="TabContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=660046651]
 unique_name_in_owner = true
@@ -559,6 +559,7 @@ vertical_alignment = 1
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonSave" to="." method="on_button_save_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonClear" to="." method="on_button_clear_pressed"]
 [connection signal="add_new_block" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/CustomBlocks" to="." method="on_custom_blocks_add_new_block"]
+[connection signal="tab_selected" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" to="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" method="on_tab_selected"]
 [connection signal="about_to_popup" from="NewBlockDialog" to="NewBlockDialog" method="on_about_to_popup"]
 [connection signal="canceled" from="NewBlockDialog" to="NewBlockDialog" method="on_canceled"]
 [connection signal="confirmed" from="NewBlockDialog" to="NewBlockDialog" method="on_confirmed"]

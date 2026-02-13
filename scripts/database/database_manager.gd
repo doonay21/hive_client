@@ -4,12 +4,13 @@ var db: SQLite = SQLite.new()
 const DB_PATH = "user://data.db"
 
 var registered_models: Array = [
-	ProgramModel
+	ProgramModel,
+	BlockModel
 ]
 
 func _ready():
 	db.path = DB_PATH
-	db.verbosity_level = SQLite.VERBOSE
+	db.verbosity_level = SQLite.NORMAL
 	db.open_db()
 	
 	create_tables()

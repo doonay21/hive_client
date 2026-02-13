@@ -1,7 +1,6 @@
-extends Control
+class_name CustomBlocks extends VBoxContainer
 
 signal add_new_block
 
-func on_rich_text_label_meta_clicked(meta: Variant) -> void:
-	if meta == "add_new_block":
-		add_new_block.emit()
+func on_new_block_button_pressed() -> void:
+	add_new_block.emit()

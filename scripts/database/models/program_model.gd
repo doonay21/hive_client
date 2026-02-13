@@ -4,7 +4,7 @@ const TABLE = "programs"
 
 var name: String = ""
 var size: ProgramGrid.MatrixSize = ProgramGrid.MatrixSize._7x7
-var grid: Dictionary = {}
+var grid: Array = []
 
 func _init(data: Dictionary = {}):
 	if not data.is_empty():
@@ -30,7 +30,7 @@ func from_dict(data: Dictionary) -> void:
 	if raw_blob is PackedByteArray:
 		grid = bytes_to_var(raw_blob)
 	else:
-		grid = {}
+		grid = []
 
 static func get_by_id(target_id: int) -> ProgramModel:
 	var data = BaseModel.fetch_one_by_id(TABLE, target_id)

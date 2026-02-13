@@ -11,32 +11,13 @@ const slot_scene: PackedScene = preload("res://scenes/brain_editor/slot/slot.tsc
 const edge_port_scene: PackedScene = preload("res://scenes/brain_editor/edge_port/edge_port.tscn")
 
 @export var matrix_size: MatrixSize = MatrixSize._5x5
-@export var in_nested_view: bool = false
+@export var is_block: bool = false
 
-@onready var label: Label = $Label
+@onready var label: Label = $MarginContainer/Label
 @onready var grid_container: GridContainer = %GridContainer
 
-var program_grid_id: int = -1
-var program_grid_name: String = tr("BE_MAIN_BRAIN_GRID")
-
-var grid_uid: String = "":
-	set(value):
-		grid_uid = value
-		label.text = tr("BE_GRID_UUID").format({ "grid_uid": grid_uid})
-		
 var context_menu: PopupMenu
 var current_selected_node: Control
-
-static func matrix_size_total(target_size: MatrixSize) -> int:
-	match target_size:
-		MatrixSize._3x3: return 9
-		MatrixSize._5x5: return 25
-		MatrixSize._7x7: return 49
-		MatrixSize._9x9: return 81
-		_: return 49
-
-func _ready() -> void:
-	grid_uid = UUID.v4()
 
 func initialize() -> void:
 	for child in grid_container.get_children():
@@ -50,7 +31,7 @@ func initialize() -> void:
 		MatrixSize._7x7: internal_dim = 7
 		MatrixSize._9x9: internal_dim = 9
 
-	var total_dim: int = internal_dim + 2 if in_nested_view else internal_dim
+	var total_dim: int = internal_dim + 2 if is_block else internal_dim
 	
 	grid_container.columns = total_dim
 
@@ -62,7 +43,7 @@ func initialize() -> void:
 			var node: Control
 			var is_port_node: bool = false
 
-			if not in_nested_view:
+			if not is_block:
 				node = slot_scene.instantiate()
 			else:
 				var is_edge: bool = (x == 0 or x == total_dim - 1 or y == 0 or y == total_dim - 1)
@@ -113,6 +94,14 @@ func clear() -> void:
 			
 			if block:
 				block.queue_free()
+
+func matrix_size_total() -> int:
+	match matrix_size:
+		MatrixSize._3x3: return 9
+		MatrixSize._5x5: return 25
+		MatrixSize._7x7: return 49
+		MatrixSize._9x9: return 81
+		_: return 49
 
 func setup_context_menu() -> void:
 	context_menu = PopupMenu.new()
