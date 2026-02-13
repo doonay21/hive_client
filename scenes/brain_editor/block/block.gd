@@ -51,6 +51,9 @@ func initialize(data: Dictionary) -> void:
 	if "rotation_index" in data:
 		rotation_index = data["rotation_index"]
 	
+	if "custom_block_uuid" in data:
+		custom_block_uuid = data["custom_block_uuid"]
+	
 	load_data()
 	
 	if value_drag and "stored_value" in data:
@@ -116,7 +119,8 @@ func update_visuals() -> void:
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {
 		"resource": "",
-		"rotation_index": rotation_index
+		"rotation_index": rotation_index,
+		"custom_block_uuid": custom_block_uuid
 	}
 	
 	if block_data:
@@ -131,6 +135,9 @@ func load_save_data(saved_data: Dictionary) -> void:
 	var resource_path = BLOCK_RESOURCE_PREFIX.path_join(saved_data["resource"])
 	block_data = load(resource_path)
 	rotation_index = saved_data["rotation_index"]
+	
+	if "custom_block_uuid" in saved_data:
+		custom_block_uuid = saved_data["custom_block_uuid"]
 	
 	load_data()
 	
@@ -152,7 +159,8 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 		"node_ref": self,
 		"is_source": is_toolbox_source,
 		"grab_offset": at_position,
-		"rotation_index": rotation_index
+		"rotation_index": rotation_index,
+		"custom_block_uuid": custom_block_uuid
 	}
 	
 	if value_drag and value_drag.visible:
@@ -294,7 +302,15 @@ func animate_labels_change() -> void:
 	labels_tween.tween_callback(update_labels_text)
 	labels_tween.tween_property(labels, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
-func on_events_custom_block_changed(uuid: String) -> void:
+func on_events_custom_block_changed(uuid: String, new_ports: Array) -> void:
 	if uuid != custom_block_uuid: return
 	
-	print(self)
+	if block_data:
+		var typed_ports: Array[BlockData.Port] = []
+		for p in new_ports:
+			typed_ports.append(p as BlockData.Port)
+			
+		block_data.ports = typed_ports
+		
+		update_visuals()
+		update_labels_text()
