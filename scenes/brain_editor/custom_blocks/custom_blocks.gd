@@ -37,8 +37,15 @@ func add_block_to_sidebar(block_model: BlockModel) -> void:
 	)
 	
 	new_block_ui.block_data = custom_data
+	new_block_ui.edit_requested.connect(on_block_edit_requested)
 	
 	grid.add_child(new_block_ui)
 	
 	new_block_ui.update_visuals()
 	new_block_ui.load_data()
+
+func on_block_edit_requested(uuid: String) -> void:
+	var block_model = BlockModel.where("uuid", uuid)
+	
+	if block_model:
+		brain_editor.create_new_tab(block_model)

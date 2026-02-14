@@ -1,0 +1,5 @@
+keys,en,pl
+ALERT_INFO,"Information","Informacja"
+ALERT_SUCCESS,"Success","Sukces"
+ALERT_WARNING,"Warning","Ostrzeżenie"
+ALERT_ERROR,"Error","Błąd"

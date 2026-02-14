@@ -1,5 +1,7 @@
 class_name Block extends Control
 
+signal edit_requested(uuid: String)
+
 const BLOCK_RESOURCE_PREFIX = "res://scenes/brain_editor/blocks/"
 const TEX_NONE = preload("res://assets/images/brain_editor/conn_none.png")
 const TEX_IN = preload("res://assets/images/brain_editor/conn_in.png")
@@ -217,7 +219,12 @@ func _notification(what):
 			visible = true
 
 func _gui_input(event: InputEvent) -> void:
-	if is_toolbox_source: return
+	if is_toolbox_source:
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.double_click:
+			if not custom_block_uuid.is_empty():
+				edit_requested.emit(custom_block_uuid)
+				accept_event()
+		return
 
 	if event is InputEventMouseButton and event.pressed:
 		match event.button_index:
@@ -258,7 +265,9 @@ func delete_block_animated():
 	tween.finished.connect(queue_free)
 
 func on_mouse_entered() -> void:
-	if not is_toolbox_source:
+	if is_toolbox_source:
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	else:
 		animate_labels(1.0)
 	
 	if block_data and not block_data.info_text.is_empty():
