@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cuc7lrc6lrlbe"]
+
+[ext_resource type="Script" uid="uid://y67pevhmj5hg" path="res://scenes/alert_system/alert_system.gd" id="1_np0lv"]
+
+[node name="AlertSystem" type="CanvasLayer" unique_id=1443877220]
+layer = 100
+script = ExtResource("1_np0lv")
+
+[node name="ScreenPadding" type="MarginContainer" parent="." unique_id=1157443136]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="AlertContainer" type="VBoxContainer" parent="ScreenPadding" unique_id=1724999911]
+layout_mode = 2
+mouse_filter = 2

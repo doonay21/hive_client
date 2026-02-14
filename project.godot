@@ -22,11 +22,12 @@ Nakama="*uid://ckho07ucaxkun"
 Secrets="*uid://dofsr0rfp4j6"
 OnlineManager="*uid://bbjq6cjlo1pvb"
 Events="*uid://cubqdy5xq2vl6"
+AlertSystem="*uid://cuc7lrc6lrlbe"
 
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/size/mode=2
 window/stretch/scale_mode="integer"
 

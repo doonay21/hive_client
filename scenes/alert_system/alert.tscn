@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dclcgqaw0v62d"]
+
+[ext_resource type="Texture2D" uid="uid://cwi0jgaa3ryp0" path="res://assets/images/brain_editor/glassPanel.png" id="1_eieu1"]
+[ext_resource type="Script" uid="uid://cjmr81wd4cdd8" path="res://scenes/alert_system/alert.gd" id="1_p1i8o"]
+[ext_resource type="Texture2D" uid="uid://d0o0jhhfciu2r" path="res://assets/images/icons/info.png" id="2_p1i8o"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jptb0"]
+texture = ExtResource("1_eieu1")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[node name="Alert" type="MarginContainer" unique_id=1877293788]
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 0
+script = ExtResource("1_p1i8o")
+
+[node name="Background" type="PanelContainer" parent="." unique_id=1440246981]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jptb0")
+
+[node name="InnerPadding" type="MarginContainer" parent="Background" unique_id=1380866131]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ContentLayout" type="HBoxContainer" parent="Background/InnerPadding" unique_id=1862074411]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Background/InnerPadding/ContentLayout" unique_id=1162862874]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_p1i8o")
+stretch_mode = 2
+
+[node name="TextLayout" type="VBoxContainer" parent="Background/InnerPadding/ContentLayout" unique_id=1356476123]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Background/InnerPadding/ContentLayout/TextLayout" unique_id=632402795]
+layout_mode = 2
+text = "Title"
+
+[node name="Message" type="Label" parent="Background/InnerPadding/ContentLayout/TextLayout" unique_id=1303929245]
+layout_mode = 2
+text = "Message"

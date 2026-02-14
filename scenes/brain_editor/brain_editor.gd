@@ -19,6 +19,8 @@ func _ready() -> void:
 
 func on_button_save_pressed() -> void:
 	ProgramManager.save_program(self)
+	
+	AlertSystem.show_alert("Informacja", "Program został zapisany.", Alert.MessageType.WARNING)
 
 func on_button_clear_pressed() -> void:
 	clear_program_grid_dialog.reset_size()

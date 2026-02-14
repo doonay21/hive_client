@@ -8,6 +8,8 @@ const brain_editor_scene: PackedScene = preload("res://scenes/brain_editor/brain
 var programs: Dictionary = {}
 
 func _ready() -> void:
+	get_window().min_size = Vector2i(1024, 800)
+	
 	load_programs()
 
 func load_programs() -> void:
