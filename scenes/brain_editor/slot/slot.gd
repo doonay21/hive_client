@@ -2,8 +2,16 @@ class_name Slot extends MarginContainer
 
 const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn") 
 
+var program_grid: ProgramGrid
+
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	return typeof(data) == TYPE_DICTIONARY and data.has("resource") and not has_block()
+	if typeof(data) != TYPE_DICTIONARY or has_block() or not data.has("resource"):
+		return false
+	
+	var is_custom_target = program_grid.is_block
+	var is_custom_data = not data.get("custom_block_uuid", "").is_empty()
+	
+	return not (is_custom_target and is_custom_data)
 
 func has_block() -> bool:
 	for child in get_children():

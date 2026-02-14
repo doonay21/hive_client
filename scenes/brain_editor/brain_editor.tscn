@@ -126,7 +126,7 @@ layout_mode = 2
 [node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 node_paths=PackedStringArray("brain_editor") instance=ExtResource("48_84dns")]
 unique_name_in_owner = true
 layout_mode = 2
-brain_editor = NodePath("")
+brain_editor = NodePath("../../../../../../../../../..")
 
 [node name="LabelInputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=251025321]
 layout_mode = 2

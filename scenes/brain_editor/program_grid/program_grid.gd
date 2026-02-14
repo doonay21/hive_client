@@ -40,6 +40,7 @@ func initialize() -> void:
 			var node: Control
 			node = slot_scene.instantiate()
 			node.name = "Node_%d_%d" % [x, y]
+			node.program_grid = self
 			grid_container.add_child(node)
 
 	if is_block:
