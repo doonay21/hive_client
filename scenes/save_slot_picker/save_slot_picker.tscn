@@ -3,10 +3,17 @@
 [ext_resource type="Script" uid="uid://belqyqmf0cucs" path="res://scenes/save_slot_picker/save_slot_picker.gd" id="1_2cmsu"]
 [ext_resource type="Script" uid="uid://chnok11ufalk2" path="res://scenes/save_slot_picker/new_program_dialog.gd" id="2_ypj66"]
 
-[node name="SaveSlotPicker" type="CanvasLayer" unique_id=1606350676]
+[node name="SaveSlotPicker" type="Control" unique_id=1897540260]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_2cmsu")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1403842821]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

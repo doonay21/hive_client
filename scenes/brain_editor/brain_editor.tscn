@@ -51,10 +51,17 @@
 [ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
 [ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/program_grid/program_grid.tscn" id="49_ag5fd"]
 
-[node name="BrainEditor" type="CanvasLayer" unique_id=888574294]
+[node name="BrainEditor" type="Control" unique_id=1317635160]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_84dns")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=448820270]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -119,7 +126,7 @@ layout_mode = 2
 [node name="CustomBlocks" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=706812218 node_paths=PackedStringArray("brain_editor") instance=ExtResource("48_84dns")]
 unique_name_in_owner = true
 layout_mode = 2
-brain_editor = NodePath("../../../../../../../../../..")
+brain_editor = NodePath("")
 
 [node name="LabelInputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=251025321]
 layout_mode = 2

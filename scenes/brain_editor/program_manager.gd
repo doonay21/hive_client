@@ -32,14 +32,15 @@ static func save_program(brain_editor: BrainEditor) -> void:
 		program.save()
 		brain_editor.program_id = program.id
 	
-	program.name = brain_editor.program_name
-	program.grid = brain_editor.program_grid.get_grid()
-	program.save()
-	
-	for i in range(1, brain_editor.tabs.get_child_count()):
+	for i in range(brain_editor.tabs.get_child_count()):
 		var tab = brain_editor.tabs.get_child(i)
-		if tab is ProgramGrid and not tab.custom_block_uuid.is_empty():
-			save_custom_block_tab(tab)
+		if tab is ProgramGrid:
+			if tab.is_block:
+				save_custom_block_tab(tab)
+			elif tab == brain_editor.program_grid:
+				program.name = brain_editor.program_name
+				program.grid = tab.get_grid()
+				program.save()
 
 static func save_custom_block_tab(grid: ProgramGrid) -> void:
 	var block_model = BlockModel.where("uuid", grid.custom_block_uuid)

@@ -31,13 +31,7 @@ func initialize() -> void:
 	for child in grid_container.get_children():
 		child.queue_free()
 
-	var internal_dim: int = 5
-	
-	match matrix_size:
-		MatrixSize._3x3: internal_dim = 3
-		MatrixSize._5x5: internal_dim = 5
-		MatrixSize._7x7: internal_dim = 7
-		MatrixSize._9x9: internal_dim = 9
+	var internal_dim: int = get_dimension()
 
 	grid_container.columns = internal_dim
 
@@ -76,13 +70,17 @@ func clear() -> void:
 			if block:
 				block.queue_free()
 
-func matrix_size_total() -> int:
+func get_dimension() -> int:
 	match matrix_size:
-		MatrixSize._3x3: return 9
-		MatrixSize._5x5: return 25
-		MatrixSize._7x7: return 49
-		MatrixSize._9x9: return 81
-		_: return 49
+		MatrixSize._3x3: return 3
+		MatrixSize._5x5: return 5
+		MatrixSize._7x7: return 7
+		MatrixSize._9x9: return 9
+	return 5
+
+func matrix_size_total() -> int:
+	var d = get_dimension()
+	return d * d
 
 func setup_context_menu() -> void:
 	context_menu = PopupMenu.new()
@@ -107,9 +105,9 @@ func on_context_menu_id_pressed(id: int) -> void:
 		return
 
 	match id:
-		0: current_selected_node.change_type(BlockData.Port.NONE)
-		1: current_selected_node.change_type(BlockData.Port.INPUT)
-		2: current_selected_node.change_type(BlockData.Port.OUTPUT)
+		BlockData.Port.NONE: current_selected_node.change_type(BlockData.Port.NONE)
+		BlockData.Port.INPUT: current_selected_node.change_type(BlockData.Port.INPUT)
+		BlockData.Port.OUTPUT: current_selected_node.change_type(BlockData.Port.OUTPUT)
 	
 	notify_custom_block_changed()
 

@@ -126,7 +126,7 @@ func update_label() -> void:
 			text = "%.2f" % value
 
 func on_mouse_entered() -> void:
-	Events.info_text_requested.emit("BLOCK_CONSTANT_VALUE_DRAG")
+	Events.info_text_requested.emit(tr("BLOCK_CONSTANT_VALUE_DRAG"))
 
 func on_mouse_exited() -> void:
 	Events.info_text_hide_requested.emit()

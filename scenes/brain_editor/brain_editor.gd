@@ -1,4 +1,4 @@
-class_name BrainEditor extends CanvasLayer
+class_name BrainEditor extends Control
 
 const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/program_grid/program_grid.tscn")
 

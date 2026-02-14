@@ -1,4 +1,4 @@
-class_name SaveSlotPicker extends CanvasLayer
+class_name SaveSlotPicker extends Control
 
 const brain_editor_scene: PackedScene = preload("res://scenes/brain_editor/brain_editor.tscn")
 
