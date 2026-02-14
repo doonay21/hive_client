@@ -16,6 +16,10 @@ func _ready() -> void:
 		ProgramManager.load_program(self)
 	
 	program_name_label.text = tr("BE_PROGRAM_LABEL").format({ "program_name": program_name })
+	
+	var tab_bar = tabs.get_tab_bar()
+	tab_bar.tab_close_display_policy = TabBar.CLOSE_BUTTON_SHOW_ACTIVE_ONLY
+	tab_bar.tab_close_pressed.connect(on_tab_close_pressed)
 
 func on_button_save_pressed() -> void:
 	ProgramManager.save_program(self)
@@ -57,3 +61,15 @@ func create_new_tab(block_model: BlockModel) -> void:
 	var index = tabs.get_child_count() - 1
 	tabs.set_tab_title(index, block_model.name)
 	tabs.current_tab = index
+
+func on_tab_close_pressed(tab_idx: int) -> void:
+	if tab_idx == 0:
+		AlertSystem.show_alert(tr("ALERT_WARNING"), tr("BE_MAIN_PROGRAM_CLOSE_WARNING"), Alert.MessageType.WARNING)
+		return
+	
+	var tab_to_close = tabs.get_child(tab_idx)
+	
+	if tabs.current_tab == tab_idx:
+		tabs.current_tab = tab_idx - 1
+		
+	tab_to_close.queue_free()

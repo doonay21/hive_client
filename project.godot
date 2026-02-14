@@ -37,7 +37,7 @@ enabled=PackedStringArray("res://addons/context_generator/plugin.cfg", "res://ad
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://translations/translations_block.en.translation", "res://translations/translations_block.pl.translation", "res://translations/translations_brain_editor.en.translation", "res://translations/translations_brain_editor.pl.translation", "res://translations/translations_main.en.translation", "res://translations/translations_main.pl.translation")
+locale/translations=PackedStringArray("res://translations/translations_block.en.translation", "res://translations/translations_block.pl.translation", "res://translations/translations_brain_editor.en.translation", "res://translations/translations_brain_editor.pl.translation")
 
 [physics]
 
