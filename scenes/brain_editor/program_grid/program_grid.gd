@@ -12,7 +12,8 @@ const slot_scene: PackedScene = preload("res://scenes/brain_editor/slot/slot.tsc
 @export var matrix_size: MatrixSize = MatrixSize._5x5
 @export var is_block: bool = false
 
-@onready var label: Label = $MarginContainer/Label
+@onready var label_container: MarginContainer = $LabelContainer
+@onready var label: Label = $LabelContainer/Label
 @onready var grid_container: GridContainer = %GridContainer
 @onready var edge_port_top_container: Control = %EdgePortTopContainer
 @onready var edge_port_top: Control = %EdgePortTop
@@ -44,6 +45,8 @@ func initialize() -> void:
 			grid_container.add_child(node)
 
 	if is_block:
+		label_container.show()
+		
 		edge_port_top.gui_input.connect(on_node_gui_input.bind(edge_port_top))
 		edge_port_top_container.show()
 		edge_port_right.gui_input.connect(on_node_gui_input.bind(edge_port_right))
@@ -54,6 +57,9 @@ func initialize() -> void:
 		edge_port_left_container.show()
 
 	setup_context_menu()
+
+func set_description(text: String) -> void:
+	label.text = text
 
 func clear() -> void:
 	var children = grid_container.get_children()

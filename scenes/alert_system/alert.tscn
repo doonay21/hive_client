@@ -14,6 +14,7 @@ texture_margin_bottom = 8.0
 [node name="Alert" type="MarginContainer" unique_id=1877293788]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 8
 mouse_filter = 0
 script = ExtResource("1_p1i8o")
 
@@ -46,9 +47,13 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="Title" type="Label" parent="Background/InnerPadding/ContentLayout/TextLayout" unique_id=632402795]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Title"
+autowrap_mode = 2
 
 [node name="Message" type="Label" parent="Background/InnerPadding/ContentLayout/TextLayout" unique_id=1303929245]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Message"
+autowrap_mode = 3

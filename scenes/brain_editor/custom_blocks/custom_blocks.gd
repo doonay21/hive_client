@@ -4,21 +4,22 @@ const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn")
 
 @export var brain_editor: BrainEditor
 
-@onready var new_block_dialog: ConfirmationDialog = $NewBlockDialog
+@onready var new_block_window: NewBlockWindow = $NewBlockWindow
 @onready var grid: GridContainer = $Grid
 
 func on_new_block_button_pressed() -> void:
-	new_block_dialog.popup_centered()
+	new_block_window.open_form()
 
-func on_new_block_dialog_create_new_block(block_name: String) -> void:
-	var block_model: BlockModel = save_block_to_db(block_name)
+func on_new_block_window_create_new_block(block_name: String, block_description: String) -> void:
+	var block_model: BlockModel = save_block_to_db(block_name, block_description)
 	add_block_to_sidebar(block_model)
 	
 	brain_editor.create_new_tab(block_model)
 
-func save_block_to_db(block_name: String) -> BlockModel:
+func save_block_to_db(block_name: String, block_description: String) -> BlockModel:
 	var new_block_model = BlockModel.new({
 		"name": block_name,
+		"description": block_description,
 		"size": ProgramGrid.MatrixSize._5x5,
 		"grid": [],
 		"ports": [0, 0, 0, 0]

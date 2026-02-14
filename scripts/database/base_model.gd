@@ -29,6 +29,14 @@ func save() -> bool:
 		var condition = "id = " + str(id)
 		return db.update_rows(table, condition, data)
 
+static func sql_exists(table_name: String, column: String, value: Variant) -> bool:
+	var db = DatabaseManager.db
+	var query = "SELECT 1 FROM " + table_name + " WHERE " + column + " = ? LIMIT 1"
+	
+	db.query_with_bindings(query, [value])
+	
+	return not db.query_result.is_empty()
+
 func delete() -> void:
 	if id != -1:
 		BaseModel.delete_by_id_helper(get_table_name(), id)

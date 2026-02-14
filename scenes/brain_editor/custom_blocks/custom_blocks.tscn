@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://gi3rom78yju3"]
 
 [ext_resource type="Script" uid="uid://b3clgkfq23qcn" path="res://scenes/brain_editor/custom_blocks/custom_blocks.gd" id="1_3f13w"]
-[ext_resource type="PackedScene" uid="uid://cnrg5mnpwlc3j" path="res://scenes/brain_editor/custom_blocks/new_block_dialog.tscn" id="2_sax8m"]
+[ext_resource type="PackedScene" uid="uid://b877doohxy3wu" path="res://scenes/brain_editor/custom_blocks/new_block_window.tscn" id="2_sax8m"]
 
 [node name="CustomBlocks" type="VBoxContainer" unique_id=379220776]
 anchors_preset = 15
@@ -36,7 +36,7 @@ columns = 3
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="NewBlockDialog" parent="." unique_id=2060662382 instance=ExtResource("2_sax8m")]
+[node name="NewBlockWindow" parent="." unique_id=1026764704 instance=ExtResource("2_sax8m")]
 
 [connection signal="pressed" from="PanelContainer/NewBlockButton" to="." method="on_new_block_button_pressed"]
-[connection signal="create_new_block" from="NewBlockDialog" to="." method="on_new_block_dialog_create_new_block"]
+[connection signal="create_new_block" from="NewBlockWindow" to="." method="on_new_block_window_create_new_block"]

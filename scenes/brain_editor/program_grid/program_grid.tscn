@@ -11,15 +11,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mfx10")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=14845708]
+[node name="LabelContainer" type="MarginContainer" parent="." unique_id=14845708]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 
-[node name="Label" type="Label" parent="MarginContainer" unique_id=1747844189]
+[node name="Label" type="Label" parent="LabelContainer" unique_id=1747844189]
 layout_mode = 2
-text = "BE_PROGRAM_GRID_DEFAULT_LABEL"
+mouse_filter = 0
+text = "BE_DEFAULT_PROGRAM_DESCRIPTION"
 horizontal_alignment = 1
 vertical_alignment = 1
 
