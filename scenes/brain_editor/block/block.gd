@@ -7,6 +7,7 @@ const BLOCK_RESOURCE_PREFIX = "res://scenes/brain_editor/blocks/"
 const TEX_NONE = preload("res://assets/images/brain_editor/conn_none.png")
 const TEX_IN = preload("res://assets/images/brain_editor/conn_in.png")
 const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
+const TEX_MISSING = preload("res://assets/images/brain_editor/block_icons/missing.png")
 
 @export var block_data: BlockData
 @export var is_toolbox_source: bool = false
@@ -140,6 +141,8 @@ func load_save_data(saved_data: Dictionary) -> void:
 				block_model.name,
 				block_model.ports
 			)
+		else:
+			create_missing_block_visuals()
 	elif "resource" in saved_data and not saved_data["resource"].is_empty():
 		var resource_path = BLOCK_RESOURCE_PREFIX.path_join(saved_data["resource"])
 		
@@ -333,3 +336,16 @@ func on_events_custom_block_changed(uuid: String, new_ports: Array) -> void:
 		
 		update_visuals()
 		update_labels_text()
+
+func create_missing_block_visuals() -> void:
+	block_data = CustomBlockData.new(
+		tr("BE_BLOCK_MISSING_TITLE"), 
+		[BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE]
+	)
+	
+	block_data.style = BlockData.Style.CUSTOM
+	block_data.info_text = tr("BE_BLOCK_MISSING_INFO").format({ "uuid": custom_block_uuid })
+	
+	background_container.modulate = Color(1.0, 0.2, 0.2, 1.0) 
+	
+	block_data.icon = TEX_MISSING

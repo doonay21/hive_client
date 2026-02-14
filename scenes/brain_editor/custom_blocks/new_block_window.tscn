@@ -58,7 +58,7 @@ layout_mode = 2
 [node name="ButtonSave" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=317274804]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "BE_NEW_PROGRAM_OK"
+text = "BE_NEW_PROGRAM_SAVE"
 
 [node name="ButtonCancel" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=266233920]
 layout_mode = 2

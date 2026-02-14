@@ -71,6 +71,13 @@ func create_new_tab(block_model: BlockModel) -> void:
 	tabs.set_tab_title(index, block_model.name)
 	tabs.current_tab = index
 
+func close_tab_by_uuid(uuid: String) -> void:
+	for i in range(tabs.get_child_count()):
+		var child = tabs.get_child(i)
+		if child is ProgramGrid and child.custom_block_uuid == uuid:
+			child.queue_free()
+			return
+
 func on_tab_close_pressed(tab_idx: int) -> void:
 	if tab_idx == 0:
 		AlertSystem.show_alert(tr("ALERT_WARNING"), tr("BE_MAIN_PROGRAM_CLOSE_WARNING"), Alert.MessageType.WARNING)

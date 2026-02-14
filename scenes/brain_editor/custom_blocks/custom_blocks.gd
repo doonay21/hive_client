@@ -7,12 +7,14 @@ const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn")
 @onready var new_block_window: NewBlockWindow = $NewBlockWindow
 @onready var grid: GridContainer = $Grid
 @onready var context_menu: PopupMenu = $PopupMenu
+@onready var delete_confirm_dialog: ConfirmationDialog = $DeleteConfirmDialog
 
 var context_block_uuid: String = ""
 
 func _ready() -> void:
 	context_menu.id_pressed.connect(on_context_menu_item_pressed)
 	new_block_window.edit_existing_block.connect(on_block_details_edited)
+	delete_confirm_dialog.confirmed.connect(on_delete_confirmed)
 	
 func on_new_block_button_pressed() -> void:
 	new_block_window.open_form()
@@ -70,12 +72,39 @@ func on_context_menu_item_pressed(id: int) -> void:
 	if context_block_uuid.is_empty(): return
 	
 	match id:
-		0:
+		0: # Edit logic
 			on_block_edit_requested(context_block_uuid)
-		1:
+		1:# Edit Details
 			var block_model = BlockModel.where("uuid", context_block_uuid)
 			if block_model:
 				new_block_window.open_form(block_model.name, block_model.description, context_block_uuid)
+		2: # Delete
+			attempt_delete_block()
+
+func attempt_delete_block() -> void:
+	var block_model = BlockModel.where("uuid", context_block_uuid)
+	if not block_model: return
+
+	var usages = BlockDependencyScanner.find_usages(context_block_uuid)
+	
+	if not usages.is_empty():
+		var message = tr("BE_DELETE_BLOCK_USED_ERROR").format({ "name": block_model.name }) + "\n\n"
+		
+		var limit = 5
+		for i in range(min(limit, usages.size())):
+			message += "- " + usages[i] + "\n"
+			
+		if usages.size() > limit:
+			var remaining = usages.size() - limit
+			message += tr("BE_AND_MORE").format({ "count": remaining })
+			
+		AlertSystem.show_alert(tr("ALERT_ERROR"), message, Alert.MessageType.ERROR)
+		return
+
+	delete_confirm_dialog.title = tr("BE_DELETE_BLOCK_TITLE")
+	delete_confirm_dialog.dialog_text = tr("BE_DELETE_BLOCK_CONFIRM")
+	delete_confirm_dialog.reset_size()
+	delete_confirm_dialog.popup_centered()
 
 func on_block_details_edited(uuid: String, new_name: String, new_desc: String) -> void:
 	var block_model = BlockModel.where("uuid", uuid)
@@ -95,3 +124,21 @@ func update_sidebar_block_visuals(uuid: String, new_name: String) -> void:
 			child.block_data.display_name = new_name
 			child.load_data()
 			return
+
+func on_delete_confirmed() -> void:
+	if context_block_uuid.is_empty(): return
+	
+	var block_model = BlockModel.where("uuid", context_block_uuid)
+	if not block_model: return
+
+	BlockModel.delete_by_id(block_model.id)
+	
+	for child in grid.get_children():
+		if child is Block and child.custom_block_uuid == context_block_uuid:
+			child.queue_free()
+			break
+			
+	brain_editor.close_tab_by_uuid(context_block_uuid)
+	
+	AlertSystem.show_alert(tr("ALERT_SUCCESS"), tr("BE_CUSTOM_BLOCKS_DELETE_ALERT"), Alert.MessageType.SUCCESS)
+	context_block_uuid = ""

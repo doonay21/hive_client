@@ -40,7 +40,7 @@ text = "Load"
 oversampling_override = 1.0
 title = "BE_NEW_PROGRAM_TITLE"
 exclusive = false
-ok_button_text = "BE_NEW_PROGRAM_OK"
+ok_button_text = "BE_NEW_PROGRAM_SAVE"
 cancel_button_text = "BE_NEW_PROGRAM_CANCEL"
 script = ExtResource("2_ypj66")
 
