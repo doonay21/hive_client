@@ -499,13 +499,13 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
-tab_0/title = "BE_MAIN_BRAIN_GRID"
+tab_0/title = "BE_PROGRAM_GRID_DEFAULT_LABEL"
 
 [node name="ProgramGrid" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" unique_id=758641771 instance=ExtResource("49_ag5fd")]
 unique_name_in_owner = true
 layout_mode = 2
 metadata/_tab_index = 0
-metadata/_tab_name = "BE_MAIN_BRAIN_GRID"
+metadata/_tab_name = "BE_PROGRAM_GRID_DEFAULT_LABEL"
 
 [node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer" unique_id=397392555]
 custom_minimum_size = Vector2(0, 31)

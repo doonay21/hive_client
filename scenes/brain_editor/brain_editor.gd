@@ -50,6 +50,8 @@ func create_new_tab(block_model: BlockModel) -> void:
 	
 	grid.initialize()
 	
+	grid.label.text = block_model.name
+	
 	grid.edge_port_top.change_type(block_model.ports[0])
 	grid.edge_port_right.change_type(block_model.ports[1])
 	grid.edge_port_bottom.change_type(block_model.ports[2])

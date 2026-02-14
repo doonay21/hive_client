@@ -270,7 +270,9 @@ func on_mouse_entered() -> void:
 	else:
 		animate_labels(1.0)
 	
-	if block_data and not block_data.info_text.is_empty():
+	if not custom_block_uuid.is_empty():
+		Events.info_text_requested.emit(tr("BE_CUSTOM_BLOCKS_DOUBLE_CLICK_TO_EDIT"))
+	elif block_data and not block_data.info_text.is_empty():
 		Events.info_text_requested.emit(block_data.info_text)
 
 func on_mouse_exited() -> void:
