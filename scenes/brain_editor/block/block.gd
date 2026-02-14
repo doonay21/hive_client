@@ -1,6 +1,7 @@
 class_name Block extends Control
 
 signal edit_requested(uuid: String)
+signal context_menu_requested(uuid: String, global_pos: Vector2)
 
 const BLOCK_RESOURCE_PREFIX = "res://scenes/brain_editor/blocks/"
 const TEX_NONE = preload("res://assets/images/brain_editor/conn_none.png")
@@ -220,10 +221,15 @@ func _notification(what):
 
 func _gui_input(event: InputEvent) -> void:
 	if is_toolbox_source:
-		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.double_click:
-			if not custom_block_uuid.is_empty():
-				edit_requested.emit(custom_block_uuid)
-				accept_event()
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.double_click:
+				if not custom_block_uuid.is_empty():
+					edit_requested.emit(custom_block_uuid)
+					accept_event()
+			elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+				if not custom_block_uuid.is_empty():
+					context_menu_requested.emit(custom_block_uuid, get_global_mouse_position())
+					accept_event()
 		return
 
 	if event is InputEventMouseButton and event.pressed:

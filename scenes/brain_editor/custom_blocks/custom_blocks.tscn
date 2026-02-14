@@ -38,5 +38,14 @@ layout_mode = 2
 
 [node name="NewBlockWindow" parent="." unique_id=1026764704 instance=ExtResource("2_sax8m")]
 
+[node name="PopupMenu" type="PopupMenu" parent="." unique_id=1917817501]
+oversampling_override = 1.0
+size = Vector2i(343, 100)
+item_count = 2
+item_0/text = "BE_CUSTOM_BLOCKS_SHOW_EDITOR"
+item_0/id = 0
+item_1/text = "BE_CUSTOM_BLOCKS_EDIT_NAME_DESC"
+item_1/id = 1
+
 [connection signal="pressed" from="PanelContainer/NewBlockButton" to="." method="on_new_block_button_pressed"]
 [connection signal="create_new_block" from="NewBlockWindow" to="." method="on_new_block_window_create_new_block"]

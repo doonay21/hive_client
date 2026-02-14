@@ -1,6 +1,7 @@
 class_name NewBlockWindow extends Window
 
 signal create_new_block(block_name: String, block_description: String)
+signal edit_existing_block(uuid: String, block_name: String, block_description: String)
 
 @onready var name_input: LineEdit = $Panel/MarginContainer/VBoxContainer/NameInput
 @onready var description_input: TextEdit = $Panel/MarginContainer/VBoxContainer/DescriptionInput
@@ -10,9 +11,12 @@ signal create_new_block(block_name: String, block_description: String)
 var name_regex = RegEx.new()
 var description_regex = RegEx.new()
 
+var editing_uuid: String = ""
+var original_name: String = ""
+
 func _ready() -> void:
-	name_regex.compile("^[a-zA-Z][a-zA-Z0-9_]{0,7}$")
-	name_input.max_length = 8
+	name_regex.compile("^[a-zA-Z][a-zA-Z0-9_]{0,9}$")
+	name_input.max_length = 10
 	
 	description_regex.compile("^[^\\p{C}]*$")
 	
@@ -20,9 +24,18 @@ func _ready() -> void:
 	save_button.pressed.connect(on_save_button_pressed)
 	cancel_button.pressed.connect(on_close_requested)
 
-func open_form(name_p: String = "", description_p: String = "") -> void:
+func open_form(name_p: String = "", description_p: String = "", uuid_p: String = "") -> void:
 	name_input.text = name_p
 	description_input.text = description_p
+	editing_uuid = uuid_p
+	original_name = name_p
+	
+	if editing_uuid.is_empty():
+		title = tr("BE_NEW_PROGRAM_TITLE")
+		save_button.text = tr("BE_NEW_PROGRAM_CREATE")
+	else:
+		title = tr("BE_NEW_BLOCK_TITLE_EDIT")
+		save_button.text = tr("BE_NEW_PROGRAM_SAVE")
 	
 	popup_centered()
 
@@ -50,11 +63,15 @@ func on_save_button_pressed() -> void:
 		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_DESC_INVALID_CHARS"), Alert.MessageType.ERROR)
 		return
 	
-	if not name_unique(name_text):
+	if name_text != original_name and not name_unique(name_text):
 		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_NAME_NOT_UNIQUE"), Alert.MessageType.ERROR)
 		return
 	
-	create_new_block.emit(name_text, description_text)
+	if editing_uuid.is_empty():
+		create_new_block.emit(name_text, description_text)
+	else:
+		edit_existing_block.emit(editing_uuid, name_text, description_text)
+
 	hide()
 
 func on_close_requested() -> void:

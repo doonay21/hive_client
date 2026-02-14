@@ -29,6 +29,13 @@ func on_button_clear_pressed() -> void:
 	clear_program_grid_dialog.reset_size()
 	clear_program_grid_dialog.popup_centered()
 
+func on_custom_block_updated(uuid: String, new_name: String, new_desc: String) -> void:
+	for i in range(tabs.get_child_count()):
+		var child = tabs.get_child(i)
+		if child is ProgramGrid and child.custom_block_uuid == uuid:
+			tabs.set_tab_title(i, new_name)
+			child.set_description(new_desc)
+
 func on_clear_brain_grid_dialog_confirmed() -> void:
 	var active_tab = tabs.get_current_tab_control()
 

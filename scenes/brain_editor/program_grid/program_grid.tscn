@@ -131,15 +131,12 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PopupMenu" type="PopupMenu" parent="." unique_id=640846781]
-item_count = 4
-item_0/text = "BE_EDGE_PORT_POPUP_MENU"
+item_count = 3
+item_0/text = "BE_EDGE_PORT_NONE"
 item_0/id = 0
-item_0/separator = true
-item_1/text = "BE_EDGE_PORT_NONE"
+item_1/text = "BE_EDGE_PORT_INPUT"
 item_1/id = 1
-item_2/text = "BE_EDGE_PORT_INPUT"
+item_2/text = "BE_EDGE_PORT_OUTPUT"
 item_2/id = 2
-item_3/text = "BE_EDGE_PORT_OUTPUT"
-item_3/id = 3
 
 [connection signal="id_pressed" from="PopupMenu" to="." method="on_context_menu_id_pressed"]
