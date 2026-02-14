@@ -23,9 +23,9 @@ const slot_scene: PackedScene = preload("res://scenes/brain_editor/slot/slot.tsc
 @onready var edge_port_bottom: Control = %EdgePortBottom
 @onready var edge_port_left_container: Control = %EdgePortLeftContainer
 @onready var edge_port_left: Control = %EdgePortLeft
+@onready var context_menu: PopupMenu = $PopupMenu
 
 var custom_block_uuid: String = ""
-var context_menu: PopupMenu
 var current_selected_node: Control
 
 func initialize() -> void:
@@ -55,8 +55,6 @@ func initialize() -> void:
 		edge_port_bottom_container.show()
 		edge_port_left.gui_input.connect(on_node_gui_input.bind(edge_port_left))
 		edge_port_left_container.show()
-
-	setup_context_menu()
 
 func set_description(text: String) -> void:
 	label.text = text
@@ -88,17 +86,6 @@ func get_dimension() -> int:
 func matrix_size_total() -> int:
 	var d = get_dimension()
 	return d * d
-
-func setup_context_menu() -> void:
-	context_menu = PopupMenu.new()
-	add_child(context_menu)
-	
-	context_menu.add_separator(tr("BE_EDGE_PORT_POPUP_MENU"))
-	context_menu.add_item(tr("BE_EDGE_PORT_NONE"), 0)
-	context_menu.add_item(tr("BE_EDGE_PORT_INPUT"), 1)
-	context_menu.add_item(tr("BE_EDGE_PORT_OUTPUT"), 2)
-	
-	context_menu.id_pressed.connect(on_context_menu_id_pressed)
 
 func on_node_gui_input(event: InputEvent, node: Control) -> void:
 	if event is InputEventMouseButton:
