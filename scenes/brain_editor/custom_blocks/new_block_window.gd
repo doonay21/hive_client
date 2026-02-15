@@ -23,6 +23,8 @@ func _ready() -> void:
 	close_requested.connect(on_close_requested)
 	save_button.pressed.connect(on_save_button_pressed)
 	cancel_button.pressed.connect(on_close_requested)
+	
+	name_input.grab_focus()
 
 func open_form(name_p: String = "", description_p: String = "", uuid_p: String = "") -> void:
 	name_input.text = name_p
