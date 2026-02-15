@@ -21,9 +21,13 @@ func on_new_block_button_pressed() -> void:
 
 func on_new_block_window_create_new_block(block_name: String, block_description: String) -> void:
 	var block_model: BlockModel = save_block_to_db(block_name, block_description)
-	add_block_to_sidebar(block_model)
 	
-	brain_editor.create_new_tab(block_model)
+	if block_model:
+		add_block_to_sidebar(block_model)
+		brain_editor.create_new_tab(block_model)
+		AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.custom_blocks.created"), Alert.MessageType.SUCCESS)
+	else:
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.custom_blocks.create_error"), Alert.MessageType.ERROR)
 
 func save_block_to_db(block_name: String, block_description: String) -> BlockModel:
 	var new_block_model = BlockModel.new({

@@ -1,3 +1,5 @@
 save_slot_picker:
   new: Nowy
   load: Wczytaj
+  new_program:
+    error: Nie udało się utworzyć nowego programu. Błąd bazy danych.

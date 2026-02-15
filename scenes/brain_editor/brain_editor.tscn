@@ -548,6 +548,14 @@ text = "brain_editor.clear.dialog.text"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="CloseTabConfirmDialog" type="ConfirmationDialog" parent="." unique_id=232515873]
+oversampling_override = 1.0
+title = "brain_editor.close.title"
+size = Vector2i(402, 100)
+ok_button_text = "brain_editor.close.ok"
+dialog_text = "brain_editor.close.message"
+cancel_button_text = "brain_editor.close.cancel"
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonSave" to="." method="on_button_save_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonClear" to="." method="on_button_clear_pressed"]
 [connection signal="tab_selected" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" to="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" method="on_tab_selected"]

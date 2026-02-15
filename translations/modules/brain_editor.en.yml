@@ -3,8 +3,14 @@ brain_editor:
   program_label: "Program: {program_name}"
   main: Main program
   saved: Program saved.
+  save_error: An error occurred while saving! Check permissions or disk space.
   updated: Program updated.
-  close_warning: Cannot close main program.
+  close:
+    warning: Cannot close main program.
+    title: Are you sure?
+    message: Close the editor?
+    ok: Yes
+    cancel: Cancel
   category:
     inputs: Inputs
     functions: Functions
@@ -23,6 +29,8 @@ brain_editor:
     double_click: Double-click to edit
     show_editor: Show editor
     edit_info: Change name and description
+    created: Custom block created successfully.
+    create_error: Failed to create block. Check if the name is already taken.
     delete:
       label: Delete
       title: Delete block

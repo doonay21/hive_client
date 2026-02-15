@@ -67,6 +67,12 @@ func set_editor_value(new_value: float) -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.double_click:
+			value = min_val if mode != 0 else 0.0
+			update_label()
+			accept_event()
+			return
+		
 		if event.pressed:
 			start_drag()
 			accept_event()

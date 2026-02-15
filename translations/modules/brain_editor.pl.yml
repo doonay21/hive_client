@@ -3,8 +3,14 @@ brain_editor:
   program_label: "Program: {program_name}"
   main: Główny program
   saved: Zapisano program.
+  save_error: Wystąpił błąd podczas zapisu! Sprawdź uprawnienia lub miejsce na dysku.
   updated: Zaktualizowano program.
-  close_warning: Nie można zamknąć głównego programu.
+  close:
+    warning: Nie można zamknąć głównego programu.
+    title: Na pewno?
+    message: Zamknąć edytor?
+    ok: Tak
+    cancel: Anuluj
   category:
     inputs: Wejścia
     functions: Funkcje
@@ -23,6 +29,8 @@ brain_editor:
     double_click: Kliknij 2 razy by edytować
     show_editor: Pokaż edytor
     edit_info: Zmień nazwę i opis
+    created: Pomyślnie utworzono nowy blok własny.
+    create_error: Nie udało się utworzyć bloku. Sprawdź, czy nazwa nie jest już zajęta.
     delete:
       label: Usuń
       title: Usuwanie bloku

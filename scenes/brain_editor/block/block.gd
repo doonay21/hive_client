@@ -244,7 +244,7 @@ func _gui_input(event: InputEvent) -> void:
 			MOUSE_BUTTON_WHEEL_DOWN:
 				rotate_clockwise()
 				accept_event()
-			MOUSE_BUTTON_RIGHT:
+			MOUSE_BUTTON_MIDDLE:
 				delete_block_animated()
 				accept_event()
 

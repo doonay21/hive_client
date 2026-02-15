@@ -24,31 +24,37 @@ static func load_custom_blocks(brain_editor: BrainEditor) -> void:
 	for custom_block in custom_blocks:
 		brain_editor.custom_blocks.add_block_to_sidebar(custom_block)
 
-static func save_program(brain_editor: BrainEditor) -> void:
+static func save_program(brain_editor: BrainEditor) -> bool:
 	var program: ProgramModel = ProgramModel.get_by_id(brain_editor.program_id)
+	var success: bool = true
 	
 	if not program:
 		program = ProgramModel.new({ "name": brain_editor.program_name })
-		program.save()
+		if not program.save(): return false
 		brain_editor.program_id = program.id
 	
 	for i in range(brain_editor.tabs.get_child_count()):
 		var tab = brain_editor.tabs.get_child(i)
+		
 		if tab is ProgramGrid:
-			if tab.is_block:
-				save_custom_block_tab(tab)
+			if tab.is_block and not save_custom_block_tab(tab):
+				success = false
 			elif tab == brain_editor.program_grid:
 				program.name = brain_editor.program_name
 				program.grid = tab.get_grid()
-				program.save()
+				if not program.save(): success = false
 
-static func save_custom_block_tab(grid: ProgramGrid) -> void:
+	return success
+
+static func save_custom_block_tab(grid: ProgramGrid) -> bool:
 	var block_model = BlockModel.where("uuid", grid.custom_block_uuid)
 	
 	if block_model:
 		block_model.grid = grid.get_grid()
 		block_model.ports = grid.get_ports_state()
-		block_model.save()
+		return block_model.save()
+	
+	return false
 
 static func load_grid_save_data(program_grid: ProgramGrid, grid_data: Array) -> void:
 	var children = program_grid.grid_container.get_children()

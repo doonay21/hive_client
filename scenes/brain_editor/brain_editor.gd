@@ -7,9 +7,11 @@ const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/program
 @onready var tabs: TabContainer = %BrainEditorTabs
 @onready var program_name_label: Label = %ProgramNameLabel
 @onready var custom_blocks: CustomBlocks = %CustomBlocks
+@onready var close_tab_confirm_dialog: ConfirmationDialog = $CloseTabConfirmDialog
 
 var program_id: int = -1
 var program_name: String = tr("brain_editor.new_program.def_name")
+var tab_to_close_index: int = -1
 
 func _ready() -> void:
 	if program_id != -1:
@@ -20,8 +22,15 @@ func _ready() -> void:
 	var tab_bar = tabs.get_tab_bar()
 	tab_bar.tab_close_display_policy = TabBar.CLOSE_BUTTON_SHOW_ACTIVE_ONLY
 	tab_bar.tab_close_pressed.connect(on_tab_close_pressed)
+	
+	close_tab_confirm_dialog.confirmed.connect(on_close_tab_confirmed)
 
 func on_button_save_pressed() -> void:
+	if ProgramManager.save_program(self):
+		AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.saved"), Alert.MessageType.SUCCESS)
+	else:
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.save_error"), Alert.MessageType.ERROR)
+	
 	ProgramManager.save_program(self)
 	AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.saved"), Alert.MessageType.SUCCESS)
 
@@ -80,12 +89,19 @@ func close_tab_by_uuid(uuid: String) -> void:
 
 func on_tab_close_pressed(tab_idx: int) -> void:
 	if tab_idx == 0:
-		AlertSystem.show_alert(tr("alert_warning"), tr("brain_editor.close_warning"), Alert.MessageType.WARNING)
+		AlertSystem.show_alert(tr("alert_warning"), tr("brain_editor.close.warning"), Alert.MessageType.WARNING)
 		return
+
+	tab_to_close_index = tab_idx
+	close_tab_confirm_dialog.popup_centered()
+
+func on_close_tab_confirmed() -> void:
+	if tab_to_close_index == -1: return
 	
-	var tab_to_close = tabs.get_child(tab_idx)
+	var tab_to_close = tabs.get_child(tab_to_close_index)
 	
-	if tabs.current_tab == tab_idx:
-		tabs.current_tab = tab_idx - 1
+	if tabs.current_tab == tab_to_close_index:
+		tabs.current_tab = tab_to_close_index - 1
 		
 	tab_to_close.queue_free()
+	tab_to_close_index = -1

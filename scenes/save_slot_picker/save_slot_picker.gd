@@ -39,12 +39,13 @@ func on_button_load_pressed() -> void:
 
 func on_new_program_dialog_create_new_program(program_name: String) -> void:
 	var program: ProgramModel = ProgramModel.new({ "name": program_name })
-	program.save()
-
-	load_programs()
 	
-	var index: int = program_list.item_count - 1
-	open_program(programs[index], program_name)
+	if program.save():
+		load_programs()
+		var index: int = program_list.item_count - 1
+		open_program(programs[index], program_name)
+	else:
+		AlertSystem.show_alert(tr("alert_error"), tr("save_slot_picker.new_program.error"), Alert.MessageType.ERROR)
 
 func open_program(program_id: int, program_name: String) -> void:
 	var brain_editor = brain_editor_scene.instantiate()

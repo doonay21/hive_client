@@ -1,3 +1,5 @@
 save_slot_picker:
   new: New
   load: Load
+  new_program:
+    error: Failed to create new program. Database error.
