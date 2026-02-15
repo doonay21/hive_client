@@ -1,12 +1,25 @@
 class_name Slot extends MarginContainer
 
-const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn") 
+const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn")
+const COLOR_DEFAULT = Color("ffffff20")
+const COLOR_HIGHLIGHT = Color("ffffff")
+
+@onready var background: TextureRect = $TextureRect
 
 var program_grid: ProgramGrid
+var highlight_tween: Tween
+
+func _ready() -> void:
+	mouse_exited.connect(reset_visuals)
+	
+	if background:
+		background.self_modulate = COLOR_DEFAULT
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY or has_block() or not data.has("resource"):
 		return false
+	
+	animate_highlight()
 	
 	return true
 
@@ -23,6 +36,8 @@ func get_block() -> Block:
 	return null
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
+	reset_visuals()
+	
 	var is_custom_target = program_grid.is_block
 	var is_custom_data = not data.get("custom_block_uuid", "").is_empty()
 	
@@ -55,3 +70,16 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		var old_node = data.get("node_ref")
 		if is_instance_valid(old_node):
 			old_node.queue_free()
+
+func animate_highlight() -> void:
+	if background.self_modulate == COLOR_HIGHLIGHT: return
+	if highlight_tween and highlight_tween.is_running() and background.self_modulate.a > 0.8: return
+	
+	if highlight_tween: highlight_tween.kill()
+	highlight_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	highlight_tween.tween_property(background, "self_modulate", COLOR_HIGHLIGHT, 0.1)
+
+func reset_visuals() -> void:
+	if highlight_tween: highlight_tween.kill()
+	highlight_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	highlight_tween.tween_property(background, "self_modulate", COLOR_DEFAULT, 0.2)

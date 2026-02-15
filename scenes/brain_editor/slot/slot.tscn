@@ -15,7 +15,7 @@ theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 script = ExtResource("2_4xsqv")
 
-[node name="NinePatchRect" type="TextureRect" parent="." unique_id=1901245393]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1901245393]
 self_modulate = Color(1, 1, 1, 0.1254902)
 texture_filter = 1
 custom_minimum_size = Vector2(80, 80)
