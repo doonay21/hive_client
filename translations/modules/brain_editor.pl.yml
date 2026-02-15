@@ -20,7 +20,7 @@ brain_editor:
   custom_blocks:
     new: Nowy blok
     edit: Edycja programu
-    double_click: Kliknij 2 razy by edytować.
+    double_click: Kliknij 2 razy by edytować
     show_editor: Pokaż edytor
     edit_info: Zmień nazwę i opis
     delete:

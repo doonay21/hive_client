@@ -139,7 +139,8 @@ func load_save_data(saved_data: Dictionary) -> void:
 		if block_model:
 			block_data = CustomBlockData.new(
 				block_model.name,
-				block_model.ports
+				block_model.ports,
+				block_model.description
 			)
 		else:
 			create_missing_block_visuals()
@@ -280,7 +281,16 @@ func on_mouse_entered() -> void:
 		animate_labels(1.0)
 	
 	if not custom_block_uuid.is_empty():
-		Events.info_text_requested.emit(tr("brain_editor.custom_blocks.double_click"))
+		var description = block_data.info_text if block_data else ""
+		var edit_hint = tr("brain_editor.custom_blocks.double_click")
+		var final_text = ""
+		
+		if description.is_empty():
+			final_text = edit_hint
+		else:
+			final_text = "%s (%s)" % [description, edit_hint]
+			
+		Events.info_text_requested.emit(final_text)
 	elif block_data and not block_data.info_text.is_empty():
 		Events.info_text_requested.emit(block_data.info_text)
 

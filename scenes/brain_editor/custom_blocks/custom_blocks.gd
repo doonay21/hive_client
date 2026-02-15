@@ -43,7 +43,8 @@ func add_block_to_sidebar(block_model: BlockModel) -> void:
 
 	var custom_data = CustomBlockData.new(
 		block_model.name,
-		block_model.ports
+		block_model.ports,
+		block_model.description
 	)
 	
 	new_block_ui.block_data = custom_data
@@ -112,14 +113,15 @@ func on_block_details_edited(uuid: String, new_name: String, new_desc: String) -
 	block_model.description = new_desc
 	
 	if block_model.save():
-		update_sidebar_block_visuals(uuid, new_name)
+		update_sidebar_block_visuals(uuid, new_name, new_desc)
 		brain_editor.on_custom_block_updated(uuid, new_name, new_desc)
 		AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.updated"), Alert.MessageType.SUCCESS)
 
-func update_sidebar_block_visuals(uuid: String, new_name: String) -> void:
+func update_sidebar_block_visuals(uuid: String, new_name: String, new_desc: String) -> void:
 	for child in grid.get_children():
 		if child is Block and child.custom_block_uuid == uuid:
 			child.block_data.display_name = new_name
+			child.block_data.info_text = new_desc
 			child.load_data()
 			return
 
