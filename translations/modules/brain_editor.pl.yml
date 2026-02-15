@@ -5,6 +5,8 @@ brain_editor:
   saved: Zapisano program.
   save_error: Wystąpił błąd podczas zapisu! Sprawdź uprawnienia lub miejsce na dysku.
   updated: Zaktualizowano program.
+  test:
+    info: Testuj program (otworzy nowe okno z symulatorem)
   close:
     warning: Nie można zamknąć głównego programu.
     title: Na pewno?

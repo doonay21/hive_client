@@ -50,6 +50,8 @@
 [ext_resource type="Resource" uid="uid://cbc8wik2qmecs" path="res://scenes/brain_editor/blocks/functions/dish.tres" id="31_oshdk"]
 [ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
 [ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/program_grid/program_grid.tscn" id="49_ag5fd"]
+[ext_resource type="Texture2D" uid="uid://c6a1qt8g0rgkt" path="res://assets/images/icons/test_program.png" id="50_tamat"]
+[ext_resource type="Script" uid="uid://ckmqad536tbka" path="res://scenes/brain_editor/test_button.gd" id="51_wp2ke"]
 
 [node name="BrainEditor" type="Control" unique_id=1317635160]
 layout_mode = 3
@@ -507,6 +509,24 @@ layout_mode = 2
 metadata/_tab_index = 0
 metadata/_tab_name = "brain_editor.main"
 
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=815096006]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="TestButton" type="TextureRect" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/MarginContainer" unique_id=1271857076 node_paths=PackedStringArray("brain_editor")]
+modulate = Color(1, 1, 1, 0.36078432)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+texture = ExtResource("50_tamat")
+stretch_mode = 2
+script = ExtResource("51_wp2ke")
+brain_editor = NodePath("../../../../../..")
+
 [node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer" unique_id=397392555]
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
@@ -559,4 +579,7 @@ cancel_button_text = "brain_editor.close.cancel"
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonSave" to="." method="on_button_save_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ButtonClear" to="." method="on_button_clear_pressed"]
 [connection signal="tab_selected" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" to="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" method="on_tab_selected"]
+[connection signal="gui_input" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/MarginContainer/TestButton" to="VBoxContainer/HBoxContainer/Panel/MarginContainer/MarginContainer/TestButton" method="on_gui_input"]
+[connection signal="mouse_entered" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/MarginContainer/TestButton" to="VBoxContainer/HBoxContainer/Panel/MarginContainer/MarginContainer/TestButton" method="on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/MarginContainer/TestButton" to="VBoxContainer/HBoxContainer/Panel/MarginContainer/MarginContainer/TestButton" method="on_mouse_exited"]
 [connection signal="confirmed" from="ClearProgramGridDialog" to="." method="on_clear_brain_grid_dialog_confirmed"]

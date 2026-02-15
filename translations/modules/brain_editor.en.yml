@@ -5,6 +5,8 @@ brain_editor:
   saved: Program saved.
   save_error: An error occurred while saving! Check permissions or disk space.
   updated: Program updated.
+  test:
+    info: Test program (opens new window with simulator)
   close:
     warning: Cannot close main program.
     title: Are you sure?
