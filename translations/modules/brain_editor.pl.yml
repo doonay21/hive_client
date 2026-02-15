@@ -1,0 +1,64 @@
+brain_editor:
+  save: Zapisz
+  program_label: "Program: {program_name}"
+  main: Główny program
+  saved: Zapisano program.
+  updated: Zaktualizowano program.
+  close_warning: Nie można zamknąć głównego programu.
+  category:
+    inputs: Wejścia
+    functions: Funkcje
+    constants: Stałe
+    outputs: Wyjścia
+    connectors: Połączenia
+    custom: Własne bloki
+  edge_port:
+    info: "Typ portu: \"[b]{port_name}[/b]\". [i]Kliknij by zmienić[/i]."
+    none: Brak
+    input: Wejście do układu
+    output: Wyjście z układu
+  custom_blocks:
+    new: Nowy blok
+    edit: Edycja programu
+    double_click: Kliknij 2 razy by edytować.
+    show_editor: Pokaż edytor
+    edit_info: Zmień nazwę i opis
+    delete:
+      label: Usuń
+      title: Usuwanie bloku
+      message: Czy usunąć blok?
+      alert: Usunięto blok.
+    used:
+      program: "Program: {name}"
+      block: "Blok własny: {name}"
+      error: "Nie można usunąć bloku \"{name}\". Jest on używany w następujących miejscach:"
+      and_more: "...i w {count} innych miejscach."
+  clear:
+    label: Wyczyść
+    dialog:
+      title: Potwierdź
+      yes: Tak
+      no: Nie
+      text: Wyczyścić program?
+  new_program:
+    def_name: Program
+    def_descr: Własny blok
+    title: Nowy program
+    create: Stwórz
+    save: Zapisz
+    cancel: Anuluj
+    name:
+      label: Nazwa programu
+      placeholder: Nazwa programu...
+      required: Nazwa nie może być pusta!
+      regex: Nazwa musi mieć od 1 do 10 znaków, może składać się wyłącznie z liter, cyfr i znaku podkreślenia.
+      not_unique: Taka nazwa już istnieje!
+    description:
+      label: Opis programu
+      placeholder: Opis programu...
+      required: Opis nie może być pusty!
+      too_long: Opis jest za długi (150 znaków max.).
+      invalid_chars: Opis zawiera nieprawidłowe znaki!
+    missing:
+      title: USZKODZONY
+      info: "Błąd: Nie znaleziono definicji dla UUID: {uuid}"

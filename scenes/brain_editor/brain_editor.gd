@@ -9,13 +9,13 @@ const BRAIN_GRID_SCENE: PackedScene = preload("res://scenes/brain_editor/program
 @onready var custom_blocks: CustomBlocks = %CustomBlocks
 
 var program_id: int = -1
-var program_name: String = tr("BE_DEFAULT_PROGRAM_NAME")
+var program_name: String = tr("brain_editor.new_program.def_name")
 
 func _ready() -> void:
 	if program_id != -1:
 		ProgramManager.load_program(self)
 	
-	program_name_label.text = tr("BE_PROGRAM_LABEL").format({ "program_name": program_name })
+	program_name_label.text = tr("brain_editor.program_label").format({ "program_name": program_name })
 	
 	var tab_bar = tabs.get_tab_bar()
 	tab_bar.tab_close_display_policy = TabBar.CLOSE_BUTTON_SHOW_ACTIVE_ONLY
@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func on_button_save_pressed() -> void:
 	ProgramManager.save_program(self)
-	AlertSystem.show_alert(tr("ALERT_SUCCESS"), tr("BE_SAVED_ALERT"), Alert.MessageType.SUCCESS)
+	AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.saved"), Alert.MessageType.SUCCESS)
 
 func on_button_clear_pressed() -> void:
 	clear_program_grid_dialog.reset_size()
@@ -80,7 +80,7 @@ func close_tab_by_uuid(uuid: String) -> void:
 
 func on_tab_close_pressed(tab_idx: int) -> void:
 	if tab_idx == 0:
-		AlertSystem.show_alert(tr("ALERT_WARNING"), tr("BE_MAIN_PROGRAM_CLOSE_WARNING"), Alert.MessageType.WARNING)
+		AlertSystem.show_alert(tr("alert_warning"), tr("brain_editor.close_warning"), Alert.MessageType.WARNING)
 		return
 	
 	var tab_to_close = tabs.get_child(tab_idx)

@@ -5,10 +5,10 @@
 
 [resource]
 script = ExtResource("2_ia3rd")
-display_name = "BLOCK_MUL_TITLE"
+display_name = "blocks.mul.title"
 icon = ExtResource("1_na7wn")
 style = 1
 ports = Array[int]([0, 1, 2, 1])
 port_labels = Array[String](["", "B", "", "A"])
-info_text = "BLOCK_MUL_INFO"
+info_text = "blocks.mul.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -105,12 +105,12 @@ layout_mode = 2
 [node name="ButtonSave" type="Button" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=310513334]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "BE_SAVE"
+text = "brain_editor.save"
 
 [node name="ButtonClear" type="Button" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1138407569]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "BE_CLEAR"
+text = "brain_editor.clear.label"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer" unique_id=661795442]
 layout_mode = 2
@@ -130,7 +130,7 @@ brain_editor = NodePath("../../../../../../../../../..")
 
 [node name="LabelInputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=251025321]
 layout_mode = 2
-text = "BE_SIDEBAR_CATEGORY_INPUTS"
+text = "brain_editor.category.inputs"
 
 [node name="GridInputs" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1010064984]
 layout_mode = 2
@@ -186,7 +186,7 @@ layout_mode = 2
 
 [node name="LabelFunctions" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=839105719]
 layout_mode = 2
-text = "BE_SIDEBAR_CATEGORY_FUNCTIONS"
+text = "brain_editor.category.functions"
 
 [node name="GridFunctions" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=191569912]
 layout_mode = 2
@@ -332,7 +332,7 @@ layout_mode = 2
 
 [node name="LabelOutputs" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=959530097]
 layout_mode = 2
-text = "BE_SIDEBAR_CATEGORY_OUTPUTS"
+text = "brain_editor.category.outputs"
 
 [node name="GridOutputs" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1597513450]
 layout_mode = 2
@@ -376,7 +376,7 @@ layout_mode = 2
 
 [node name="LabelConstants" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1687582440]
 layout_mode = 2
-text = "BE_SIDEBAR_CATEGORY_CONSTANTS"
+text = "brain_editor.category.constants"
 
 [node name="GridConstants" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1283290339]
 layout_mode = 2
@@ -414,7 +414,7 @@ layout_mode = 2
 
 [node name="LabelConnectors" type="Label" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=482922452]
 layout_mode = 2
-text = "BE_SIDEBAR_CATEGORY_CONNECTORS"
+text = "brain_editor.category.connectors"
 
 [node name="GridConnectors" type="GridContainer" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=649845217]
 layout_mode = 2
@@ -499,13 +499,13 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
-tab_0/title = "BE_PROGRAM_GRID_DEFAULT_LABEL"
+tab_0/title = "brain_editor.main"
 
 [node name="ProgramGrid" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/BrainEditorTabs" unique_id=758641771 instance=ExtResource("49_ag5fd")]
 unique_name_in_owner = true
 layout_mode = 2
 metadata/_tab_index = 0
-metadata/_tab_name = "BE_PROGRAM_GRID_DEFAULT_LABEL"
+metadata/_tab_name = "brain_editor.main"
 
 [node name="InfoBoxPanel" type="PanelContainer" parent="VBoxContainer" unique_id=397392555]
 custom_minimum_size = Vector2(0, 31)
@@ -534,17 +534,17 @@ script = ExtResource("20_j144m")
 [node name="ClearProgramGridDialog" type="ConfirmationDialog" parent="." unique_id=416133571]
 unique_name_in_owner = true
 oversampling_override = 1.0
-title = "BE_CLEAR_BRAIN_GRID_DIALOG_TITLE"
+title = "brain_editor.clear.dialog.title"
 size = Vector2i(745, 100)
-ok_button_text = "BE_CLEAR_BRAIN_GRID_DIALOG_BUTTON_YES"
-cancel_button_text = "BE_CLEAR_BRAIN_GRID_DIALOG_BUTTON_NO"
+ok_button_text = "brain_editor.clear.dialog.yes"
+cancel_button_text = "brain_editor.clear.dialog.no"
 
 [node name="Label" type="Label" parent="ClearProgramGridDialog" unique_id=503844202]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 737.0
 offset_bottom = 51.0
-text = "BE_CLEAR_BRAIN_GRID_DIALOG_TEXT"
+text = "brain_editor.clear.dialog.text"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -88,7 +88,7 @@ func attempt_delete_block() -> void:
 	var usages = BlockDependencyScanner.find_usages(context_block_uuid)
 	
 	if not usages.is_empty():
-		var message = tr("BE_DELETE_BLOCK_USED_ERROR").format({ "name": block_model.name }) + "\n\n"
+		var message = tr("brain_editor.custom_blocks.used.error").format({ "name": block_model.name }) + "\n\n"
 		
 		var limit = 5
 		for i in range(min(limit, usages.size())):
@@ -96,13 +96,11 @@ func attempt_delete_block() -> void:
 			
 		if usages.size() > limit:
 			var remaining = usages.size() - limit
-			message += tr("BE_AND_MORE").format({ "count": remaining })
+			message += tr("brain_editor.custom_blocks.used.and_more").format({ "count": remaining })
 			
-		AlertSystem.show_alert(tr("ALERT_ERROR"), message, Alert.MessageType.ERROR)
+		AlertSystem.show_alert(tr("alert_error"), message, Alert.MessageType.ERROR)
 		return
 
-	delete_confirm_dialog.title = tr("BE_DELETE_BLOCK_TITLE")
-	delete_confirm_dialog.dialog_text = tr("BE_DELETE_BLOCK_CONFIRM")
 	delete_confirm_dialog.reset_size()
 	delete_confirm_dialog.popup_centered()
 
@@ -116,7 +114,7 @@ func on_block_details_edited(uuid: String, new_name: String, new_desc: String) -
 	if block_model.save():
 		update_sidebar_block_visuals(uuid, new_name)
 		brain_editor.on_custom_block_updated(uuid, new_name, new_desc)
-		AlertSystem.show_alert(tr("ALERT_SUCCESS"), tr("BE_UPDATED_ALERT"), Alert.MessageType.SUCCESS)
+		AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.updated"), Alert.MessageType.SUCCESS)
 
 func update_sidebar_block_visuals(uuid: String, new_name: String) -> void:
 	for child in grid.get_children():
@@ -140,5 +138,5 @@ func on_delete_confirmed() -> void:
 			
 	brain_editor.close_tab_by_uuid(context_block_uuid)
 	
-	AlertSystem.show_alert(tr("ALERT_SUCCESS"), tr("BE_CUSTOM_BLOCKS_DELETE_ALERT"), Alert.MessageType.SUCCESS)
+	AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.custom_blocks.delete.alert"), Alert.MessageType.SUCCESS)
 	context_block_uuid = ""

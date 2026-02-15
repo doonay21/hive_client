@@ -9,7 +9,7 @@ static func find_usages(target_uuid: String) -> Array[String]:
 
 	for prog in programs:
 		if is_uuid_in_grid(target_uuid, prog.grid):
-			var msg = TranslationServer.translate("BE_USAGE_PROGRAM").format({ "name": prog.name })
+			var msg = TranslationServer.translate("brain_editor.custom_blocks.used.program").format({ "name": prog.name })
 			usages.append(msg)
 			
 	var blocks: Array[BlockModel] = BlockModel.all()
@@ -18,7 +18,7 @@ static func find_usages(target_uuid: String) -> Array[String]:
 			continue
 		
 		if is_uuid_in_grid(target_uuid, blk.grid):
-			var msg = TranslationServer.translate("BE_USAGE_BLOCK").format({ "name": blk.name })
+			var msg = TranslationServer.translate("brain_editor.custom_blocks.used.block").format({ "name": blk.name })
 			usages.append(msg)
 			
 	return usages

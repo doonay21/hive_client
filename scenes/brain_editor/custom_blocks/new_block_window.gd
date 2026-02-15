@@ -31,11 +31,11 @@ func open_form(name_p: String = "", description_p: String = "", uuid_p: String =
 	original_name = name_p
 	
 	if editing_uuid.is_empty():
-		title = tr("BE_NEW_PROGRAM_TITLE")
-		save_button.text = tr("BE_NEW_PROGRAM_CREATE")
+		title = tr("brain_editor.new_program.title")
+		save_button.text = tr("brain_editor.new_program.create")
 	else:
-		title = tr("BE_NEW_BLOCK_TITLE_EDIT")
-		save_button.text = tr("BE_NEW_PROGRAM_SAVE")
+		title = tr("brain_editor.custom_blocks.edit")
+		save_button.text = tr("brain_editor.new_program.save")
 	
 	popup_centered()
 
@@ -44,27 +44,27 @@ func on_save_button_pressed() -> void:
 	var description_text: String = description_input.text.strip_edges()
 	
 	if name_text.is_empty():
-		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_NAME_REQUIRED"), Alert.MessageType.ERROR)
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.new_program.name.required"), Alert.MessageType.ERROR)
 		return
 	
 	if description_text.is_empty():
-		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_DESCRIPTION_REQUIRED"), Alert.MessageType.ERROR)
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.new_program.description.required"), Alert.MessageType.ERROR)
 		return
 	
 	if name_regex.search(name_text) == null:
-		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_NAME_REGEX"), Alert.MessageType.ERROR)
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.new_program.name.regex"), Alert.MessageType.ERROR)
 		return
 	
 	if description_text.length() > 150:
-		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_DESC_TOO_LONG"), Alert.MessageType.ERROR)
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.new_program.description.too_long"), Alert.MessageType.ERROR)
 		return
 	
 	if description_regex.search(description_text) == null:
-		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_DESC_INVALID_CHARS"), Alert.MessageType.ERROR)
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.new_program.description.invalid_chars"), Alert.MessageType.ERROR)
 		return
 	
 	if name_text != original_name and not name_unique(name_text):
-		AlertSystem.show_alert(tr("ALERT_ERROR"), tr("BE_NEW_PROGRAM_NAME_NOT_UNIQUE"), Alert.MessageType.ERROR)
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.new_program.name.not_unique"), Alert.MessageType.ERROR)
 		return
 	
 	if editing_uuid.is_empty():

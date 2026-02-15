@@ -12,7 +12,7 @@ static func load_program(brain_editor: BrainEditor) -> void:
 	
 	if program.grid.size() != 0:
 		var program_grid: ProgramGrid = brain_editor.tabs.get_child(0)
-		program_grid.label.text = TranslationServer.translate("BE_PROGRAM_GRID_DEFAULT_LABEL")
+		program_grid.label.text = TranslationServer.translate("brain_editor.main")
 		
 		load_grid_save_data(program_grid, program.grid)
 	

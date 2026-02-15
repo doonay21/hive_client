@@ -280,7 +280,7 @@ func on_mouse_entered() -> void:
 		animate_labels(1.0)
 	
 	if not custom_block_uuid.is_empty():
-		Events.info_text_requested.emit(tr("BE_CUSTOM_BLOCKS_DOUBLE_CLICK_TO_EDIT"))
+		Events.info_text_requested.emit(tr("brain_editor.custom_blocks.double_click"))
 	elif block_data and not block_data.info_text.is_empty():
 		Events.info_text_requested.emit(block_data.info_text)
 
@@ -339,12 +339,12 @@ func on_events_custom_block_changed(uuid: String, new_ports: Array) -> void:
 
 func create_missing_block_visuals() -> void:
 	block_data = CustomBlockData.new(
-		tr("BE_BLOCK_MISSING_TITLE"), 
+		tr("brain_editor.new_program.missing.title"), 
 		[BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE]
 	)
 	
 	block_data.style = BlockData.Style.CUSTOM
-	block_data.info_text = tr("BE_BLOCK_MISSING_INFO").format({ "uuid": custom_block_uuid })
+	block_data.info_text = tr("brain_editor.new_program.missing.nf").format({ "uuid": custom_block_uuid })
 	
 	background_container.modulate = Color(1.0, 0.2, 0.2, 1.0) 
 	

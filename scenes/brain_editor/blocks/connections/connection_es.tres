@@ -11,5 +11,5 @@ display = 1
 style = 4
 ports = Array[int]([0, 1, 2, 0])
 port_labels = Array[String](["", "A", "B", ""])
-info_text = "BLOCK_WIRE_ES_INFO"
+info_text = "blocks.wire.es.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("2_mmbc1")
-display_name = "BLOCK_GO_TITLE"
+display_name = "blocks.go.title"
 icon = ExtResource("1_b6qqg")
 style = 2
 ports = Array[int]([0, 0, 0, 1])
-info_text = "BLOCK_GO_INFO"
+info_text = "blocks.go.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

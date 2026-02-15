@@ -5,10 +5,10 @@
 
 [resource]
 script = ExtResource("2_qb3d6")
-display_name = "BLOCK_DIV_TITLE"
+display_name = "blocks.div.title"
 icon = ExtResource("1_xso4q")
 style = 1
 ports = Array[int]([0, 1, 2, 1])
 port_labels = Array[String](["", "B", "", "A"])
-info_text = "BLOCK_DIV_INFO"
+info_text = "blocks.div.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

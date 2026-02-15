@@ -40,11 +40,11 @@ func on_mouse_entered() -> void:
 	var port_name: String = ""
 	
 	match port_type:
-		BlockData.Port.NONE: port_name = tr("BE_EDGE_PORT_NONE")
-		BlockData.Port.INPUT: port_name = tr("BE_EDGE_PORT_INPUT")
-		BlockData.Port.OUTPUT: port_name = tr("BE_EDGE_PORT_OUTPUT")
+		BlockData.Port.NONE: port_name = tr("brain_editor.edge_port.none")
+		BlockData.Port.INPUT: port_name = tr("brain_editor.edge_port.input")
+		BlockData.Port.OUTPUT: port_name = tr("brain_editor.edge_port.output")
 		
-	Events.info_text_requested.emit(tr("BE_EDGE_PORT_INFO").format({ "port_name": port_name }))
+	Events.info_text_requested.emit(tr("brain_editor.edge_port.info").format({ "port_name": port_name }))
 	
 	hover_tween = create_tween()
 	hover_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)

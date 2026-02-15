@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("2_3p383")
-display_name = "BLOCK_RANDOM_TITLE"
+display_name = "blocks.random.title"
 icon = ExtResource("1_2lbv1")
 style = 3
 ports = Array[int]([0, 2, 0, 1])
-info_text = "BLOCK_RANDOM_INFO"
+info_text = "blocks.random.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

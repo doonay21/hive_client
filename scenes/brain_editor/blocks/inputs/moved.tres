@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_ojo5k")
-display_name = "BLOCK_MOVED_TITLE"
+display_name = "blocks.moved.title"
 icon = ExtResource("1_armcn")
-info_text = "BLOCK_MOVED_INFO"
+info_text = "blocks.moved.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

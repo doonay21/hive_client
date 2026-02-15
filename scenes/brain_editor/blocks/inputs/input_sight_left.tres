@@ -5,10 +5,10 @@
 
 [resource]
 script = ExtResource("2_ikglo")
-display_name = "BLOCK_SIGHT_LEFT_TITLE"
+display_name = "blocks.sight.left.title"
 icon = ExtResource("1_5tek2")
 display = 2
-info_text = "BLOCK_SIGHT_LEFT_INFO"
+info_text = "blocks.sight.left.info"
 value_mode = 3
-value_strings = Array[String](["BLOCK_SIGHT_SOIL", "BLOCK_SIGHT_ROCK", "BLOCK_SIGHT_VOID", "BLOCK_SIGHT_GOLD", "BLOCK_SIGHT_WALL", "BLOCK_SIGHT_ROBOT"])
+value_strings = Array[String](["blocks.sight.soil", "blocks.sight.rock", "blocks.sight.void", "blocks.sight.gold", "blocks.sight.wall", "blocks.sight.robot"])
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

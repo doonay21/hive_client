@@ -5,12 +5,12 @@
 
 [resource]
 script = ExtResource("2_fujow")
-display_name = "BLOCK_RECEIVER_TITLE"
+display_name = "blocks.receiver.title"
 icon = ExtResource("1_5ld0a")
 display = 2
 style = 1
 port_labels = Array[String](["", "A", "", ""])
-info_text = "BLOCK_RECEIVER_INFO"
+info_text = "blocks.receiver.info"
 value_mode = 3
-value_strings = Array[String](["BLOCK_EMITTER_CH1", "BLOCK_EMITTER_CH2", "BLOCK_EMITTER_CH3", "BLOCK_EMITTER_CH4", "BLOCK_EMITTER_CH5"])
+value_strings = Array[String](["blocks.emitter.ch1", "blocks.emitter.ch2", "blocks.emitter.ch3", "blocks.emitter.ch4", "blocks.emitter.ch5"])
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

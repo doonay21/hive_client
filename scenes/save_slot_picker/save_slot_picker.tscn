@@ -30,18 +30,18 @@ layout_mode = 2
 
 [node name="ButtonNew" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1625751157]
 layout_mode = 2
-text = "New"
+text = "save_slot_picker.new"
 
 [node name="ButtonLoad" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1704940690]
 layout_mode = 2
-text = "Load"
+text = "save_slot_picker.load"
 
 [node name="NewProgramDialog" type="ConfirmationDialog" parent="." unique_id=209105889]
 oversampling_override = 1.0
-title = "BE_NEW_PROGRAM_TITLE"
+title = "brain_editor.new_program.title"
 exclusive = false
-ok_button_text = "BE_NEW_PROGRAM_SAVE"
-cancel_button_text = "BE_NEW_PROGRAM_CANCEL"
+ok_button_text = "brain_editor.new_program.save"
+cancel_button_text = "brain_editor.new_program.cancel"
 script = ExtResource("2_ypj66")
 
 [node name="ProgramName" type="LineEdit" parent="NewProgramDialog" unique_id=1658676928]
@@ -49,7 +49,7 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = 192.0
 offset_bottom = 51.0
-placeholder_text = "BE_NEW_PROGRAM_NAME_PLACEHOLDER"
+placeholder_text = "brain_editor.new_program.name.placeholder"
 
 [connection signal="item_activated" from="CenterContainer/VBoxContainer/ProgramList" to="." method="on_program_list_item_activated"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ButtonNew" to="." method="on_button_new_pressed"]

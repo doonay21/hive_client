@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_wjanc")
-display_name = "BLOCK_NOISE_TITLE"
+display_name = "blocks.noise.title"
 icon = ExtResource("1_t75jc")
 style = 3
-info_text = "BLOCK_NOISE_INFO"
+info_text = "blocks.noise.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

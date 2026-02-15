@@ -5,10 +5,10 @@
 
 [resource]
 script = ExtResource("2_un0ha")
-display_name = "BLOCK_MINIMUM_TITLE"
+display_name = "blocks.minimum.title"
 icon = ExtResource("1_m03tr")
 style = 1
 ports = Array[int]([0, 1, 2, 1])
 port_labels = Array[String](["", "B", "", "A"])
-info_text = "BLOCK_MINIMUM_INFO"
+info_text = "blocks.minimum.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

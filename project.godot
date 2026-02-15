@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+YamlLoader="*uid://ciqibwv6vxq5r"
 DatabaseManager="*uid://ch5t1hp4oohjt"
 Nakama="*uid://ckho07ucaxkun"
 Secrets="*uid://dofsr0rfp4j6"
@@ -34,10 +35,6 @@ window/stretch/scale_mode="integer"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/context_generator/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg")
-
-[internationalization]
-
-locale/translations=PackedStringArray("res://translations/translations_block.en.translation", "res://translations/translations_block.pl.translation", "res://translations/translations_brain_editor.en.translation", "res://translations/translations_brain_editor.pl.translation", "res://translations/translations_main.en.translation", "res://translations/translations_main.pl.translation")
 
 [physics]
 

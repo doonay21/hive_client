@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("2_srnd5")
-display_name = "BLOCK_TURN_LEFT_TITLE"
+display_name = "blocks.turn.left.title"
 icon = ExtResource("1_ccgkt")
 style = 2
 ports = Array[int]([0, 0, 0, 1])
-info_text = "BLOCK_TURN_LEFT_INFO"
+info_text = "blocks.turn.left.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

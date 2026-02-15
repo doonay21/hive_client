@@ -1,0 +1,64 @@
+brain_editor:
+  save: Save
+  program_label: "Program: {program_name}"
+  main: Main program
+  saved: Program saved.
+  updated: Program updated.
+  close_warning: Cannot close main program.
+  category:
+    inputs: Inputs
+    functions: Functions
+    constants: Constants
+    outputs: Outputs
+    connectors: Connectors
+    custom: Custom blocks
+  edge_port:
+    info: "Port type: \"[b]{port_name}[/b]\". [i]Click to change[/i]."
+    none: None
+    input: System input
+    output: System output
+  custom_blocks:
+    new: New block
+    edit: Edit program
+    double_click: Double-click to edit.
+    show_editor: Show editor
+    edit_info: Change name and description
+    delete:
+      label: Delete
+      title: Delete block
+      message: Delete block?
+      alert: Block deleted.
+    used:
+      program: "Program: {name}"
+      block: "Custom block: {name}"
+      error: "Cannot delete block \"{name}\". It is used in the following places:"
+      and_more: "...and {count} more places."
+  clear:
+    label: Clear
+    dialog:
+      title: Confirm
+      yes: Yes
+      no: No
+      text: Clear program?
+  new_program:
+    def_name: Program
+    def_descr: Custom block
+    title: New program
+    create: Create
+    save: Save
+    cancel: Cancel
+    name:
+      label: Program name
+      placeholder: Program name...
+      required: Name cannot be empty!
+      regex: The name must be between 1 and 10 characters long and may only consist of letters, numbers, and underscores.
+      not_unique: Name is already taken!
+    description:
+      label: Program description
+      placeholder: Program description...
+      required: Description cannot be empty!
+      too_long: Description is too long (max. 150 chars).
+      invalid_chars: Description contains invalid characters!
+    missing:
+      title: CORRUPTED
+      info: "Error: Definition not found for UUID: {uuid}"

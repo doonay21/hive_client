@@ -5,12 +5,12 @@
 
 [resource]
 script = ExtResource("2_8j61a")
-display_name = "BLOCK_DISH_TITLE"
+display_name = "blocks.dish.title"
 icon = ExtResource("1_tuht7")
 display = 2
 style = 1
 port_labels = Array[String](["", "A", "", ""])
-info_text = "BLOCK_DISH_INFO"
+info_text = "blocks.dish.info"
 value_mode = 1
 custom_max = 10.0
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

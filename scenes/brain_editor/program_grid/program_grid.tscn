@@ -21,7 +21,7 @@ theme_override_constants/margin_right = 8
 [node name="Label" type="Label" parent="LabelContainer" unique_id=1747844189]
 layout_mode = 2
 mouse_filter = 0
-text = "BE_DEFAULT_PROGRAM_DESCRIPTION"
+text = "brain_editor.new_program.def_descr"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -132,11 +132,11 @@ grow_vertical = 2
 
 [node name="PopupMenu" type="PopupMenu" parent="." unique_id=640846781]
 item_count = 3
-item_0/text = "BE_EDGE_PORT_NONE"
+item_0/text = "brain_editor.edge_port.none"
 item_0/id = 0
-item_1/text = "BE_EDGE_PORT_INPUT"
+item_1/text = "brain_editor.edge_port.input"
 item_1/id = 1
-item_2/text = "BE_EDGE_PORT_OUTPUT"
+item_2/text = "brain_editor.edge_port.output"
 item_2/id = 2
 
 [connection signal="id_pressed" from="PopupMenu" to="." method="on_context_menu_id_pressed"]

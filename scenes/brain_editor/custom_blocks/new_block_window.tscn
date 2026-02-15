@@ -4,7 +4,7 @@
 
 [node name="NewBlockWindow" type="Window" unique_id=1026764704]
 oversampling_override = 1.0
-title = "BE_NEW_PROGRAM_TITLE"
+title = "brain_editor.new_program.title"
 initial_position = 2
 size = Vector2i(400, 240)
 visible = false
@@ -37,20 +37,20 @@ layout_mode = 2
 
 [node name="LabelName" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=753912685]
 layout_mode = 2
-text = "BE_NEW_PROGRAM_NAME_LABEL"
+text = "brain_editor.new_program.name.label"
 
 [node name="NameInput" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer" unique_id=967499029]
 layout_mode = 2
-placeholder_text = "BE_NEW_PROGRAM_NAME_PLACEHOLDER"
+placeholder_text = "brain_editor.new_program.name.placeholder"
 
 [node name="LabelDescription" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=1779640738]
 layout_mode = 2
-text = "BE_NEW_PROGRAM_DESCRIPTION_LABEL"
+text = "brain_editor.new_program.description.label"
 
 [node name="DescriptionInput" type="TextEdit" parent="Panel/MarginContainer/VBoxContainer" unique_id=665586455]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-placeholder_text = "BE_NEW_PROGRAM_DESCRIPTION_PLACEHOLDER"
+placeholder_text = "brain_editor.new_program.description.placeholder"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=1838698636]
 layout_mode = 2
@@ -58,9 +58,9 @@ layout_mode = 2
 [node name="ButtonSave" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=317274804]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "BE_NEW_PROGRAM_SAVE"
+text = "brain_editor.new_program.save"
 
 [node name="ButtonCancel" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=266233920]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "BE_NEW_PROGRAM_CANCEL"
+text = "brain_editor.new_program.cancel"
