@@ -31,6 +31,7 @@ brain_editor:
     edit_info: Zmień nazwę i opis
     created: Pomyślnie utworzono nowy blok własny.
     create_error: Nie udało się utworzyć bloku. Sprawdź, czy nazwa nie jest już zajęta.
+    inception_alert: Nie można zagnieżdżać własnych bloków wewnątrz innych własnych bloków.
     delete:
       label: Usuń
       title: Usuwanie bloku

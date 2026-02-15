@@ -31,6 +31,7 @@ brain_editor:
     edit_info: Change name and description
     created: Custom block created successfully.
     create_error: Failed to create block. Check if the name is already taken.
+    inception_alert: Placing custom blocks inside other custom blocks is forbidden.
     delete:
       label: Delete
       title: Delete block

@@ -8,10 +8,7 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY or has_block() or not data.has("resource"):
 		return false
 	
-	var is_custom_target = program_grid.is_block
-	var is_custom_data = not data.get("custom_block_uuid", "").is_empty()
-	
-	return not (is_custom_target and is_custom_data)
+	return true
 
 func has_block() -> bool:
 	for child in get_children():
@@ -26,6 +23,13 @@ func get_block() -> Block:
 	return null
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
+	var is_custom_target = program_grid.is_block
+	var is_custom_data = not data.get("custom_block_uuid", "").is_empty()
+	
+	if is_custom_target and is_custom_data:
+		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.custom_blocks.inception_alert"), Alert.MessageType.ERROR)
+		return
+		
 	var new_block: Block = BLOCK_SCENE.instantiate()
 	new_block.is_toolbox_source = false
 	add_child(new_block)
