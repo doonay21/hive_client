@@ -30,9 +30,6 @@ func on_button_save_pressed() -> void:
 		AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.saved"), Alert.MessageType.SUCCESS)
 	else:
 		AlertSystem.show_alert(tr("alert_error"), tr("brain_editor.save_error"), Alert.MessageType.ERROR)
-	
-	ProgramManager.save_program(self)
-	AlertSystem.show_alert(tr("alert_sucess"), tr("brain_editor.saved"), Alert.MessageType.SUCCESS)
 
 func on_button_clear_pressed() -> void:
 	clear_program_grid_dialog.reset_size()
