@@ -136,6 +136,18 @@ func get_grid() -> Array:
 	
 	return block_data
 
+func has_custom_block_usage(target_uuid: String) -> bool:
+	var children = grid_container.get_children()
+	
+	for child in children:
+		if child is Slot and child.has_block():
+			var block: Block = child.get_block()
+			
+			if block and block.custom_block_uuid == target_uuid:
+				return true
+				
+	return false
+
 func get_ports_state() -> Array:
 	if not is_block: return []
 	

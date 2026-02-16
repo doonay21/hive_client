@@ -44,6 +44,7 @@ brain_editor:
       block: "Blok własny: {name}"
       error: "Nie można usunąć bloku \"{name}\". Jest on używany w następujących miejscach:"
       and_more: "...i w {count} innych miejscach."
+      in_editor_warning: "Aktualnie edytowany program"
   clear:
     label: Wyczyść
     dialog:

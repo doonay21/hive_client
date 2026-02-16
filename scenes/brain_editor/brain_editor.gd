@@ -165,3 +165,13 @@ func get_data_from_db(uuid: String) -> Dictionary:
 		"size": block_model.size,
 		"ports": block_model.ports
 	}
+
+func is_block_used_in_open_tabs(uuid: String) -> bool:
+	for i in range(tabs.get_child_count()):
+		var tab = tabs.get_child(i)
+		
+		if tab is ProgramGrid:
+			if tab.has_custom_block_usage(uuid):
+				return true
+				
+	return false

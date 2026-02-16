@@ -90,6 +90,12 @@ func attempt_delete_block() -> void:
 	var block_model = BlockModel.where("uuid", context_block_uuid)
 	if not block_model: return
 
+	if brain_editor.is_block_used_in_open_tabs(context_block_uuid):
+		var message = tr("brain_editor.custom_blocks.used.error").format({ "name": block_model.name }) + "\n\n"
+		message += tr("brain_editor.custom_blocks.used.in_editor_warning")
+		AlertSystem.show_alert(tr("alert_error"), message, Alert.MessageType.ERROR)
+		return
+
 	var usages = BlockDependencyScanner.find_usages(context_block_uuid)
 	
 	if not usages.is_empty():

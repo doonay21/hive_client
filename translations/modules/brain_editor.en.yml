@@ -44,6 +44,7 @@ brain_editor:
       block: "Custom block: {name}"
       error: "Cannot delete block \"{name}\". It is used in the following places:"
       and_more: "...and {count} more places."
+      in_editor_warning: "Currently edited program"
   clear:
     label: Clear
     dialog:
