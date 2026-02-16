@@ -30,11 +30,12 @@ var labels_tween: Tween
 
 static func parse_save_to_program_data(save_data: Dictionary) -> Dictionary:
 	var program_data: Dictionary = {}
-
+	var rot_index = 0
+	
 	if "rotation_index" in save_data:
-		program_data["rot"] = save_data["rotation_index"]
-	else:
-		program_data["rot"] = 0
+		rot_index = save_data["rotation_index"]
+
+	program_data["map"] = calculate_rotation_map(rot_index)
 
 	if "stored_value" in save_data:
 		program_data["val"] = save_data["stored_value"]
@@ -56,6 +57,13 @@ static func parse_save_to_program_data(save_data: Dictionary) -> Dictionary:
 		return {}
 
 	return program_data
+
+static func calculate_rotation_map(rot_idx: int) -> Array:
+	var map: Array = [0, 0, 0, 0]
+	for physical_side in range(4):
+		var logical_index = (physical_side - rot_idx + 4) % 4
+		map[physical_side] = logical_index
+	return map
 
 func _ready() -> void:
 	if block_data:
@@ -161,8 +169,14 @@ func get_save_data() -> Dictionary:
 
 func get_program_data() -> Dictionary:
 	var save_data = get_save_data()
+	var data = Block.parse_save_to_program_data(save_data)
 	
-	return Block.parse_save_to_program_data(save_data)
+	if block_data:
+		data["op"] = block_data.op
+		if block_data is CustomBlockData:
+			data["uuid"] = custom_block_uuid
+
+	return data
 
 func load_save_data(saved_data: Dictionary) -> void:
 	if "custom_block_uuid" in saved_data and not saved_data["custom_block_uuid"].is_empty():

@@ -3,8 +3,8 @@ class_name ProgramSimulator extends Window
 var brain_editor: BrainEditor
 
 func _ready() -> void:
-	#var program_data: Dictionary = brain_editor.get_program_data()
-	#print(program_data)
+	var program_data: Dictionary = brain_editor.get_program_data()
+	print(program_data)
 	
 	popup_centered_ratio(0.9)
 	
