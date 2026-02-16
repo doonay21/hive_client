@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_fujow")
 display_name = "blocks.receiver.title"
+op = 26
 icon = ExtResource("1_5ld0a")
 display = 2
 style = 1

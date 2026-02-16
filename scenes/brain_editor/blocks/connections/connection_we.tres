@@ -6,10 +6,11 @@
 [resource]
 script = ExtResource("2_15v85")
 display_name = ""
+op = 39
 icon = ExtResource("1_rsoax")
 display = 1
 style = 4
-ports = Array[int]([0, 2, 0, 1])
+ports = [0, 2, 0, 1]
 port_labels = Array[String](["", "B", "", "A"])
 info_text = "blocks.wire.we.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_jnry1")
 display_name = "blocks.sinus.title"
+op = 36
 icon = ExtResource("1_i00ca")
 style = 3
 info_text = "blocks.sinus.info"

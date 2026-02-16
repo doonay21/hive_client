@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("2_qnvxm")
 display_name = "blocks.counter.title"
+op = 21
 icon = ExtResource("1_epj8v")
 style = 1
-ports = Array[int]([0, 2, 0, 1])
+ports = [0, 2, 0, 1]
 port_labels = Array[String](["", "B", "", "A"])
 info_text = "blocks.counter.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

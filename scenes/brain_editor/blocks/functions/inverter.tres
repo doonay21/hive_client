@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("2_5tloh")
 display_name = "blocks.invert.title"
+op = 8
 icon = ExtResource("1_w7mfp")
 style = 1
-ports = Array[int]([0, 2, 0, 1])
+ports = [0, 2, 0, 1]
 port_labels = Array[String](["", "B", "", "A"])
 info_text = "blocks.invert.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

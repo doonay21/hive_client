@@ -6,10 +6,11 @@
 [resource]
 script = ExtResource("2_suuey")
 display_name = "blocks.broadcast.title"
+op = 27
 icon = ExtResource("1_oco7a")
 display = 2
 style = 1
-ports = Array[int]([0, 0, 0, 1])
+ports = [0, 0, 0, 1]
 port_labels = Array[String](["", "", "", "A"])
 info_text = "blocks.broadcast.info"
 value_mode = 1

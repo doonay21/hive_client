@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("2_skgp5")
 display_name = "blocks.maximum.title"
+op = 11
 icon = ExtResource("1_5ryp8")
 style = 1
-ports = Array[int]([0, 1, 2, 1])
+ports = [0, 1, 2, 1]
 port_labels = Array[String](["", "B", "", "A"])
 info_text = "blocks.maximum.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

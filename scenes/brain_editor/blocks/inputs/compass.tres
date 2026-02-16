@@ -6,8 +6,9 @@
 [resource]
 script = ExtResource("2_07fas")
 display_name = "blocks.compass.title"
+op = 6
 icon = ExtResource("1_k74iy")
-ports = Array[int]([0, 2, 2, 0])
+ports = [0, 2, 2, 0]
 port_labels = Array[String](["", "A", "B", ""])
 info_text = "blocks.compass.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -6,8 +6,9 @@
 [resource]
 script = ExtResource("2_gq68a")
 display_name = "blocks.turn.right.title"
+op = 32
 icon = ExtResource("1_juylk")
 style = 2
-ports = Array[int]([0, 0, 0, 1])
+ports = [0, 0, 0, 1]
 info_text = "blocks.turn.right.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

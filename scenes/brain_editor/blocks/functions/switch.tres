@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("2_63o0u")
 display_name = "blocks.switch.title"
+op = 22
 icon = ExtResource("1_ksvd0")
 style = 1
-ports = Array[int]([1, 1, 2, 1])
+ports = [1, 1, 2, 1]
 port_labels = Array[String](["CON", "B", "", "A"])
 info_text = "blocks.switch.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

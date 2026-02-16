@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("2_6crcd")
 display_name = "blocks.abs.title"
+op = 18
 icon = ExtResource("1_hcti3")
 style = 1
-ports = Array[int]([0, 1, 2, 1])
+ports = [0, 1, 2, 1]
 port_labels = Array[String](["", "B", "", "A"])
 info_text = "blocks.abs.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -6,10 +6,11 @@
 [resource]
 script = ExtResource("2_fg3na")
 display_name = "blocks.delay.title"
+op = 19
 icon = ExtResource("1_fg3na")
 display = 2
 style = 1
-ports = Array[int]([0, 2, 0, 1])
+ports = [0, 2, 0, 1]
 port_labels = Array[String](["", "B", "", "A"])
 info_text = "blocks.delay.info"
 value_mode = 2

@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_4mnh8")
 display_name = "blocks.emitter.title"
+op = 25
 icon = ExtResource("1_rmehh")
 display = 2
 style = 1

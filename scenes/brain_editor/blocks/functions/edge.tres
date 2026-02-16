@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("2_uniyw")
 display_name = "blocks.edge_detector.title"
+op = 23
 icon = ExtResource("1_qwph4")
 style = 1
-ports = Array[int]([0, 2, 0, 1])
+ports = [0, 2, 0, 1]
 port_labels = Array[String](["", "", "", "A"])
 info_text = "blocks.edge_detector.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

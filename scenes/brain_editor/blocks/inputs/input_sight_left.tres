@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_ikglo")
 display_name = "blocks.sight.left.title"
+op = 1
 icon = ExtResource("1_5tek2")
 display = 2
 info_text = "blocks.sight.left.info"

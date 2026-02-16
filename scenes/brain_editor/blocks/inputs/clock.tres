@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_8n4th")
 display_name = "blocks.clock.title"
+op = 7
 icon = ExtResource("1_rbkum")
 display = 2
 info_text = "blocks.clock.info"
