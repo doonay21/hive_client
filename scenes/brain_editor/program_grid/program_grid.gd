@@ -125,10 +125,10 @@ func get_grid() -> Array:
 	var children = grid_container.get_children()
 	
 	for i in range(children.size()):
-		var slot = children[i]
+		var slot: Slot = children[i]
 		var child_save_data = {}
 		
-		if slot is Slot and slot.has_block():
+		if slot.has_block():
 			var block: Block = slot.get_block()
 			child_save_data = block.get_save_data()
 		
@@ -138,10 +138,28 @@ func get_grid() -> Array:
 
 func get_ports_state() -> Array:
 	if not is_block: return []
-		
+	
 	return [
 		edge_port_top.port_type,
 		edge_port_right.port_type,
 		edge_port_bottom.port_type,
 		edge_port_left.port_type
 	]
+
+func get_program_data() -> Array:
+	var children = grid_container.get_children()
+	var data: Array = []
+	
+	for i in range(children.size()):
+		var slot: Slot = children[i]
+		var block_program_data = {}
+		
+		if slot.has_block():
+			var block: Block = slot.get_block()
+			
+			if block:
+				block_program_data = block.get_program_data()
+		
+		data.append(block_program_data)
+	
+	return data

@@ -102,3 +102,66 @@ func on_close_tab_confirmed() -> void:
 		
 	tab_to_close.queue_free()
 	tab_to_close_index = -1
+
+func get_program_data() -> Dictionary:
+	var program_data: Dictionary = {
+		"grid": {},
+		"size": 2,
+		"custom_blocks": {}
+	}
+	
+	var program_grid_data: Array = program_grid.get_program_data()
+	program_data["grid"] = program_grid_data
+	program_data["size"] = program_grid.matrix_size
+	
+	var custom_blocks_used: Dictionary = {}
+	for data: Dictionary in program_grid_data:
+		if data.is_empty(): continue
+		if data.get("op") == BlockData.Op.CUSTOM:
+			custom_blocks_used[data["uuid"]] = true
+	
+	for uuid: String in custom_blocks_used.keys():
+		var custom_block_data: Dictionary = try_get_data_from_tab(uuid)
+		
+		if custom_block_data.is_empty():
+			custom_block_data = get_data_from_db(uuid)
+		
+		if not custom_block_data.is_empty():
+			program_data["custom_blocks"][uuid] = custom_block_data
+	
+	return program_data
+
+func try_get_data_from_tab(uuid: String) -> Dictionary:
+	for i in range(tabs.get_child_count()):
+		var child = tabs.get_child(i)
+		
+		if child is ProgramGrid and child.custom_block_uuid == uuid:
+			return {
+				"grid": child.get_program_data(),
+				"size": child.matrix_size,
+				"ports": child.get_ports_state()
+			}
+
+	return {}
+
+func get_data_from_db(uuid: String) -> Dictionary:
+	var block_model = BlockModel.where("uuid", uuid)
+	
+	if not block_model:
+		return {}
+
+	var converted_grid_data: Array = []
+	
+	for saved_slot_data: Dictionary in block_model.grid:
+		if saved_slot_data.is_empty():
+			converted_grid_data.append({})
+			continue
+			
+		var program_logic = Block.parse_save_to_program_data(saved_slot_data)
+		converted_grid_data.append(program_logic)
+	
+	return {
+		"grid": converted_grid_data,
+		"size": block_model.size,
+		"ports": block_model.ports
+	}

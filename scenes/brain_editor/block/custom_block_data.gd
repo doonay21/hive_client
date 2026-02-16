@@ -7,3 +7,4 @@ func _init(p_name: String, p_ports: Array, p_description: String = "") -> void:
 	ports = p_ports
 	info_text = p_description
 	icon = preload("res://assets/images/brain_editor/block_icons/custom_block.png")
+	op = BlockData.Op.CUSTOM

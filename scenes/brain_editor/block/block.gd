@@ -28,6 +28,35 @@ var rotation_tween: Tween
 var target_rotation: float = 0.0
 var labels_tween: Tween
 
+static func parse_save_to_program_data(save_data: Dictionary) -> Dictionary:
+	var program_data: Dictionary = {}
+
+	if "rotation_index" in save_data:
+		program_data["rot"] = save_data["rotation_index"]
+	else:
+		program_data["rot"] = 0
+
+	if "stored_value" in save_data:
+		program_data["val"] = save_data["stored_value"]
+
+	if "custom_block_uuid" in save_data and not save_data["custom_block_uuid"].is_empty():
+		program_data["op"] = BlockData.Op.CUSTOM
+		program_data["uuid"] = save_data["custom_block_uuid"]
+		return program_data
+
+	if "resource" in save_data and not save_data["resource"].is_empty():
+		var resource_path = BLOCK_RESOURCE_PREFIX.path_join(save_data["resource"])
+		
+		if ResourceLoader.exists(resource_path):
+			var block_res = load(resource_path)
+			if block_res is BlockData:
+				program_data["op"] = block_res.op
+	
+	if not "op" in program_data:
+		return {}
+
+	return program_data
+
 func _ready() -> void:
 	if block_data:
 		load_data()
@@ -129,6 +158,11 @@ func get_save_data() -> Dictionary:
 		save_data["stored_value"] = value_drag.value
 	
 	return save_data
+
+func get_program_data() -> Dictionary:
+	var save_data = get_save_data()
+	
+	return Block.parse_save_to_program_data(save_data)
 
 func load_save_data(saved_data: Dictionary) -> void:
 	if "custom_block_uuid" in saved_data and not saved_data["custom_block_uuid"].is_empty():

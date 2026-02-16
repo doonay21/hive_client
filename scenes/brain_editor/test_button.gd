@@ -34,4 +34,5 @@ func on_gui_input(event: InputEvent) -> void:
 		open_simulator()
 
 func open_simulator() -> void:
-	pass
+	var program_data: Dictionary = brain_editor.get_program_data()
+	print(program_data)
