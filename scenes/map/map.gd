@@ -1,7 +1,6 @@
 extends TextureRect
 
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
-const ZOOM: float = 4.0
 
 const COLOR_WALL: Color = Color.WHITE
 const COLOR_AIR: Color = Color.BLACK
@@ -20,7 +19,6 @@ var base_seed: int = 0
 var texture_dirty: bool = false
 
 func _ready() -> void:
-	scale = Vector2(ZOOM, ZOOM)
 	texture_filter = TEXTURE_FILTER_NEAREST
 	focus_mode = Control.FOCUS_CLICK
 	

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bid57t8enswqb"]
+
+[ext_resource type="Script" uid="uid://ceeuytem0aa18" path="res://scenes/program_simulator/program_simulator.gd" id="1_tjjln"]
+[ext_resource type="PackedScene" uid="uid://dmv5pvhb6merr" path="res://scenes/map/map.tscn" id="2_nvaia"]
+
+[node name="ProgramSimulator" type="Window" unique_id=801897607]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(1152, 648)
+min_size = Vector2i(400, 400)
+script = ExtResource("1_tjjln")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=117920983]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+theme_override_constants/autohide = 1
+
+[node name="WorldContainer" type="PanelContainer" parent="HSplitContainer" unique_id=1466598659]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="HSplitContainer/WorldContainer" unique_id=903913534]
+layout_mode = 2
+
+[node name="Map" parent="HSplitContainer/WorldContainer/Control" unique_id=150635800 instance=ExtResource("2_nvaia")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 1)
+stretch_mode = 5
+
+[node name="SystemContainer" type="PanelContainer" parent="HSplitContainer" unique_id=1123407967]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="close_requested" from="." to="." method="on_close_requested"]

@@ -1,9 +1,12 @@
 class_name TestButton extends TextureRect
 
+const program_simulator_scene: PackedScene = preload("res://scenes/program_simulator/program_simulator.tscn")
+
 @export var brain_editor: BrainEditor
 
 var fade_tween: Tween
 var mouse_is_over: bool = false
+var program_simulator_instance: ProgramSimulator
 
 func on_mouse_entered() -> void:
 	mouse_is_over = true
@@ -34,5 +37,8 @@ func on_gui_input(event: InputEvent) -> void:
 		open_simulator()
 
 func open_simulator() -> void:
-	var program_data: Dictionary = brain_editor.get_program_data()
-	print(program_data)
+	if is_instance_valid(program_simulator_instance): return
+	
+	program_simulator_instance = program_simulator_scene.instantiate()
+	program_simulator_instance.brain_editor = brain_editor
+	brain_editor.add_child(program_simulator_instance)
