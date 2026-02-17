@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_efd4c")
 display_name = "blocks.avg.title"
-op = 17
+op = 15
 icon = ExtResource("1_a0uv6")
 style = 1
 ports = [0, 1, 2, 1]

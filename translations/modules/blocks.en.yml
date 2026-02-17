@@ -6,15 +6,12 @@ blocks:
     gold: "Gold"
     wall: "Wall"
     robot: "Robot"
-    left:
-      title: "Sight Left"
-      info: "Returns distance to obstacle on the left. Range 10 units. 1.0 - no obstacles, 0.0 - obstacle directly in front."
-    front:
-      title: "Sight Front"
-      info: "Returns distance to obstacle in front. Range 10 units. 1.0 - no obstacles, 0.0 - obstacle directly in front."
-    right:
-      title: "Sight Right"
-      info: "Returns distance to obstacle on the right. Range 10 units. 1.0 - no obstacles, 0.0 - obstacle directly in front."
+    title: "Sight"
+    info: "Returns distance to obstacle in front, left and right. Range 10 units. 1.0 - no obstacles, 0.0 - obstacle directly in front."
+    port_labels:
+      left: Left
+      front: Front
+      right: Right
   invert:
     title: "Invert"
     info: "Negates the input signal A by calculating B = 1.0 − A. It effectively flips the signal intensity."

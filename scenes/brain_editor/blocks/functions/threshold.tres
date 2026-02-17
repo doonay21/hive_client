@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_pyg2y")
 display_name = "blocks.threshold.title"
-op = 24
+op = 22
 icon = ExtResource("1_lihr7")
 style = 1
 ports = [0, 2, 0, 1]

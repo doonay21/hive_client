@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_3p383")
 display_name = "blocks.random.title"
-op = 38
+op = 36
 icon = ExtResource("1_2lbv1")
 style = 3
 ports = [0, 2, 0, 1]

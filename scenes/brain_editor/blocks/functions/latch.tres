@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_jgl8x")
 display_name = "blocks.latch.title"
-op = 20
+op = 18
 icon = ExtResource("1_mk772")
 style = 1
 ports = [0, 1, 2, 1]

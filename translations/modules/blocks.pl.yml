@@ -6,15 +6,12 @@ blocks:
     gold: "Złoto"
     wall: "Ściana"
     robot: "Robot"
-    left:
-      title: "Wzrok Lewo"
-      info: "Zwraca odległość do przeszkody po lewej. Zasięg 10 jednostek. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed."
-    front:
-      title: "Wzrok Przód"
-      info: "Zwraca odległość do przeszkody z przodu. Zasięg 10 jednostek. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed."
-    right:
-      title: "Wzrok Prawo"
-      info: "Zwraca odległość do przeszkody po prawej. Zasięg 10 jednostek. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed."
+    title: "Wzrok"
+    info: "Zwraca odległość do przeszkody z przodu, po lewej i prawej. Zasięg 10 jednostek. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed."
+    port_labels:
+      left: Lewa
+      front: Przód
+      right: Prawa
   invert:
     title: "Odwróć"
     info: "Neguje sygnał wejściowy A, obliczając B = 1.0 − A. Efektywnie odwraca natężenie sygnału."

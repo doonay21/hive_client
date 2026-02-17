@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_skgp5")
 display_name = "blocks.maximum.title"
-op = 11
+op = 9
 icon = ExtResource("1_5ryp8")
 style = 1
 ports = [0, 1, 2, 1]

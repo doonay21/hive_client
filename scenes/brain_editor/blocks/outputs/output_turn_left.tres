@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_srnd5")
 display_name = "blocks.turn.left.title"
-op = 30
+op = 28
 icon = ExtResource("1_ccgkt")
 style = 2
 ports = [0, 0, 0, 1]

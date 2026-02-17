@@ -67,10 +67,6 @@ func on_toggle_button_pressed() -> void:
 		toggle_button.icon = icon_hide
 		toggle_button.tooltip_text = tr("program_simulator.map_tools.tooltip.hide")
 
-func on_pen_active_toggled(toggled_on: bool) -> void:
-	pass
-	#cursor_preview.toggle(toggled_on)
-
 func on_pen_size_slider_value_changed(value: float) -> void:
 	pen_size_label.text = str(int(value))
 	

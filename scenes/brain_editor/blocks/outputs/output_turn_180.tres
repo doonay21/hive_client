@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_14owd")
 display_name = "blocks.turn.around.title"
-op = 33
+op = 31
 icon = ExtResource("1_xbbsr")
 style = 2
 ports = [0, 0, 0, 1]

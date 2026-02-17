@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_un0ha")
 display_name = "blocks.minimum.title"
-op = 10
+op = 8
 icon = ExtResource("1_m03tr")
 style = 1
 ports = [0, 1, 2, 1]

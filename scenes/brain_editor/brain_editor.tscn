@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dnf70qrremrjr" path="res://scenes/brain_editor/brain_editor.gd" id="1_84dns"]
 [ext_resource type="PackedScene" uid="uid://dlprvbnlpxja6" path="res://scenes/brain_editor/block/block.tscn" id="2_iva03"]
-[ext_resource type="Resource" uid="uid://bk1wjpx3hdwjo" path="res://scenes/brain_editor/blocks/inputs/input_sight_front.tres" id="3_8j72b"]
-[ext_resource type="Resource" uid="uid://3r24nx3afyf2" path="res://scenes/brain_editor/blocks/inputs/input_sight_left.tres" id="4_hy1fu"]
-[ext_resource type="Resource" uid="uid://bafikjlworvpo" path="res://scenes/brain_editor/blocks/inputs/input_sight_right.tres" id="5_m5nmr"]
+[ext_resource type="Resource" uid="uid://dxdv3vvc5sda" path="res://scenes/brain_editor/blocks/inputs/input_sight.tres" id="4_ag5fd"]
 [ext_resource type="Resource" uid="uid://bgcjx6kpfsix7" path="res://scenes/brain_editor/blocks/outputs/output_go.tres" id="6_8ex86"]
 [ext_resource type="Resource" uid="uid://bvwnjwnwx4e8n" path="res://scenes/brain_editor/blocks/functions/inverter.tres" id="6_fwxd3"]
 [ext_resource type="Resource" uid="uid://cd3377n5wjdfv" path="res://scenes/brain_editor/blocks/inputs/moved.tres" id="6_j6oka"]
@@ -140,24 +138,6 @@ theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 3
 
-[node name="InputSightLeft" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1385599306 instance=ExtResource("2_iva03")]
-layout_mode = 2
-mouse_filter = 1
-block_data = ExtResource("4_hy1fu")
-is_toolbox_source = true
-
-[node name="InputSightFront" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1095967668 instance=ExtResource("2_iva03")]
-layout_mode = 2
-mouse_filter = 1
-block_data = ExtResource("3_8j72b")
-is_toolbox_source = true
-
-[node name="InputSightRight" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=449198355 instance=ExtResource("2_iva03")]
-layout_mode = 2
-mouse_filter = 1
-block_data = ExtResource("5_m5nmr")
-is_toolbox_source = true
-
 [node name="InputMoved" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=850464390 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
@@ -174,6 +154,12 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("27_jfl5t")
+is_toolbox_source = true
+
+[node name="InputSight" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1385599306 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("4_ag5fd")
 is_toolbox_source = true
 
 [node name="InputClock" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1165599403 instance=ExtResource("2_iva03")]

@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_qnvxm")
 display_name = "blocks.counter.title"
-op = 21
+op = 19
 icon = ExtResource("1_epj8v")
 style = 1
 ports = [0, 2, 0, 1]

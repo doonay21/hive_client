@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_8j61a")
 display_name = "blocks.dish.title"
-op = 29
+op = 27
 icon = ExtResource("1_tuht7")
 display = 2
 style = 1

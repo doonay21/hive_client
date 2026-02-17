@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_bt8xx")
 display_name = "blocks.sub.title"
-op = 13
+op = 11
 icon = ExtResource("1_8u6hw")
 style = 1
 ports = [0, 1, 2, 1]

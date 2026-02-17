@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_63hyt")
 display_name = "blocks.compare.title"
-op = 9
+op = 7
 icon = ExtResource("1_uksxh")
 style = 1
 ports = [0, 1, 2, 1]

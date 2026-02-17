@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_f45df")
 display_name = ""
-op = 42
+op = 40
 icon = ExtResource("1_0t32f")
 display = 1
 style = 4

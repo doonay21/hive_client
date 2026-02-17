@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_ia3rd")
 display_name = "blocks.mul.title"
-op = 15
+op = 13
 icon = ExtResource("1_na7wn")
 style = 1
 ports = [0, 1, 2, 1]

@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_nkbgh")
 display_name = "blocks.scanner.title"
-op = 28
+op = 26
 icon = ExtResource("1_uwxfo")
 display = 2
 style = 1

@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_uniyw")
 display_name = "blocks.edge_detector.title"
-op = 23
+op = 21
 icon = ExtResource("1_qwph4")
 style = 1
 ports = [0, 2, 0, 1]

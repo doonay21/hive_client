@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_wjanc")
 display_name = "blocks.noise.title"
-op = 37
+op = 35
 icon = ExtResource("1_t75jc")
 style = 3
 info_text = "blocks.noise.info"

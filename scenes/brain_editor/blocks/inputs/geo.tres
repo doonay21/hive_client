@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_hv3qd")
 display_name = "blocks.geo.title"
-op = 5
+op = 3
 icon = ExtResource("1_48fkb")
 info_text = "blocks.geo.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"
