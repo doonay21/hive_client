@@ -1,0 +1,18 @@
+program_simulator:
+  map_tools:
+    title: Narzędzia
+    pen_active: Pióro aktywne
+    ink_type: Pióro
+    pen_size: Rozmiar pióra
+    clear: Wyczyść mapę
+    generate: Generuj losową mapę
+    fill: Wypełnij mapę
+    tooltip:
+      hide: Ukryj narzędzia
+      show: Pokaż narzędzia
+    pens:
+      void: Pustka
+      soft_rock: Piasek
+      hard_rock: Kamień
+      bedrock: Skała
+      gold: Złoto

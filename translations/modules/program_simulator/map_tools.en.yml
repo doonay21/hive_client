@@ -1,0 +1,18 @@
+program_simulator:
+  map_tools:
+    title: Tools
+    pen_active: Pen active
+    ink_type: Pióro
+    pen_size: Pen size
+    clear: Clear map
+    generate: Generate random map
+    fill: Fill map
+    tooltip:
+      hide: Hide tools
+      show: Show tools
+    pens:
+      void: Void
+      soft_rock: Sand
+      hard_rock: Stone
+      bedrock: Rock
+      gold: Gold

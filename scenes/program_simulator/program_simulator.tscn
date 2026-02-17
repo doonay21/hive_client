@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ceeuytem0aa18" path="res://scenes/program_simulator/program_simulator.gd" id="1_tjjln"]
 [ext_resource type="PackedScene" uid="uid://dmv5pvhb6merr" path="res://scenes/map/map.tscn" id="2_nvaia"]
+[ext_resource type="PackedScene" uid="uid://c2xiteat26vcu" path="res://scenes/program_simulator/map_tools.tscn" id="3_h4j3i"]
 
 [node name="ProgramSimulator" type="Window" unique_id=801897607]
 oversampling_override = 1.0
@@ -39,12 +40,36 @@ grow_vertical = 2
 scale = Vector2(1, 1)
 stretch_mode = 5
 
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/WorldContainer/Control" unique_id=812969122]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="MapTools" parent="HSplitContainer/WorldContainer/Control/MarginContainer" unique_id=1611098043 node_paths=PackedStringArray("map") instance=ExtResource("3_h4j3i")]
+layout_mode = 2
+map = NodePath("../../Map")
+
 [node name="SystemContainer" type="PanelContainer" parent="HSplitContainer" unique_id=1123407967]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SystemContainer" unique_id=24954329]
 layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HSplitContainer/SystemContainer/VBoxContainer" unique_id=1264818861]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/SystemContainer/VBoxContainer/PanelContainer" unique_id=1897937483]
+layout_mode = 2
+text = "Map generation"
+horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="HSplitContainer/SystemContainer/VBoxContainer" unique_id=886620222]
 layout_mode = 2
