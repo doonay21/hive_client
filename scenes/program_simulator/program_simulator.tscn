@@ -43,4 +43,11 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Button" type="Button" parent="HSplitContainer/SystemContainer" unique_id=886620222]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Refresh"
+
 [connection signal="close_requested" from="." to="." method="on_close_requested"]
+[connection signal="pressed" from="HSplitContainer/SystemContainer/Button" to="." method="on_button_pressed"]

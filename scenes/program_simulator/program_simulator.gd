@@ -1,5 +1,7 @@
 class_name ProgramSimulator extends Window
 
+@onready var map: Map = $HSplitContainer/WorldContainer/Control/Map
+
 var brain_editor: BrainEditor
 
 func _ready() -> void:
@@ -17,3 +19,6 @@ func on_root_size_changed():
 	var new_root_size = get_tree().root.size
 	
 	self.max_size = new_root_size
+
+func on_button_pressed() -> void:
+	map.regenerate()
