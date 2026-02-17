@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://n3jaf3upg5ke"]
+
+[ext_resource type="Script" uid="uid://11agq31s8snx" path="res://scenes/program_simulator/cursor_preview.gd" id="1_qq5kn"]
+
+[node name="CursorPreview" type="Node2D" unique_id=342309955]
+script = ExtResource("1_qq5kn")

@@ -1,6 +1,6 @@
 class_name ProgramSimulator extends Window
 
-@onready var map: Map = $HSplitContainer/WorldContainer/Control/Map
+@onready var map: Map = $HSplitContainer/WorldContainer/MapContainer/Map
 
 var brain_editor: BrainEditor
 

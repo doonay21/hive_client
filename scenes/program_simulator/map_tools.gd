@@ -9,12 +9,53 @@ const icon_hide = preload("res://assets/images/icons/hide.png")
 @onready var toggle_button: Button = $ToggleButton
 @onready var pen_size_label: Label = $MainContainer/VBoxContainer/HBoxContainer/PenSizeLabel
 @onready var pen_type: OptionButton = $MainContainer/VBoxContainer/HBoxContainer2/PenType
+@onready var cursor_preview: CursorPreview = $CursorPreview
+@onready var pen_active: CheckButton = $MainContainer/VBoxContainer/PenActive
 
-var active: bool = false
+var brush_clicked: bool = false
 
 func _ready() -> void:
 	toggle_button.tooltip_text = tr("program_simulator.map_tools.tooltip.show")
 	main_container.hide()
+	
+	var map_container: Control = map.get_parent()
+	map_container.gui_input.connect(on_map_gui_input)
+
+func on_map_gui_input(event: InputEvent) -> void:
+	if not pen_active.button_pressed: return
+	
+	if event is InputEventMouse:
+		var img_pos_i = get_texture_mouse_position(event.position)
+		var img_pos = Vector2(img_pos_i)
+		
+		var is_drawing = false
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+				is_drawing = true
+		elif event is InputEventMouseMotion:
+			if event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+				is_drawing = true
+
+		if is_drawing:
+			if img_pos_i.x >= 0 and img_pos_i.x < map.MAP_SIZE.x and img_pos_i.y >= 0 and img_pos_i.y < map.MAP_SIZE.y:
+				map.paint_at(img_pos, cursor_preview.brush_steps, pen_type.selected as Map.MaterialType)
+
+func get_texture_mouse_position(local_mouse_pos: Vector2) -> Vector2i:
+	if not map or not map.texture:
+		return Vector2i(-1, -1)
+
+	var texture_size = Vector2(map.MAP_SIZE)
+	var control_size = map.size
+	var scale_x = control_size.x / texture_size.x
+	var scale_y = control_size.y / texture_size.y
+	var final_scale = min(scale_x, scale_y)
+	var drawn_size = texture_size * final_scale
+	var offset_x = (control_size.x - drawn_size.x) / 2.0
+	var offset_y = (control_size.y - drawn_size.y) / 2.0
+	var pos_on_drawn_rect = local_mouse_pos - Vector2(offset_x, offset_y)
+	var texture_pos = pos_on_drawn_rect / final_scale
+	
+	return Vector2i(texture_pos)
 
 func on_toggle_button_pressed() -> void:
 	if main_container.visible:
@@ -27,13 +68,13 @@ func on_toggle_button_pressed() -> void:
 		toggle_button.tooltip_text = tr("program_simulator.map_tools.tooltip.hide")
 
 func on_pen_active_toggled(toggled_on: bool) -> void:
-	active = toggled_on
-
-func on_pen_type_item_selected(index: int) -> void:
 	pass
+	#cursor_preview.toggle(toggled_on)
 
 func on_pen_size_slider_value_changed(value: float) -> void:
 	pen_size_label.text = str(int(value))
+	
+	cursor_preview.set_size(int(value))
 
 func on_clear_button_pressed() -> void:
 	if not is_instance_valid(map): return
@@ -47,3 +88,9 @@ func on_random_button_pressed() -> void:
 
 func on_fill_button_pressed() -> void:
 	map.clear_map(pen_type.selected as Map.MaterialType)
+
+func on_mouse_entered() -> void:
+	cursor_preview.toggle(false)
+
+func on_mouse_exited() -> void:
+	cursor_preview.toggle(pen_active.button_pressed)

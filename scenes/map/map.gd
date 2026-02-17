@@ -5,13 +5,13 @@ enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
 
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
 
-const COLORS: Dictionary = {
-	MaterialType.VOID: Color(0.0, 0.0, 0.0),
-	MaterialType.SOFT_ROCK: Color(0.1, 0.1, 0.1),
-	MaterialType.HARD_ROCK: Color(0.3, 0.3, 0.3),
-	MaterialType.BEDROCK: Color(0.6, 0.6, 0.6),
-	MaterialType.GOLD: Color(1.0, 0.84, 0.0)
-}
+const COLORS: PackedColorArray = [
+	Color(0.0, 0.0, 0.0),       # VOID = 0
+	Color(0.1, 0.1, 0.1),       # SOFT_ROCK = 1
+	Color(0.3, 0.3, 0.3),       # HARD_ROCK = 2
+	Color(0.6, 0.6, 0.6),       # BEDROCK = 3
+	Color(1.0, 0.84, 0.0)       # GOLD = 4
+]
 
 var image: Image
 var texture_ref: ImageTexture
@@ -45,6 +45,18 @@ func _process(_delta: float) -> void:
 
 func clear_map(material_type: MaterialType = MaterialType.VOID) -> void:
 	image.fill(COLORS[material_type])
+	texture_dirty = true
+
+func paint_at(img_pos: Vector2, brush_steps: int, material_type: MaterialType = MaterialType.VOID) -> void:
+	for x in range(-brush_steps, brush_steps + 1):
+		for y in range(-brush_steps, brush_steps + 1):
+			if Vector2(x, y).length() <= brush_steps - 0.5:
+				var target_x = int(img_pos.x + x)
+				var target_y = int(img_pos.y + y)
+				
+				if target_x >= 0 and target_x < MAP_SIZE.x and target_y >= 0 and target_y < MAP_SIZE.y:
+					set_pixel(target_x, target_y, material_type)
+	
 	texture_dirty = true
 
 func generate_world() -> void:
@@ -91,15 +103,17 @@ func generate_noisy_background() -> void:
 	noise.frequency = 0.08 
 	noise.fractal_octaves = 4 
 	
+	var noise_img = noise.get_image(MAP_SIZE.x, MAP_SIZE.y)
+	
 	for x in range(MAP_SIZE.x):
 		for y in range(MAP_SIZE.y):
-			var n_val = noise.get_noise_2d(x, y)
+			var pixel_val = noise_img.get_pixel(x, y).r
 			
-			if n_val < -0.1:
+			if pixel_val < 0.45:
 				set_pixel(x, y, MaterialType.HARD_ROCK)
-			elif n_val < 0.4:
+			elif pixel_val < 0.7:
 				set_pixel(x, y, MaterialType.SOFT_ROCK)
-			elif n_val < 0.65:
+			elif pixel_val < 0.825:
 				set_pixel(x, y, MaterialType.HARD_ROCK)
 			else:
 				set_pixel(x, y, MaterialType.BEDROCK)
@@ -332,4 +346,4 @@ func create_spawn_point(radius: float) -> void:
 				continue
 			
 			if Vector2(x, y).distance_to(center) <= radius:
-				image.set_pixel(x, y, MaterialType.VOID)
+				set_pixel(x, y, MaterialType.VOID)

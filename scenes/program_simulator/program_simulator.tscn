@@ -24,11 +24,12 @@ theme_override_constants/autohide = 1
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 
-[node name="Control" type="Control" parent="HSplitContainer/WorldContainer" unique_id=903913534]
+[node name="MapContainer" type="Control" parent="HSplitContainer/WorldContainer" unique_id=903913534]
 layout_mode = 2
 
-[node name="Map" parent="HSplitContainer/WorldContainer/Control" unique_id=150635800 instance=ExtResource("2_nvaia")]
+[node name="Map" parent="HSplitContainer/WorldContainer/MapContainer" unique_id=150635800 instance=ExtResource("2_nvaia")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,9 +39,10 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 1)
+mouse_filter = 1
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/WorldContainer/Control" unique_id=812969122]
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/WorldContainer/MapContainer" unique_id=812969122]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,7 +54,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="MapTools" parent="HSplitContainer/WorldContainer/Control/MarginContainer" unique_id=1611098043 node_paths=PackedStringArray("map") instance=ExtResource("3_h4j3i")]
+[node name="MapTools" parent="HSplitContainer/WorldContainer/MapContainer/MarginContainer" unique_id=1611098043 node_paths=PackedStringArray("map") instance=ExtResource("3_h4j3i")]
 layout_mode = 2
 map = NodePath("../../Map")
 

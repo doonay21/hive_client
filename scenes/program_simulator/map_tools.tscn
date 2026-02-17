@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://8qhy8up62xah" path="res://assets/images/icons/show.png" id="2_30oso"]
 [ext_resource type="Texture2D" uid="uid://du0nvxt0g12ba" path="res://assets/images/icons/colors.png" id="2_t4ogu"]
 [ext_resource type="Texture2D" uid="uid://dnqcvq80weowt" path="res://assets/images/icons/shuffle.png" id="3_4vt75"]
+[ext_resource type="PackedScene" uid="uid://n3jaf3upg5ke" path="res://scenes/program_simulator/cursor_preview.tscn" id="6_6o0cn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_30oso"]
 content_margin_left = 0.0
@@ -49,14 +50,17 @@ horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer" unique_id=192117920]
 layout_mode = 2
+mouse_filter = 1
 theme_override_styles/separator = SubResource("StyleBoxLine_nvaia")
 
 [node name="PenActive" type="CheckButton" parent="MainContainer/VBoxContainer" unique_id=1213524203]
 layout_mode = 2
+mouse_filter = 1
 text = "program_simulator.map_tools.pen_active"
 
 [node name="HSeparator2" type="HSeparator" parent="MainContainer/VBoxContainer" unique_id=537882912]
 layout_mode = 2
+mouse_filter = 1
 theme_override_styles/separator = SubResource("StyleBoxLine_nvaia")
 
 [node name="Label2" type="Label" parent="MainContainer/VBoxContainer" unique_id=286047200]
@@ -69,6 +73,7 @@ layout_mode = 2
 [node name="PenType" type="OptionButton" parent="MainContainer/VBoxContainer/HBoxContainer2" unique_id=750846433]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 selected = 0
 item_count = 5
 popup/item_0/text = "program_simulator.map_tools.pens.void"
@@ -85,6 +90,7 @@ popup/item_4/id = 4
 [node name="FillButton" type="Button" parent="MainContainer/VBoxContainer/HBoxContainer2" unique_id=495612793]
 layout_mode = 2
 tooltip_text = "program_simulator.map_tools.fill"
+mouse_filter = 1
 icon = ExtResource("2_t4ogu")
 
 [node name="Label" type="Label" parent="MainContainer/VBoxContainer" unique_id=1173741724]
@@ -98,6 +104,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 min_value = 1.0
 max_value = 10.0
 value = 1.0
@@ -110,15 +117,18 @@ horizontal_alignment = 1
 
 [node name="HSeparator3" type="HSeparator" parent="MainContainer/VBoxContainer" unique_id=1607245703]
 layout_mode = 2
+mouse_filter = 1
 theme_override_styles/separator = SubResource("StyleBoxLine_nvaia")
 
 [node name="ClearButton" type="Button" parent="MainContainer/VBoxContainer" unique_id=2010322552]
 layout_mode = 2
+mouse_filter = 1
 text = "program_simulator.map_tools.clear"
 icon = ExtResource("2_4vt75")
 
 [node name="RandomButton" type="Button" parent="MainContainer/VBoxContainer" unique_id=179570535]
 layout_mode = 2
+mouse_filter = 1
 text = "program_simulator.map_tools.generate"
 icon = ExtResource("3_4vt75")
 
@@ -126,11 +136,15 @@ icon = ExtResource("3_4vt75")
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+mouse_filter = 1
 icon = ExtResource("2_30oso")
 icon_alignment = 1
 
+[node name="CursorPreview" parent="." unique_id=342309955 instance=ExtResource("6_6o0cn")]
+
+[connection signal="mouse_entered" from="." to="." method="on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="on_mouse_exited"]
 [connection signal="toggled" from="MainContainer/VBoxContainer/PenActive" to="." method="on_pen_active_toggled"]
-[connection signal="item_selected" from="MainContainer/VBoxContainer/HBoxContainer2/PenType" to="." method="on_pen_type_item_selected"]
 [connection signal="pressed" from="MainContainer/VBoxContainer/HBoxContainer2/FillButton" to="." method="on_fill_button_pressed"]
 [connection signal="value_changed" from="MainContainer/VBoxContainer/HBoxContainer/PenSizeSlider" to="." method="on_pen_size_slider_value_changed"]
 [connection signal="pressed" from="MainContainer/VBoxContainer/ClearButton" to="." method="on_clear_button_pressed"]
