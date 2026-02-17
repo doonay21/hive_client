@@ -1,143 +1,177 @@
 class_name Map extends TextureRect
 
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
-const SEED: int = 12345
 
-const C_VOID = Color.BLACK
-const C_WALL = Color(0.2, 0.2, 0.2)
-
-const MIN_STRIP_HEIGHT = 20
-const MIN_CELL_WIDTH = 20
-const WALL_THICKNESS_BASE = 2
-const WORM_CHAOS = 0.3
+const BEDROCK = Color(0.1, 0.1, 0.1)
+const HARD_ROCK = Color(0.3, 0.3, 0.3)
+const SOFT_ROCK = Color(0.6, 0.6, 0.6)
+const GOLD = Color(1.0, 0.84, 0.0)
 
 var image: Image
 var texture_ref: ImageTexture
-var rng: RandomNumberGenerator
+var texture_dirty: bool = false
 var noise: FastNoiseLite
-var cells_centers: Array[Vector2i] = []
 
 func _ready() -> void:
+	randomize()
+	
+	noise = FastNoiseLite.new()
+	noise.seed = randi()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	noise.frequency = 0.05
+	noise.fractal_octaves = 2
+
 	texture_filter = TEXTURE_FILTER_NEAREST
+	focus_mode = Control.FOCUS_CLICK
+	
 	image = Image.create(MAP_SIZE.x, MAP_SIZE.y, false, Image.FORMAT_RGBA8)
 	texture_ref = ImageTexture.create_from_image(image)
 	texture = texture_ref
 	
-	rng = RandomNumberGenerator.new()
-	rng.seed = SEED
-	
-	noise = FastNoiseLite.new()
-	noise.seed = SEED
-	noise.frequency = 0.05
-	noise.noise_type = FastNoiseLite.TYPE_PERLIN
-
 	generate_world()
-	apply_texture()
 
-func regenerate(new_seed: int = -1) -> void:
-	if new_seed == -1:
-		rng.randomize() 
-		var random_seed = rng.randi()
-		rng.seed = random_seed
-		noise.seed = random_seed
-	else:
-		rng.seed = new_seed
-		noise.seed = new_seed
-	
-	generate_world()
-	apply_texture()
-
-func apply_texture() -> void:
-	texture_ref.set_image(image)
+func _process(_delta: float) -> void:
+	if texture_dirty:
+		texture_ref.update(image)
+		texture_dirty = false
 
 func generate_world() -> void:
-	image.fill(C_VOID)
-	cells_centers.clear()
+	noise.seed = randi()
 	
-	generate_structure()
-	run_worm()
-
-func generate_structure() -> void:
-	var current_y = 0
+	image.fill(BEDROCK)
 	
-	while current_y < MAP_SIZE.y:
-		var strip_h = rng.randi_range(MIN_STRIP_HEIGHT, MIN_STRIP_HEIGHT * 2)
-		if current_y + strip_h > MAP_SIZE.y:
-			strip_h = MAP_SIZE.y - current_y
+	var room_count_axis = 5
+	var room_w = MAP_SIZE.x / room_count_axis
+	var room_h = MAP_SIZE.y / room_count_axis
+	
+	for i in range(room_count_axis):
+		for j in range(room_count_axis):
+			_create_noise_room(i * room_w, j * room_h, room_w, room_h)
+			
+	_create_random_edge_passages(room_count_axis, room_w, room_h)
+	
+	for n in range(40): 
+		_generate_gold_vein()
 		
-		if current_y > 0:
-			draw_organic_line(Vector2i(0, current_y), Vector2i(MAP_SIZE.x, current_y), true)
-
-		var current_x = 0
-		while current_x < MAP_SIZE.x:
-			var cell_w = rng.randi_range(MIN_CELL_WIDTH, MIN_CELL_WIDTH * 2)
-			if current_x + cell_w > MAP_SIZE.x:
-				cell_w = MAP_SIZE.x - current_x
-			
-			if current_x > 0:
-				draw_organic_line(Vector2i(current_x, current_y), Vector2i(current_x, current_y + strip_h), false)
-			
-			var center = Vector2i(current_x + cell_w / 2, current_y + strip_h / 2)
-			center.x = clampi(center.x, 1, MAP_SIZE.x - 2)
-			center.y = clampi(center.y, 1, MAP_SIZE.y - 2)
-			cells_centers.append(center)
-			
-			current_x += cell_w
-			
-		current_y += strip_h
-
-func draw_organic_line(start: Vector2i, end: Vector2i, horizontal: bool) -> void:
-	var length = (end.x - start.x) if horizontal else (end.y - start.y)
+	_add_complex_obstacles()
 	
-	for i in range(length):
-		var n_val = noise.get_noise_2d(start.x + i if horizontal else start.x, start.y + i if !horizontal else start.y)
-		var offset = int(n_val * 4.0)
-		var thickness = WALL_THICKNESS_BASE + int(abs(n_val) * 3.0)
-		var px = start.x + i if horizontal else start.x + offset
-		var py = start.y + offset if horizontal else start.y + i
-		
-		for t in range(-thickness/2, thickness/2 + 1):
-			var final_x = px + (0 if horizontal else t)
-			var final_y = py + (t if horizontal else 0)
+	texture_dirty = true
+
+func _create_noise_room(ox: int, oy: int, w: int, h: int) -> void:
+	var center = Vector2(ox + w/2.0, oy + h/2.0)
+	var margin = 4 
+	
+	for x in range(ox + margin, ox + w - margin):
+		for y in range(oy + margin, oy + h - margin):
+			var pos = Vector2(x, y)
+			var dist = pos.distance_to(center)
+			var max_dist = (min(w, h) / 2.0) - margin
 			
-			if final_x >= 0 and final_x < MAP_SIZE.x and final_y >= 0 and final_y < MAP_SIZE.y:
-				image.set_pixel(final_x, final_y, C_WALL)
+			var dist_factor = dist / max_dist
+			var noise_val = noise.get_noise_2d(x, y)
+			
+			if dist_factor > 1.0:
+				continue
+				
+			if dist_factor < 0.3:
+				image.set_pixel(x, y, SOFT_ROCK)
+			elif noise_val > 0.1:
+				image.set_pixel(x, y, HARD_ROCK)
+			else:
+				image.set_pixel(x, y, SOFT_ROCK)
 
-func run_worm() -> void:
-	for i in range(cells_centers.size() - 1):
-		var start = cells_centers[i]
-		var target = cells_centers[i+1]
-		carve_path(start, target)
+func _create_random_edge_passages(grid_size: int, rw: int, rh: int) -> void:
+	var reach_w = int(rw * 0.3)
+	var reach_h = int(rh * 0.3)
+	
+	for i in range(grid_size):
+		for j in range(grid_size):
+			if i < grid_size - 1:
+				var edge_x = (i + 1) * rw
+				var rand_y = (j * rh) + randi_range(rh * 0.3, rh * 0.7)
+				_dig_tunnel(Vector2i(edge_x - reach_w, rand_y), Vector2i(edge_x + reach_w, rand_y))
 
-func carve_path(from: Vector2i, to: Vector2i) -> void:
+			if j < grid_size - 1:
+				var edge_y = (j + 1) * rh
+				var rand_x = (i * rw) + randi_range(rw * 0.3, rw * 0.7)
+				_dig_tunnel(Vector2i(rand_x, edge_y - reach_h), Vector2i(rand_x, edge_y + reach_h))
+
+func _dig_tunnel(from: Vector2i, to: Vector2i) -> void:
 	var current = from
-	image.set_pixel(current.x, current.y, C_VOID) 
+	var steps = int(from.distance_to(to)) * 2
 	
-	while current != to:
-		var dir = Vector2i.ZERO
+	for s in range(steps):
+		image.set_pixelv(current, SOFT_ROCK)
+		if randf() > 0.3:
+			image.set_pixel(current.x + 1, current.y, SOFT_ROCK)
+			image.set_pixel(current.x, current.y + 1, SOFT_ROCK)
+
 		var diff = to - current
+		if diff == Vector2i.ZERO: break
 		
 		if abs(diff.x) > abs(diff.y):
-			dir.x = sign(diff.x)
+			current.x += sign(diff.x)
+			if randf() < 0.2: current.y += [1, -1].pick_random()
 		else:
-			dir.y = sign(diff.y)
+			current.y += sign(diff.y)
+			if randf() < 0.2: current.x += [1, -1].pick_random()
 			
-		if rng.randf() < WORM_CHAOS:
-			if rng.randf() > 0.5:
-				dir = Vector2i(1 if rng.randf() > 0.5 else -1, 0)
-			else:
-				dir = Vector2i(0, 1 if rng.randf() > 0.5 else -1)
-				
-		current += dir
-		
 		current.x = clampi(current.x, 1, MAP_SIZE.x - 2)
 		current.y = clampi(current.y, 1, MAP_SIZE.y - 2)
-		
-		drill_hole(current, 1)
 
-func drill_hole(pos: Vector2i, radius: int) -> void:
-	for x in range(-radius, radius + 1):
-		for y in range(-radius, radius + 1):
-			var drill_pos = pos + Vector2i(x, y)
-			if drill_pos.x >= 0 and drill_pos.x < MAP_SIZE.x and drill_pos.y >= 0 and drill_pos.y < MAP_SIZE.y:
-				image.set_pixel(drill_pos.x, drill_pos.y, C_VOID)
+func _generate_gold_vein() -> void:
+	var curr = Vector2i(randi() % MAP_SIZE.x, randi() % MAP_SIZE.y)
+	var length = randi_range(15, 45)
+	
+	for i in range(length):
+		if curr.x > 0 and curr.x < MAP_SIZE.x - 1 and curr.y > 0 and curr.y < MAP_SIZE.y - 1:
+			var pixel = image.get_pixelv(curr)
+			if pixel != BEDROCK or randf() < 0.05: 
+				image.set_pixelv(curr, GOLD)
+				
+				if randf() > 0.6:
+					var neighbor = curr + [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+					image.set_pixelv(neighbor, GOLD)
+		
+		var dir = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+		curr += dir
+
+func _add_complex_obstacles() -> void:
+	for i in range(50):
+		var start = Vector2i(randi() % (MAP_SIZE.x - 10) + 5, randi() % (MAP_SIZE.y - 10) + 5)
+		
+		if image.get_pixelv(start) == BEDROCK:
+			continue
+			
+		var type = randi() % 3
+		
+		match type:
+			0:
+				var length = randi_range(4, 12)
+				var dir = Vector2i(1, 0) if randf() > 0.5 else Vector2i(0, 1)
+				for k in range(length):
+					set_pixelv_safe(start + (dir * k), BEDROCK)
+					
+			1:
+				var len_a = randi_range(4, 10)
+				var len_b = randi_range(4, 10)
+				for k in range(len_a):
+					set_pixelv_safe(start + Vector2i(k, 0), BEDROCK)
+				var corner = start + Vector2i(len_a - 1, 0)
+				var dir_b = Vector2i(0, 1) if randf() > 0.5 else Vector2i(0, -1)
+				for k in range(len_b):
+					set_pixelv_safe(corner + (dir_b * k), BEDROCK)
+			
+			2:
+				set_pixelv_safe(start, BEDROCK)
+				set_pixelv_safe(start + Vector2i(1,0), BEDROCK)
+				set_pixelv_safe(start + Vector2i(-1,0), BEDROCK)
+				set_pixelv_safe(start + Vector2i(0,1), BEDROCK)
+				set_pixelv_safe(start + Vector2i(0,-1), BEDROCK)
+
+func set_pixel_safe(x: int, y: int, color: Color) -> void:
+	if x >= 0 and x < MAP_SIZE.x and y >= 0 and y < MAP_SIZE.y:
+		image.set_pixel(x, y, color)
+
+func set_pixelv_safe(pos: Vector2i, color: Color) -> void:
+	set_pixel_safe(pos.x, pos.y, color)
