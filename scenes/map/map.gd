@@ -1,6 +1,7 @@
 class_name Map extends TextureRect
 
 enum MaterialType { VOID, SOFT_ROCK, HARD_ROCK, BEDROCK, GOLD }
+enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
 
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
 
@@ -66,7 +67,12 @@ func generate_world() -> void:
 	for i in range(room_count_axis):
 		for j in range(room_count_axis):
 			var is_center_room = (i == center_index and j == center_index)
-			create_noise_room(i * room_w, j * room_h, room_w, room_h, is_center_room)
+			var shape = RoomShape.values().pick_random()
+			
+			if is_center_room:
+				shape = RoomShape.CIRCLE
+			
+			create_noise_room(i * room_w, j * room_h, room_w, room_h, shape)
 	
 	create_random_edge_passages(room_count_axis, room_w, room_h)
 	
@@ -98,30 +104,45 @@ func generate_noisy_background() -> void:
 			else:
 				set_pixel(x, y, MaterialType.BEDROCK)
 
-func create_noise_room(ox: int, oy: int, w: int, h: int, force_circle: bool) -> void:
+func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) -> void:
 	var center = Vector2(ox + w/2.0, oy + h/2.0)
 	var margin = 4 
-	
-	var is_square = false
-	if not force_circle:
-		is_square = randf() > 0.5
+	var half_size = (min(w, h) / 2.0) - margin
+	var cavern_noise_seed = randi()
 
 	for x in range(ox + margin, ox + w - margin):
 		for y in range(oy + margin, oy + h - margin):
-			var pos = Vector2(x, y)
 			var dist_factor = 0.0
 			
-			var half_size = (min(w, h) / 2.0) - margin
+			var dx = abs(x - center.x)
+			var dy = abs(y - center.y)
 			
-			if is_square:
-				var dx = abs(x - center.x)
-				var dy = abs(y - center.y)
-				var max_axis = max(dx, dy)
-				dist_factor = max_axis / half_size
-			else:
-				var dist = pos.distance_to(center)
-				dist_factor = dist / half_size
+			var nx = dx / half_size
+			var ny = dy / half_size
 			
+			match shape_type:
+				RoomShape.CIRCLE:
+					var dist = Vector2(x, y).distance_to(center)
+					dist_factor = dist / half_size
+				RoomShape.SQUARE:
+					var max_axis = max(dx, dy)
+					dist_factor = max_axis / half_size
+				RoomShape.DIAMOND:
+					dist_factor = (dx + dy) / (half_size * 1.1) 
+				RoomShape.CROSS:
+					var thickness = 0.35
+					var dist_vert = max(nx / thickness, ny)
+					var dist_horiz = max(nx, ny / thickness)
+					
+					dist_factor = min(dist_vert, dist_horiz)
+				RoomShape.SUPERELLIPSE:
+					dist_factor = sqrt(sqrt(pow(nx, 4) + pow(ny, 4)))
+				RoomShape.CAVERN:
+					var base_dist = sqrt(nx*nx + ny*ny)
+					var wobble = noise.get_noise_2d(x * 3.0 + cavern_noise_seed, y * 3.0)
+					
+					dist_factor = base_dist + (wobble * 0.4)
+
 			var noise_val = noise.get_noise_2d(x, y)
 			
 			if dist_factor > 1.0:
