@@ -19,6 +19,3 @@ func on_root_size_changed():
 	var new_root_size = get_tree().root.size
 	
 	self.max_size = new_root_size
-
-func on_button_pressed() -> void:
-	map.generate_world()
