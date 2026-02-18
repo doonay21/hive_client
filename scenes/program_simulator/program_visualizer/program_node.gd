@@ -44,6 +44,9 @@ func set_node(data: Dictionary) -> void:
 
 	icon.texture = block_res.icon
 	
+	var icon_size: Vector2 = icon.texture.get_size()
+	icon.scale = Vector2(40.0, 40.0) / icon_size
+	
 	var map_rotation = data.get("map", [0, 1, 2, 3])
 	
 	for i in range(4):

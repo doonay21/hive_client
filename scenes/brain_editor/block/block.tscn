@@ -158,7 +158,10 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-stretch_mode = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 4
+stretch_mode = 5
 
 [node name="DisplayName" type="Label" parent="CenterContainer/VBoxContainer" unique_id=29687747]
 unique_name_in_owner = true
