@@ -1,0 +1,8 @@
+map:
+  material_type:
+    void: Pustka
+    soft_rock: Piasek
+    hard_rock: Kamień
+    bedrock: Skała
+    gold: Złoto
+    robot: Robot

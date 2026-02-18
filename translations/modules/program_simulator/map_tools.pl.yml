@@ -10,9 +10,3 @@ program_simulator:
     tooltip:
       hide: Ukryj narzędzia
       show: Pokaż narzędzia
-    pens:
-      void: Pustka
-      soft_rock: Piasek
-      hard_rock: Kamień
-      bedrock: Skała
-      gold: Złoto

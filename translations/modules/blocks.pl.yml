@@ -1,11 +1,5 @@
 blocks:
   sight:
-    soil: "Ziemia"
-    rock: "Skała"
-    void: "Pustka"
-    gold: "Złoto"
-    wall: "Ściana"
-    robot: "Robot"
     title: "Wzrok"
     info: "Zwraca odległość do przeszkody z przodu, po lewej i prawej. Zasięg 10 jednostek. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed."
     port_labels:

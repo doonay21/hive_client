@@ -1,11 +1,5 @@
 blocks:
   sight:
-    soil: "Soil"
-    rock: "Rock"
-    void: "Void"
-    gold: "Gold"
-    wall: "Wall"
-    robot: "Robot"
     title: "Sight"
     info: "Returns distance to obstacle in front, left and right. Range 10 units. 1.0 - no obstacles, 0.0 - obstacle directly in front."
     port_labels:

@@ -1,0 +1,8 @@
+map:
+  material_type:
+    void: Void
+    soft_rock: Sand
+    hard_rock: Rock
+    bedrock: Bedrock
+    gold: Gold
+    robot: Robot

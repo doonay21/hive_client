@@ -4,6 +4,7 @@ const icon_show = preload("res://assets/images/icons/show.png")
 const icon_hide = preload("res://assets/images/icons/hide.png")
 
 @export var map: Map
+@export var info_label: Label
 
 @onready var main_container: MarginContainer = $MainContainer
 @onready var toggle_button: Button = $ToggleButton
@@ -22,11 +23,13 @@ func _ready() -> void:
 	map_container.gui_input.connect(on_map_gui_input)
 
 func on_map_gui_input(event: InputEvent) -> void:
-	if not pen_active.button_pressed: return
-	
 	if event is InputEventMouse:
 		var img_pos_i = get_texture_mouse_position(event.position)
 		var img_pos = Vector2(img_pos_i)
+		
+		print_material_info(map.get_material_at(img_pos_i))
+		
+		if not pen_active.button_pressed: return
 		
 		var is_drawing = false
 		if event is InputEventMouseButton:
@@ -39,6 +42,10 @@ func on_map_gui_input(event: InputEvent) -> void:
 		if is_drawing:
 			if img_pos_i.x >= 0 and img_pos_i.x < map.MAP_SIZE.x and img_pos_i.y >= 0 and img_pos_i.y < map.MAP_SIZE.y:
 				map.paint_at(img_pos, cursor_preview.brush_steps, pen_type.selected as Map.MaterialType)
+
+func print_material_info(pointed_material: Map.MaterialType) -> void:
+	match pointed_material:
+		Map.MaterialType.VOID: info_label.text = ""
 
 func get_texture_mouse_position(local_mouse_pos: Vector2) -> Vector2i:
 	if not map or not map.texture:

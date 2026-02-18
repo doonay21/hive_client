@@ -59,6 +59,18 @@ func paint_at(img_pos: Vector2, brush_steps: int, material_type: MaterialType = 
 	
 	texture_dirty = true
 
+func get_material_at(pos: Vector2i) -> MaterialType:
+	if pos.x < 0 or pos.x >= MAP_SIZE.x or pos.y < 0 or pos.y >= MAP_SIZE.y:
+		return MaterialType.VOID
+	
+	var pixel_color = image.get_pixelv(pos)
+	var material_index = COLORS.find(pixel_color)
+	
+	if material_index != -1:
+		return material_index as MaterialType
+		
+	return MaterialType.VOID
+
 func generate_world() -> void:
 	noise.seed = randi()
 	room_pixels.clear()
