@@ -26,6 +26,7 @@ func start(brain_editor: BrainEditor) -> void:
 	grid_half_size = grid_total_size / 2.0
 	
 	create_grid()
+	calculate_connections()
 	recalculate_grid(true)
 
 func toggle_empty_nodes(toggled_on: bool) -> void:
@@ -65,3 +66,33 @@ func recalculate_grid(force_position: bool = false) -> void:
 			
 			if force_position:
 				node.position = node.target_position
+
+func calculate_connections() -> void:
+	var directions = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
+	
+	for y in range(column_count):
+		for x in range(column_count):
+			var pos = Vector2i(x, y)
+			if not grid.has(pos): continue
+			
+			var node: ProgramNode = grid[pos]
+			if node.empty: continue
+			
+			var active_connections: Array[bool] = [false, false, false, false]
+			
+			for i in range(4):
+				if node.logical_ports[i] != BlockData.Port.OUTPUT:
+					continue
+				
+				var neighbor_pos = pos + directions[i]
+				
+				if grid.has(neighbor_pos):
+					var neighbor: ProgramNode = grid[neighbor_pos]
+					
+					if not neighbor.empty:
+						var opposite_side = (i + 2) % 4
+						
+						if neighbor.logical_ports[opposite_side] == BlockData.Port.INPUT:
+							active_connections[i] = true
+			
+			node.update_connections_visibility(active_connections)

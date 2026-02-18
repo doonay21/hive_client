@@ -55,11 +55,14 @@ func set_node(data: Dictionary) -> void:
 		var port_type = block_res.ports[original_port_idx]
 		
 		logical_ports[i] = port_type
-		update_port_visual(i, port_type)
+		ports[i].visible = false
 
-func update_port_visual(side_index: int, type: BlockData.Port) -> void:
-	var sprite = ports[side_index]
-	sprite.visible = type == BlockData.Port.OUTPUT
+func update_connections_visibility(active_connections: Array[bool]) -> void:
+	for i in range(4):
+		if logical_ports[i] == BlockData.Port.OUTPUT and active_connections[i]:
+			ports[i].visible = true
+		else:
+			ports[i].visible = false
 
 func update_ports(node_size: float, node_margin: float) -> void:
 	var half_size: float = node_size / 2.0
