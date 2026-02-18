@@ -21,12 +21,13 @@ var noise: FastNoiseLite
 
 var room_pixels: Array[Vector2i] = []
 var data_grid: PackedByteArray = []
+var current_seed: int = 0
 
 func _ready() -> void:
 	randomize()
 	
 	noise = FastNoiseLite.new()
-	noise.seed = randi()
+	noise.seed = current_seed
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.frequency = 0.05
 	noise.fractal_octaves = 2
@@ -69,7 +70,8 @@ func get_material_at(pos: Vector2i) -> MaterialType:
 	return data_grid[pos.x + pos.y * MAP_SIZE.x] as MaterialType
 
 func generate_world() -> void:
-	noise.seed = randi()
+	current_seed = randi()
+	noise.seed = current_seed
 	room_pixels.clear()
 	
 	generate_noisy_background()
@@ -105,6 +107,8 @@ func generate_world() -> void:
 		
 	add_complex_obstacles()
 	create_spawn_point(12.0)
+	
+	encode_seed_in_pixels(current_seed)
 	
 	texture_dirty = true
 
@@ -413,3 +417,25 @@ func create_spawn_point(radius: float) -> void:
 			
 			if Vector2(x, y).distance_to(center) <= radius:
 				set_pixel(x, y, MaterialType.VOID)
+
+func encode_seed_in_pixels(seed_val: int) -> void:
+	var y = MAP_SIZE.y - 1
+	
+	for x in range(64):
+		set_pixel(x, y, MaterialType.HARD_ROCK)
+	
+	for i in range(64):
+		if (seed_val & (1 << i)) != 0:
+			set_pixel(i, y, MaterialType.BEDROCK)
+
+func extract_seed_from_pixels() -> int:
+	var recovered_seed: int = 0
+	var y = MAP_SIZE.y - 1
+	
+	for i in range(64):
+		var mat = get_material_at(Vector2i(i, y))
+		
+		if mat == MaterialType.BEDROCK:
+			recovered_seed |= (1 << i)
+			
+	return recovered_seed

@@ -1,5 +1,6 @@
 class_name ProgramNode extends Node2D
 
+const MISSING_IMAGE = preload("res://assets/images/brain_editor/block_icons/missing.png")
 const ORIGINAL_SIZE: float = 44.0
 
 @onready var background: Sprite2D = $Background
@@ -39,7 +40,7 @@ func set_node(data: Dictionary) -> void:
 		block_res = BlockLibrary.get_data_for_op(op)
 	
 	if not block_res:
-		icon.texture = preload("res://assets/images/brain_editor/block_icons/missing.png")
+		icon.texture = MISSING_IMAGE
 		return
 
 	icon.texture = block_res.icon
