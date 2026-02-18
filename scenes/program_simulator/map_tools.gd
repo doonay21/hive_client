@@ -45,7 +45,12 @@ func on_map_gui_input(event: InputEvent) -> void:
 
 func print_material_info(pointed_material: Map.MaterialType) -> void:
 	match pointed_material:
-		Map.MaterialType.VOID: info_label.text = ""
+		Map.MaterialType.VOID: info_label.text = tr("map.material_type.void")
+		Map.MaterialType.SOFT_ROCK: info_label.text = tr("map.material_type.soft_rock")
+		Map.MaterialType.HARD_ROCK: info_label.text = tr("map.material_type.hard_rock")
+		Map.MaterialType.BEDROCK: info_label.text = tr("map.material_type.bedrock")
+		Map.MaterialType.GOLD: info_label.text = tr("map.material_type.gold")
+		Map.MaterialType.ROBOT: info_label.text = tr("map.material_type.robot")
 
 func get_texture_mouse_position(local_mouse_pos: Vector2) -> Vector2i:
 	if not map or not map.texture:

@@ -1,16 +1,17 @@
 class_name Map extends TextureRect
 
-enum MaterialType { VOID, SOFT_ROCK, HARD_ROCK, BEDROCK, GOLD }
+enum MaterialType { VOID, SOFT_ROCK, HARD_ROCK, BEDROCK, GOLD, ROBOT }
 enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
 
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
 
 const COLORS: PackedColorArray = [
-	Color(0.0, 0.0, 0.0),       # VOID = 0
-	Color(0.1, 0.1, 0.1),       # SOFT_ROCK = 1
-	Color(0.3, 0.3, 0.3),       # HARD_ROCK = 2
-	Color(0.6, 0.6, 0.6),       # BEDROCK = 3
-	Color(1.0, 0.84, 0.0)       # GOLD = 4
+	Color("000000"),       # VOID = 0
+	Color("A89F83"),       # SOFT_ROCK = 1
+	Color("696969"),       # HARD_ROCK = 2
+	Color("1A1A1A"),       # BEDROCK = 3
+	Color("FFC30B"),       # GOLD = 4
+	Color("ff0000")        # ROBOT = 6
 ]
 
 var image: Image
@@ -19,6 +20,7 @@ var texture_dirty: bool = false
 var noise: FastNoiseLite
 
 var room_pixels: Array[Vector2i] = []
+var data_grid: PackedByteArray = []
 
 func _ready() -> void:
 	randomize()
@@ -35,6 +37,8 @@ func _ready() -> void:
 	image = Image.create(MAP_SIZE.x, MAP_SIZE.y, false, Image.FORMAT_RGBA8)
 	texture_ref = ImageTexture.create_from_image(image)
 	texture = texture_ref
+	
+	data_grid.resize(MAP_SIZE.x * MAP_SIZE.y)
 	
 	generate_world()
 
@@ -61,15 +65,8 @@ func paint_at(img_pos: Vector2, brush_steps: int, material_type: MaterialType = 
 
 func get_material_at(pos: Vector2i) -> MaterialType:
 	if pos.x < 0 or pos.x >= MAP_SIZE.x or pos.y < 0 or pos.y >= MAP_SIZE.y:
-		return MaterialType.VOID
-	
-	var pixel_color = image.get_pixelv(pos)
-	var material_index = COLORS.find(pixel_color)
-	
-	if material_index != -1:
-		return material_index as MaterialType
-		
-	return MaterialType.VOID
+		return MaterialType.BEDROCK
+	return data_grid[pos.x + pos.y * MAP_SIZE.x] as MaterialType
 
 func generate_world() -> void:
 	noise.seed = randi()
@@ -331,6 +328,7 @@ func add_complex_obstacles() -> void:
 
 func set_pixel(x: int, y: int, material_type: MaterialType) -> void:
 	image.set_pixel(x, y, COLORS[material_type])
+	data_grid[x + y * MAP_SIZE.x] = material_type
 
 func set_pixel_v(pos: Vector2i, material_type: MaterialType) -> void:
 	set_pixel(pos.x, pos.y, material_type)
