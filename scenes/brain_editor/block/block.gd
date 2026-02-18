@@ -3,12 +3,6 @@ class_name Block extends Control
 signal edit_requested(uuid: String)
 signal context_menu_requested(uuid: String, global_pos: Vector2)
 
-const BLOCK_RESOURCE_PREFIX = "res://scenes/brain_editor/blocks/"
-const TEX_NONE = preload("res://assets/images/brain_editor/conn_none.png")
-const TEX_IN = preload("res://assets/images/brain_editor/conn_in.png")
-const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
-const TEX_MISSING = preload("res://assets/images/brain_editor/block_icons/missing.png")
-
 @export var block_data: BlockData
 @export var is_toolbox_source: bool = false
 
@@ -29,41 +23,7 @@ var target_rotation: float = 0.0
 var labels_tween: Tween
 
 static func parse_save_to_program_data(save_data: Dictionary) -> Dictionary:
-	var program_data: Dictionary = {}
-	var rot_index = 0
-	
-	if "rotation_index" in save_data:
-		rot_index = save_data["rotation_index"]
-
-	program_data["map"] = calculate_rotation_map(rot_index)
-
-	if "stored_value" in save_data:
-		program_data["val"] = save_data["stored_value"]
-
-	if "custom_block_uuid" in save_data and not save_data["custom_block_uuid"].is_empty():
-		program_data["op"] = BlockData.Op.CUSTOM
-		program_data["uuid"] = save_data["custom_block_uuid"]
-		return program_data
-
-	if "resource" in save_data and not save_data["resource"].is_empty():
-		var resource_path = BLOCK_RESOURCE_PREFIX.path_join(save_data["resource"])
-		
-		if ResourceLoader.exists(resource_path):
-			var block_res = load(resource_path)
-			if block_res is BlockData:
-				program_data["op"] = block_res.op
-	
-	if not "op" in program_data:
-		return {}
-
-	return program_data
-
-static func calculate_rotation_map(rot_idx: int) -> Array:
-	var map: Array = [0, 0, 0, 0]
-	for physical_side in range(4):
-		var logical_index = (physical_side - rot_idx + 4) % 4
-		map[physical_side] = logical_index
-	return map
+	return BlockSerializer.parse_save_to_program_data(save_data)
 
 func _ready() -> void:
 	if block_data:
@@ -100,107 +60,20 @@ func initialize(data: Dictionary) -> void:
 	update_visuals()
 
 func load_data() -> void:
-	if not block_data: return
-
-	match block_data.display:
-		BlockData.Display.ICON_TEXT:
-			icon.texture = block_data.icon
-			display_name_label.text = block_data.display_name
-			icon.visible = true
-			display_name_label.visible = true
-			icon_big.visible = false
-			value_drag.visible = false
-		BlockData.Display.BIG_ICON:
-			icon_big.texture = block_data.icon
-			icon.visible = false
-			display_name_label.visible = false
-			value_drag.visible = false
-			icon_big.visible = true
-		BlockData.Display.ICON_VALUE_DRAG:
-			icon.texture = block_data.icon
-			icon.visible = true
-			display_name_label.visible = false
-			value_drag.visible = true
-			icon_big.visible = false
-	
-	background_container.modulate = block_data.get_style_color()
-	
-	if value_drag:
-		value_drag.mouse_filter = Control.MOUSE_FILTER_IGNORE if is_toolbox_source else Control.MOUSE_FILTER_STOP
-		
-		value_drag.setup(
-			block_data.value_mode,
-			block_data.custom_min,
-			block_data.custom_max,
-			block_data.value_strings 
-		)
-
-	update_labels_text()
+	BlockVisuals.load_data(self)
 
 func update_visuals() -> void:
-	if not block_data: return
-	
-	for i in range(4):
-		var port_def = block_data.ports[i]
-		var sprite = port_sprites[i]
-		
-		match port_def:
-			BlockData.Port.NONE:
-				sprite.texture = TEX_NONE
-			BlockData.Port.INPUT:
-				sprite.texture = TEX_IN
-			BlockData.Port.OUTPUT:
-				sprite.texture = TEX_OUT
+	BlockVisuals.update_visuals(self)
 
 func get_save_data() -> Dictionary:
-	var save_data: Dictionary = {
-		"resource": "",
-		"rotation_index": rotation_index,
-		"custom_block_uuid": custom_block_uuid
-	}
-	
-	if block_data and custom_block_uuid.is_empty() and not block_data.resource_path.is_empty():
-		save_data["resource"] = block_data.resource_path.trim_prefix(BLOCK_RESOURCE_PREFIX)
-	
-	if value_drag and value_drag.visible and "value" in value_drag:
-		save_data["stored_value"] = value_drag.value
-	
-	return save_data
+	return BlockSerializer.get_save_data(self)
 
 func get_program_data() -> Dictionary:
-	var save_data = get_save_data()
-	var data = Block.parse_save_to_program_data(save_data)
-	
-	if block_data:
-		data["op"] = block_data.op
-		if block_data is CustomBlockData:
-			data["uuid"] = custom_block_uuid
-
-	return data
+	return BlockSerializer.get_program_data(self)
 
 func load_save_data(saved_data: Dictionary) -> void:
-	if "custom_block_uuid" in saved_data and not saved_data["custom_block_uuid"].is_empty():
-		custom_block_uuid = saved_data["custom_block_uuid"]
-		
-		var block_model = BlockModel.where("uuid", custom_block_uuid)
-		
-		if block_model:
-			block_data = CustomBlockData.new(
-				block_model.name,
-				block_model.ports,
-				block_model.description
-			)
-		else:
-			create_missing_block_visuals()
-	elif "resource" in saved_data and not saved_data["resource"].is_empty():
-		var resource_path = BLOCK_RESOURCE_PREFIX.path_join(saved_data["resource"])
-		
-		if ResourceLoader.exists(resource_path):
-			block_data = load(resource_path)
-
-	if "rotation_index" in saved_data:
-		rotation_index = saved_data["rotation_index"]
-
+	BlockSerializer.load_save_data(self, saved_data)
+	
 	load_data()
 	
 	if "stored_value" in saved_data and value_drag and value_drag.visible and "value" in value_drag:
@@ -299,21 +172,14 @@ func _gui_input(event: InputEvent) -> void:
 func rotate_clockwise():
 	rotation_index = (rotation_index + 1) % 4
 	target_rotation += 90.0
-	animate_rotation()
-	animate_labels_change()
+	BlockVisuals.animate_rotation(self)
+	BlockVisuals.animate_labels_change(self)
 
 func rotate_counter_clockwise():
 	rotation_index = (rotation_index - 1 + 4) % 4
 	target_rotation -= 90.0
-	animate_rotation()
-	animate_labels_change()
-
-func animate_rotation():
-	if rotation_tween: rotation_tween.kill()
-	
-	rotation_tween = create_tween()
-	rotation_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-	rotation_tween.tween_property(background_container, "rotation_degrees", target_rotation, 0.2)
+	BlockVisuals.animate_rotation(self)
+	BlockVisuals.animate_labels_change(self)
 
 func delete_block_animated():
 	mouse_filter = Control.MOUSE_FILTER_IGNORE 
@@ -326,7 +192,7 @@ func on_mouse_entered() -> void:
 	if is_toolbox_source:
 		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	else:
-		animate_labels(1.0)
+		BlockVisuals.animate_labels(self, 1.0)
 	
 	if not custom_block_uuid.is_empty():
 		var description = block_data.info_text if block_data else ""
@@ -344,43 +210,9 @@ func on_mouse_entered() -> void:
 
 func on_mouse_exited() -> void:
 	if not is_toolbox_source:
-		animate_labels(0.0)
+		BlockVisuals.animate_labels(self, 0.0)
 	
 	Events.info_text_hide_requested.emit()
-
-func animate_labels(target_alpha: float) -> void:
-	if labels_tween: labels_tween.kill()
-	
-	labels_tween = create_tween()
-	labels_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	
-	if target_alpha > 0.0:
-		labels.visible = true
-		
-	labels_tween.tween_property(labels, "modulate:a", target_alpha, 0.2)
-	
-	if target_alpha == 0.0:
-		labels_tween.tween_callback(labels.hide)
-
-func update_labels_text() -> void:
-	if not block_data: return
-
-	for i in range(4):
-		var label: Label = label_nodes[i]
-		if label:
-			var data_index = (i - rotation_index + 4) % 4
-			label.text = block_data.port_labels[data_index]
-
-func animate_labels_change() -> void:
-	if not labels.visible or labels.modulate.a == 0.0:
-		update_labels_text()
-		return
-
-	if labels_tween: labels_tween.kill()
-	labels_tween = create_tween()
-	labels_tween.tween_property(labels, "modulate:a", 0.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	labels_tween.tween_callback(update_labels_text)
-	labels_tween.tween_property(labels, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 func on_events_custom_block_changed(uuid: String, new_ports: Array) -> void:
 	if uuid != custom_block_uuid: return
@@ -393,17 +225,4 @@ func on_events_custom_block_changed(uuid: String, new_ports: Array) -> void:
 		block_data.ports = typed_ports
 		
 		update_visuals()
-		update_labels_text()
-
-func create_missing_block_visuals() -> void:
-	block_data = CustomBlockData.new(
-		tr("brain_editor.new_program.missing.title"), 
-		[BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE, BlockData.Port.NONE]
-	)
-	
-	block_data.style = BlockData.Style.CUSTOM
-	block_data.info_text = tr("brain_editor.new_program.missing.nf").format({ "uuid": custom_block_uuid })
-	
-	background_container.modulate = Color(1.0, 0.2, 0.2, 1.0) 
-	
-	block_data.icon = TEX_MISSING
+		BlockVisuals.update_labels_text(self)
