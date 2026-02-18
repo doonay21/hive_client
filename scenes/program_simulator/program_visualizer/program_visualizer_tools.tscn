@@ -37,7 +37,11 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/separator = SubResource("StyleBoxLine_kwo86")
 
-[node name="Label2" type="Label" parent="MainContainer/VBoxContainer" unique_id=693371104]
+[node name="HideEmptyNodes" type="CheckButton" parent="MainContainer/VBoxContainer" unique_id=638270979]
+layout_mode = 2
+text = "program_simulator.program_visualizer_tools.hide_empty"
+
+[node name="Label4" type="Label" parent="MainContainer/VBoxContainer" unique_id=1200108838]
 layout_mode = 2
 mouse_filter = 1
 text = "program_simulator.program_visualizer_tools.node_margin"
@@ -50,13 +54,35 @@ custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
-max_value = 50.0
+max_value = 200.0
 value = 20.0
 
 [node name="NodeMarginLabel" type="Label" parent="MainContainer/VBoxContainer/HBoxContainer" unique_id=953334004]
 layout_mode = 2
 mouse_filter = 1
-text = "40.0"
+text = "20"
+
+[node name="Label3" type="Label" parent="MainContainer/VBoxContainer" unique_id=847175956]
+layout_mode = 2
+mouse_filter = 1
+text = "program_simulator.program_visualizer_tools.node_size"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MainContainer/VBoxContainer" unique_id=773843231]
+layout_mode = 2
+
+[node name="NodeSizeSlider" type="HSlider" parent="MainContainer/VBoxContainer/HBoxContainer2" unique_id=1820172687]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+min_value = 24.0
+max_value = 200.0
+value = 44.0
+
+[node name="NodeSizeLabel" type="Label" parent="MainContainer/VBoxContainer/HBoxContainer2" unique_id=620626993]
+layout_mode = 2
+mouse_filter = 1
+text = "44"
 
 [node name="ToggleButton" type="Button" parent="." unique_id=1735472317]
 layout_mode = 2
@@ -66,5 +92,7 @@ mouse_filter = 1
 icon = ExtResource("1_s3lry")
 icon_alignment = 1
 
+[connection signal="toggled" from="MainContainer/VBoxContainer/HideEmptyNodes" to="." method="on_hide_empty_nodes_toggled"]
 [connection signal="value_changed" from="MainContainer/VBoxContainer/HBoxContainer/NodeMarginSlider" to="." method="on_node_margin_slider_value_changed"]
+[connection signal="value_changed" from="MainContainer/VBoxContainer/HBoxContainer2/NodeSizeSlider" to="." method="on_node_size_slider_value_changed"]
 [connection signal="pressed" from="ToggleButton" to="." method="on_toggle_button_pressed"]

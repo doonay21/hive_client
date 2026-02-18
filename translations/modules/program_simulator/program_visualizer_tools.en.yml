@@ -1,6 +1,9 @@
 program_simulator:
   program_visualizer_tools:
     title: Tools
+    hide_empty: Hide empty nodes
+    node_margin: Node margin
+    node_size: Node size
     tooltip:
       hide: Hide tools
       show: Show tools

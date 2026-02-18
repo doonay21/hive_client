@@ -108,6 +108,17 @@ render_target_update_mode = 4
 [node name="ProgramVisualizer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer/SubViewportContainer/SubViewport" unique_id=1755105196 instance=ExtResource("4_i1rra")]
 unique_name_in_owner = true
 
+[node name="CanvasLayer" type="CanvasLayer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer/SubViewportContainer/SubViewport" unique_id=1297305830]
+layer = -100
+
+[node name="ColorRect" type="ColorRect" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer/SubViewportContainer/SubViewport/CanvasLayer" unique_id=1811479372]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer" unique_id=22897877]
 layout_mode = 2
 size_flags_horizontal = 8

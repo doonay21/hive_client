@@ -2,13 +2,75 @@
 
 [ext_resource type="Texture2D" uid="uid://bi4n0uqs0s3m8" path="res://assets/images/program_visualizer/node_back.png" id="1_0xx2w"]
 [ext_resource type="Script" uid="uid://b3t2atatqwhx" path="res://scenes/program_simulator/program_visualizer/program_node.gd" id="1_qftrx"]
+[ext_resource type="Texture2D" uid="uid://f73fgj1c5im7" path="res://assets/images/program_visualizer/dashed_line.png" id="3_oso78"]
+[ext_resource type="Shader" uid="uid://fu8puevcjlwh" path="res://shaders/dashed_line_moving.gdshader" id="4_ya74h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ya74h"]
+shader = ExtResource("4_ya74h")
+shader_parameter/speed = 1.0
+shader_parameter/alpha = 0.150000007125
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u433l"]
+shader = ExtResource("4_ya74h")
+shader_parameter/speed = 1.0
+shader_parameter/alpha = 0.150000007125
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n0owb"]
+shader = ExtResource("4_ya74h")
+shader_parameter/speed = 1.0
+shader_parameter/alpha = 0.150000007125
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2d8nr"]
+shader = ExtResource("4_ya74h")
+shader_parameter/speed = 1.0
+shader_parameter/alpha = 0.150000007125
 
 [node name="ProgramNode" type="Node2D" unique_id=1869400318]
 script = ExtResource("1_qftrx")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=987876774]
-self_modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.05882353)
 texture = ExtResource("1_0xx2w")
 
 [node name="Icon" type="Sprite2D" parent="Background" unique_id=1949663825]
-scale = Vector2(0.5, 0.5)
+modulate = Color(0, 0, 0, 1)
+
+[node name="PortTop" type="Line2D" parent="." unique_id=1689637031]
+visible = false
+self_modulate = Color(1, 1, 1, 0.05882353)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ya74h")
+points = PackedVector2Array(0, -22, 0, -42)
+width = 4.0
+texture = ExtResource("3_oso78")
+texture_mode = 1
+
+[node name="PortRight" type="Line2D" parent="." unique_id=488929846]
+visible = false
+self_modulate = Color(1, 1, 1, 0.05882353)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_u433l")
+points = PackedVector2Array(22, 0, 42, 0)
+width = 4.0
+texture = ExtResource("3_oso78")
+texture_mode = 1
+
+[node name="PortBottom" type="Line2D" parent="." unique_id=625868157]
+visible = false
+self_modulate = Color(1, 1, 1, 0.05882353)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_n0owb")
+points = PackedVector2Array(0, 22, 0, 42)
+width = 4.0
+texture = ExtResource("3_oso78")
+texture_mode = 1
+
+[node name="PortLeft" type="Line2D" parent="." unique_id=1766144226]
+visible = false
+self_modulate = Color(1, 1, 1, 0.05882353)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_2d8nr")
+points = PackedVector2Array(-22, 0, -42, 0)
+width = 4.0
+texture = ExtResource("3_oso78")
+texture_mode = 1

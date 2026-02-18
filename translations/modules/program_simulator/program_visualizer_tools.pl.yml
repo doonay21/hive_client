@@ -1,7 +1,9 @@
 program_simulator:
   program_visualizer_tools:
     title: Narzędzia
-    node_margin: Margines węzłów
+    hide_empty: Ukryj puste węzły
+    node_margin: Margines węzła
+    node_size: Rozmiar węzła
     tooltip:
       hide: Ukryj narzędzia
       show: Pokaż narzędzia
