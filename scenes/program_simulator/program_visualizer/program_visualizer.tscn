@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://beqbwjil6eov8"]
+
+[ext_resource type="Script" uid="uid://022c6nf3a7r5" path="res://scenes/program_simulator/program_visualizer/program_visualizer.gd" id="1_fsvhi"]
+
+[node name="ProgramVisualizer" type="Node2D" unique_id=1755105196]
+script = ExtResource("1_fsvhi")

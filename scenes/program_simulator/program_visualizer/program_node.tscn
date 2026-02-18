@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bk4iskbgytnp5"]
+
+[ext_resource type="Texture2D" uid="uid://bi4n0uqs0s3m8" path="res://assets/images/program_visualizer/node_back.png" id="1_0xx2w"]
+[ext_resource type="Script" uid="uid://b3t2atatqwhx" path="res://scenes/program_simulator/program_visualizer/program_node.gd" id="1_qftrx"]
+
+[node name="ProgramNode" type="Node2D" unique_id=1869400318]
+script = ExtResource("1_qftrx")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=987876774]
+self_modulate = Color(1, 1, 1, 0)
+texture = ExtResource("1_0xx2w")
+
+[node name="Icon" type="Sprite2D" parent="Background" unique_id=1949663825]
+scale = Vector2(0.5, 0.5)

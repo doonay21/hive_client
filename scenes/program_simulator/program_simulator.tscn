@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://ceeuytem0aa18" path="res://scenes/program_simulator/program_simulator.gd" id="1_tjjln"]
 [ext_resource type="PackedScene" uid="uid://dmv5pvhb6merr" path="res://scenes/map/map.tscn" id="2_nvaia"]
 [ext_resource type="PackedScene" uid="uid://c2xiteat26vcu" path="res://scenes/program_simulator/map_tools.tscn" id="3_h4j3i"]
+[ext_resource type="PackedScene" uid="uid://beqbwjil6eov8" path="res://scenes/program_simulator/program_visualizer/program_visualizer.tscn" id="4_i1rra"]
+[ext_resource type="PackedScene" uid="uid://bgio880wpyk7v" path="res://scenes/program_simulator/program_visualizer/program_visualizer_tools.tscn" id="5_cxbpe"]
 
 [node name="ProgramSimulator" type="Window" unique_id=801897607]
 oversampling_override = 1.0
@@ -21,7 +23,7 @@ theme_override_constants/separation = 2
 theme_override_constants/autohide = 1
 
 [node name="WorldContainer" type="PanelContainer" parent="HSplitContainer" unique_id=1466598659]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(400, 400)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
@@ -30,6 +32,7 @@ mouse_filter = 1
 layout_mode = 2
 
 [node name="Map" parent="HSplitContainer/WorldContainer/MapContainer" unique_id=150635800 instance=ExtResource("2_nvaia")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,6 +58,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="MapTools" parent="HSplitContainer/WorldContainer/MapContainer/MarginContainer" unique_id=1611098043 node_paths=PackedStringArray("map", "info_label") instance=ExtResource("3_h4j3i")]
+unique_name_in_owner = true
 layout_mode = 2
 map = NodePath("../../Map")
 info_label = NodePath("../../MarginContainer2/InfoLabel")
@@ -80,13 +84,47 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HSplitContainer/SystemContainer" unique_id=1291615877]
+[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/SystemContainer" unique_id=48353146]
 layout_mode = 2
+split_offsets = PackedInt32Array(-200)
+split_offset = -200
+
+[node name="PanelContainer" type="PanelContainer" parent="HSplitContainer/SystemContainer/VSplitContainer" unique_id=1717930573]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer" unique_id=1291615877]
+layout_mode = 2
+size_flags_vertical = 3
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="HSplitContainer/SystemContainer/SubViewportContainer" unique_id=828676566]
+[node name="SubViewport" type="SubViewport" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer/SubViewportContainer" unique_id=828676566]
 handle_input_locally = false
-size = Vector2i(572, 648)
+size = Vector2i(572, 436)
 render_target_update_mode = 4
 
+[node name="Camera2D" type="Camera2D" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer/SubViewportContainer/SubViewport" unique_id=1700575629]
+
+[node name="ProgramVisualizer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer/SubViewportContainer/SubViewport" unique_id=1755105196 instance=ExtResource("4_i1rra")]
+unique_name_in_owner = true
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer" unique_id=22897877]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ProgramVisualizerTools" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer/MarginContainer" unique_id=2017205958 node_paths=PackedStringArray("program_visualizer") instance=ExtResource("5_cxbpe")]
+layout_mode = 2
+program_visualizer = NodePath("../../SubViewportContainer/SubViewport/ProgramVisualizer")
+
+[node name="PanelContainer2" type="PanelContainer" parent="HSplitContainer/SystemContainer/VSplitContainer" unique_id=779769986]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
 [connection signal="close_requested" from="." to="." method="on_close_requested"]
+[connection signal="mouse_entered" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_entered"]
+[connection signal="mouse_exited" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_exited"]

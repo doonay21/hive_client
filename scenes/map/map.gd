@@ -136,12 +136,11 @@ func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) 
 	for x in range(ox + margin, ox + w - margin):
 		for y in range(oy + margin, oy + h - margin):
 			var dist_factor = 0.0
-			
 			var dx = abs(x - center.x)
 			var dy = abs(y - center.y)
-			
 			var nx = dx / half_size
 			var ny = dy / half_size
+			var force_floor = false 
 			
 			match shape_type:
 				RoomShape.CIRCLE:
@@ -156,19 +155,26 @@ func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) 
 					var thickness = 0.35
 					var dist_vert = max(nx / thickness, ny)
 					var dist_horiz = max(nx, ny / thickness)
-					
 					dist_factor = min(dist_vert, dist_horiz)
+					
+					if nx < 0.15 or ny < 0.15:
+						force_floor = true
+					
 				RoomShape.SUPERELLIPSE:
 					dist_factor = sqrt(sqrt(pow(nx, 4) + pow(ny, 4)))
 				RoomShape.CAVERN:
 					var base_dist = sqrt(nx*nx + ny*ny)
 					var wobble = noise.get_noise_2d(x * 3.0 + cavern_noise_seed, y * 3.0)
-					
 					dist_factor = base_dist + (wobble * 0.4)
 
 			var noise_val = noise.get_noise_2d(x, y)
 			
 			if dist_factor > 1.0:
+				continue
+			
+			if force_floor:
+				set_pixel(x, y, MaterialType.SOFT_ROCK)
+				room_pixels.append(Vector2i(x, y))
 				continue
 			
 			if dist_factor > 0.70:
@@ -296,35 +302,85 @@ func dig_tunnel(from: Vector2i, to: Vector2i) -> void:
 		current.y = clampi(current.y, 1, MAP_SIZE.y - 2)
 
 func add_complex_obstacles() -> void:
-	for i in range(50):
-		var start = Vector2i(randi() % (MAP_SIZE.x - 10) + 5, randi() % (MAP_SIZE.y - 10) + 5)
+	for i in range(100):
+		generate_bedrock_artifact()
+
+func generate_bedrock_artifact() -> void:
+	var start = Vector2i.ZERO
+	var valid = false
+	
+	for attempt in range(10):
+		start = Vector2i(randi_range(5, MAP_SIZE.x - 6), randi_range(5, MAP_SIZE.y - 6))
+		var current_mat = get_material_at(start)
+		if current_mat == MaterialType.SOFT_ROCK or current_mat == MaterialType.HARD_ROCK:
+			valid = true
+			break
+	
+	if not valid: return
+
+	var type = randi() % 4
+	
+	match type:
+		0: build_ancient_ruin(start)
+		1: build_pillar_cluster(start)
+		2: build_dense_geode(start)
+		3: build_hollow_box(start)
+
+func build_ancient_ruin(pos: Vector2i) -> void:
+	var walker = pos
+	var steps = randi_range(15, 40)
+	var direction = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+	
+	for s in range(steps):
+		set_pixelv_safe(walker, MaterialType.BEDROCK)
 		
-		if image.get_pixelv(start) != COLORS[MaterialType.SOFT_ROCK] and image.get_pixelv(start) != COLORS[MaterialType.HARD_ROCK]:
-			continue
-			
-		var type = randi() % 3
+		if randf() < 0.2:
+			if direction.x == 0:
+				direction = [Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+			else:
+				direction = [Vector2i.UP, Vector2i.DOWN].pick_random()
 		
-		match type:
-			0:
-				var length = randi_range(4, 12)
-				var dir = Vector2i(1, 0) if randf() > 0.5 else Vector2i(0, 1)
-				for k in range(length):
-					set_pixelv_safe(start + (dir * k), MaterialType.BEDROCK)
-			1:
-				var len_a = randi_range(4, 10)
-				var len_b = randi_range(4, 10)
-				for k in range(len_a):
-					set_pixelv_safe(start + Vector2i(k, 0), MaterialType.BEDROCK)
-				var corner = start + Vector2i(len_a - 1, 0)
-				var dir_b = Vector2i(0, 1) if randf() > 0.5 else Vector2i(0, -1)
-				for k in range(len_b):
-					set_pixelv_safe(corner + (dir_b * k), MaterialType.BEDROCK)
-			2:
-				set_pixelv_safe(start, MaterialType.BEDROCK)
-				set_pixelv_safe(start + Vector2i(1,0), MaterialType.BEDROCK)
-				set_pixelv_safe(start + Vector2i(-1,0), MaterialType.BEDROCK)
-				set_pixelv_safe(start + Vector2i(0,1), MaterialType.BEDROCK)
-				set_pixelv_safe(start + Vector2i(0,-1), MaterialType.BEDROCK)
+		if randf() > 0.85:
+			walker += direction
+		
+		walker += direction
+		
+		if walker.x < 2 or walker.x >= MAP_SIZE.x - 2 or walker.y < 2 or walker.y >= MAP_SIZE.y - 2:
+			break
+
+func build_pillar_cluster(pos: Vector2i) -> void:
+	var radius = randi_range(3, 6)
+	for x in range(-radius, radius + 1):
+		for y in range(-radius, radius + 1):
+			if Vector2(x, y).length() <= radius:
+				if (x + y) % 2 == 0 and randf() > 0.3:
+					set_pixelv_safe(pos + Vector2i(x, y), MaterialType.BEDROCK)
+
+func build_dense_geode(pos: Vector2i) -> void:
+	var walker = pos
+	var mass = randi_range(10, 25)
+	
+	for i in range(mass):
+		set_pixelv_safe(walker, MaterialType.BEDROCK)
+		walker += [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+		
+		if walker.distance_to(pos) > 5.0:
+			walker = pos
+
+func build_hollow_box(pos: Vector2i) -> void:
+	var w = randi_range(4, 7)
+	var h = randi_range(4, 7)
+	
+	for x in range(w):
+		for y in range(h):
+			var p = pos + Vector2i(x, y)
+
+			if x == 0 or x == w - 1 or y == 0 or y == h - 1:
+				if randf() > 0.1: 
+					set_pixelv_safe(p, MaterialType.BEDROCK)
+			else:
+				if randf() > 0.5:
+					set_pixelv_safe(p, MaterialType.VOID)
 
 func set_pixel(x: int, y: int, material_type: MaterialType) -> void:
 	image.set_pixel(x, y, COLORS[material_type])

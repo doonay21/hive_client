@@ -1,0 +1,6 @@
+program_simulator:
+  program_visualizer_tools:
+    title: Tools
+    tooltip:
+      hide: Hide tools
+      show: Show tools

@@ -14,6 +14,7 @@ const icon_hide = preload("res://assets/images/icons/hide.png")
 @onready var pen_active: CheckButton = $MainContainer/VBoxContainer/PenActive
 
 var brush_clicked: bool = false
+var info_label_enabled: bool = false
 
 func _ready() -> void:
 	toggle_button.tooltip_text = tr("program_simulator.map_tools.tooltip.show")
@@ -44,6 +45,8 @@ func on_map_gui_input(event: InputEvent) -> void:
 				map.paint_at(img_pos, cursor_preview.brush_steps, pen_type.selected as Map.MaterialType)
 
 func print_material_info(pointed_material: Map.MaterialType) -> void:
+	if not info_label_enabled: return
+	
 	match pointed_material:
 		Map.MaterialType.VOID: info_label.text = tr("map.material_type.void")
 		Map.MaterialType.SOFT_ROCK: info_label.text = tr("map.material_type.soft_rock")
@@ -96,6 +99,13 @@ func on_random_button_pressed() -> void:
 
 func on_fill_button_pressed() -> void:
 	map.clear_map(pen_type.selected as Map.MaterialType)
+
+func enable_info_label() -> void:
+	info_label_enabled = true
+
+func disable_info_label() -> void:
+	info_label_enabled = false
+	info_label.text = ""
 
 func on_mouse_entered() -> void:
 	cursor_preview.toggle(false)

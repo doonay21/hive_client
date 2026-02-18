@@ -28,6 +28,14 @@ const slot_scene: PackedScene = preload("res://scenes/brain_editor/slot/slot.tsc
 var custom_block_uuid: String = ""
 var current_selected_node: Control
 
+static func size_to_dimension(matrix_size_p: int) -> int:
+	match matrix_size_p:
+		MatrixSize._3x3: return 3
+		MatrixSize._5x5: return 5
+		MatrixSize._7x7: return 7
+		MatrixSize._9x9: return 9
+	return 5
+
 func initialize() -> void:
 	for child in grid_container.get_children():
 		child.queue_free()
@@ -76,12 +84,7 @@ func clear() -> void:
 				block.queue_free()
 
 func get_dimension() -> int:
-	match matrix_size:
-		MatrixSize._3x3: return 3
-		MatrixSize._5x5: return 5
-		MatrixSize._7x7: return 7
-		MatrixSize._9x9: return 9
-	return 5
+	return size_to_dimension(matrix_size)
 
 func matrix_size_total() -> int:
 	var d = get_dimension()
