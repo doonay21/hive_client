@@ -13,8 +13,10 @@
 [ext_resource type="Resource" uid="uid://dbpbvocdtblt8" path="res://scenes/brain_editor/blocks/functions/minimum.tres" id="8_gvqid"]
 [ext_resource type="Resource" uid="uid://caj6rsjfp6awv" path="res://scenes/brain_editor/blocks/inputs/clock.tres" id="9_olgwc"]
 [ext_resource type="Resource" uid="uid://b6tenloknv6xl" path="res://scenes/brain_editor/blocks/functions/maximum.tres" id="9_r6xee"]
+[ext_resource type="Resource" uid="uid://clm65r8eai1ku" path="res://scenes/brain_editor/blocks/inputs/sense.tres" id="9_tamat"]
 [ext_resource type="Resource" uid="uid://dv6c8d1558tdj" path="res://scenes/brain_editor/blocks/functions/add.tres" id="10_8ovbo"]
 [ext_resource type="Resource" uid="uid://c7t4h83eaf47u" path="res://scenes/brain_editor/blocks/inputs/constant.tres" id="10_61fpg"]
+[ext_resource type="Resource" uid="uid://bswda4dd1vtaj" path="res://scenes/brain_editor/blocks/inputs/can_dig.tres" id="10_wp2ke"]
 [ext_resource type="Resource" uid="uid://crvprij0g4k31" path="res://scenes/brain_editor/blocks/inputs/sinus.tres" id="11_2dt14"]
 [ext_resource type="Resource" uid="uid://ptnrs8ur786k" path="res://scenes/brain_editor/blocks/connections/connection_we.tres" id="11_bbaqc"]
 [ext_resource type="Resource" uid="uid://3jhr7be2mqpv" path="res://scenes/brain_editor/blocks/functions/mul.tres" id="11_kmfab"]
@@ -162,10 +164,22 @@ mouse_filter = 1
 block_data = ExtResource("4_ag5fd")
 is_toolbox_source = true
 
+[node name="Sense" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1133217220 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("9_tamat")
+is_toolbox_source = true
+
 [node name="Clock" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1165599403 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("9_olgwc")
+is_toolbox_source = true
+
+[node name="CanDig" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=697195364 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("10_wp2ke")
 is_toolbox_source = true
 
 [node name="Separator" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=62041208]

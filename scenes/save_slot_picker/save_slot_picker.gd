@@ -11,6 +11,8 @@ func _ready() -> void:
 	get_window().min_size = Vector2i(1024, 800)
 	
 	load_programs()
+	
+	print(BlockData.Op.CUSTOM)
 
 func load_programs() -> void:
 	program_list.clear()

@@ -1,135 +1,141 @@
 blocks:
   sight:
-    title: "Sight"
-    info: "Returns distance to obstacle in front, left and right. Range 10 units. 1.0 - no obstacles, 0.0 - obstacle directly in front."
+    title: Sight
+    info: Returns distance to obstacle in front, left and right. Range 10 units. 1.0 - no obstacles, 0.0 - obstacle directly in front.
     port_labels:
       left: Left
       front: Front
       right: Right
   invert:
-    title: "Invert"
-    info: "Negates the input signal A by calculating B = 1.0 − A. It effectively flips the signal intensity."
+    title: Invert
+    info: Negates the input signal A by calculating B = 1.0 - A. It effectively flips the signal intensity.
   compare:
-    title: "Compare"
-    info: "Outputs 1.0 if signal A is greater than B; otherwise, outputs 0.0."
+    title: Compare
+    info: Outputs 1.0 if signal A is greater than B; otherwise, outputs 0.0.
   turn:
     left:
-      title: "Turn Left"
-      info: "Turn left (the output with the strongest signal wins)."
+      title: Turn Left
+      info: Turn left (the output with the strongest signal wins).
     right:
-      title: "Turn Right"
-      info: "Turn right (the output with the strongest signal wins)."
+      title: Turn Right
+      info: Turn right (the output with the strongest signal wins).
     around:
-      title: "180°"
-      info: "Turn by 180° (the output with the strongest signal wins)."
+      title: 180°
+      info: Turn by 180° (the output with the strongest signal wins).
   go:
-    title: "Move"
-    info: "Move forward (the output with the strongest signal wins)."
+    title: Move
+    info: Move forward (the output with the strongest signal wins).
   dig:
-    title: "Dig"
-    info: "Triggers the matter digging action."
+    title: Dig
+    info: Triggers the matter digging action.
   constant:
-    title: "Constant"
-    info: "Constant signal with specified power."
-    value_drag: "Drag to change value."
+    title: Constant
+    info: Constant signal with specified power.
+    value_drag: Drag to change value.
   sinus:
-    title: "Sine"
-    info: "Time-varying signal (sine function of time)."
+    title: Sine
+    info: Time-varying signal (sine function of time).
   noise:
-    title: "Noise"
-    info: "Noise signal."
+    title: Noise
+    info: Noise signal.
   wire:
     we:
-      info: "Connects signal A to B."
+      info: Connects signal A to B.
     es:
-      info: "Connects signal A to B."
+      info: Connects signal A to B.
     ws:
-      info: "Connects signal A to B."
+      info: Connects signal A to B.
     wes:
-      info: "Connects signal A to B and C."
+      info: Connects signal A to B and C.
     ews:
-      info: "Connects signal A to B and C."
+      info: Connects signal A to B and C.
     cross:
-      info: "Connects signal A to B and C to D (bridge)."
+      info: Connects signal A to B and C to D (bridge).
     cross_joined:
-      info: "Connects signal A to B, C, and D (junction)."
+      info: Connects signal A to B, C, and D (junction).
   minimum:
-    title: "Minimum"
-    info: "Outputs the smaller of two values."
+    title: Minimum
+    info: Outputs the smaller of two values.
   maximum:
-    title: "Maximum"
-    info: "Outputs the larger of two values."
+    title: Maximum
+    info: Outputs the larger of two values.
   add:
-    title: "Add"
-    info: "Outputs the sum of signals A and B."
+    title: Add
+    info: Outputs the sum of signals A and B.
   sub:
-    title: "Subtract"
-    info: "Outputs the subtraction of signals A and B."
+    title: Subtract
+    info: Outputs the subtraction of signals A and B.
   mul:
-    title: "Multiplicate"
-    info: "Outputs the product of signals A and B."
+    title: Multiplicate
+    info: Outputs the product of signals A and B.
   div:
-    title: "Divide"
-    info: "Outputs the division of signals A and B."
+    title: Divide
+    info: Outputs the division of signals A and B.
   modulo:
-    title: "Modulo"
-    info: "Outputs the modulo of signals A and B."
+    title: Modulo
+    info: Outputs the modulo of signals A and B.
   avg:
-    title: "Average"
-    info: "Outputs the average of signals A and B."
+    title: Average
+    info: Outputs the average of signals A and B.
   delay:
-    title: "Delay"
-    info: "Passes the signal to the output with a configured delay."
+    title: Delay
+    info: Passes the signal to the output with a configured delay.
   latch:
-    title: "Memory"
-    info: "Holds a constant 1.0 output after receiving a A signal, until cleared by a B signal. Activation threshold: 0.5."
+    title: Memory
+    info: Holds a constant 1.0 output after receiving a A signal, until cleared by a B signal. Activation threshold: 0.5.
   counter:
-    title: "Counter"
-    info: "Accumulates the input signal until it reaches 1.0, then sends a pulse and resets memory."
+    title: Counter
+    info: Accumulates the input signal until it reaches 1.0, then sends a pulse and resets memory.
   switch:
-    title: "Switch"
-    info: "Outputs signal A when CON input is low, or signal B when control exceeds 0.5."
+    title: Switch
+    info: Outputs signal A when CON input is low, or signal B when control exceeds 0.5.
   edge_detector:
-    title: "Edge Detector"
-    info: "Generates a short pulse (1.0) when the input signal A rises above 0.5."
+    title: Edge Detector
+    info: Generates a short pulse (1.0) when the input signal A rises above 0.5.
   threshold:
-    title: "Threshold"
-    info: "Sets output to 1.0 when signal exceeds 0.8, and holds it until signal drops below 0.2."
+    title: Threshold
+    info: Sets output to 1.0 when signal exceeds 0.8, and holds it until signal drops below 0.2.
   compass:
-    title: "Compass"
-    info: "Returns a signal based on direction. Output A -> EW (0.0=W, 1.0=E, 0.5=N/S). Output B -> NS (0.0=N, 1.0=S, 0.4=E/W)."
+    title: Compass
+    info: Returns a signal based on direction. Output A -> EW (0.0=W, 1.0=E, 0.5=N/S). Output B -> NS (0.0=N, 1.0=S, 0.4=E/W).
   clock:
-    title: "Clock"
-    info: "Generates 1.0 impulse every X ticks."
+    title: Clock
+    info: Generates 1.0 impulse every X ticks.
   moved:
-    title: "Moved?"
-    info: "Returns 1.0 if the unit position changed in the previous frame."
+    title: Moved?
+    info: Returns 1.0 if the unit position changed in the previous frame.
   emitter:
-    title: "Emitter"
-    info: "Sends signal A locally to a Receiver on this robot's matrix."
-    ch1: "CH1"
-    ch2: "CH2"
-    ch3: "CH3"
-    ch4: "CH4"
-    ch5: "CH5"
+    title: Emitter
+    info: Sends signal A locally to a Receiver on this robot's matrix.
+    ch1: CH1
+    ch2: CH2
+    ch3: CH3
+    ch4: CH4
+    ch5: CH5
   receiver:
-    title: "Receiver"
-    info: "Reads a local signal from an Emitter on this robot's matrix."
+    title: Receiver
+    info: Reads a local signal from an Emitter on this robot's matrix.
   abs:
-    title: "Abs"
-    info: "Absolute value of subtraction A and B (|A-B|)."
+    title: Abs
+    info: Absolute value of subtraction A and B (|A-B|).
   random:
-    title: "Random"
-    info: "If input is > 0.5, a new output value is randomized."
+    title: Random
+    info: If input is > 0.5, a new output value is randomized.
   geo:
-    title: "Geoscan"
-    info: "Gold scanner. Range of 2 units. Returns a signal if gold is nearby."
+    title: Geoscan
+    info: Gold scanner. Range of 2 units. Returns a signal if gold is nearby.
   broadcast:
-    title: "Broadcast"
-    info: "Broadcasts signal A globally to any robot via radio waves."
+    title: Broadcast
+    info: Broadcasts signal A globally to any robot via radio waves.
   scanner:
-    title: "Scanner"
-    info: "Scans radio frequencies to receive signals from any robot."
+    title: Scanner
+    info: Scans radio frequencies to receive signals from any robot.
   dish:
-    title: "Dish"
-    info: "It scans radio waves in the direction of the robot's rotation, it is a directional scanner, it sees 90 degrees in front of the robot."
+    title: Dish
+    info: It scans radio waves in the direction of the robot's rotation, it is a directional scanner, it sees 90 degrees in front of the robot.
+  sense:
+    title: Sense
+    info: Returns 1.0 if there is a object in front of the robot.
+  can_dig:
+    title: Can dig?
+    info: Is the material in front of the robot digable?

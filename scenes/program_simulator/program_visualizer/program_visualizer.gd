@@ -2,12 +2,12 @@ class_name ProgramVisualizer extends Node2D
 
 const NODE_SCENE: PackedScene = preload("res://scenes/program_simulator/program_visualizer/program_node.tscn")
 
-var program_data: Dictionary = {}
 var grid: Dictionary[Vector2i, ProgramNode] = {}
-
 var column_count: int = 7
 var grid_total_size: Vector2 = Vector2.ZERO
 var grid_half_size: Vector2 = Vector2.ZERO
+
+var program_data: Dictionary = {}
 
 var node_margin: float = 20.0:
 	set(value):
@@ -19,8 +19,8 @@ var node_size: float = 44.0:
 		node_size = value
 		recalculate_grid()
 
-func start(brain_editor: BrainEditor) -> void:
-	program_data = brain_editor.get_program_data()
+func start(program_data_p: Dictionary) -> void:
+	program_data = program_data_p
 	column_count = ProgramGrid.size_to_dimension(program_data["size"])
 	grid_total_size = Vector2(column_count, column_count) * (node_margin + node_size)
 	grid_half_size = grid_total_size / 2.0

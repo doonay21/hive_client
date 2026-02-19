@@ -139,6 +139,14 @@ program_visualizer = NodePath("../../SubViewportContainer/SubViewport/ProgramVis
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
+[node name="TabContainer" type="TabContainer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2" unique_id=761443974]
+layout_mode = 2
+current_tab = 0
+
+[node name="Control" type="Control" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer" unique_id=1962801657]
+layout_mode = 2
+metadata/_tab_index = 0
+
 [connection signal="close_requested" from="." to="." method="on_close_requested"]
 [connection signal="mouse_entered" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_entered"]
 [connection signal="mouse_exited" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_exited"]
