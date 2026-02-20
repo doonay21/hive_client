@@ -28,8 +28,6 @@ func on_map_gui_input(event: InputEvent) -> void:
 		var img_pos_i = get_texture_mouse_position(event.position)
 		var img_pos = Vector2(img_pos_i)
 		
-		print_material_info(map.get_material_at(img_pos_i))
-		
 		if not pen_active.button_pressed: return
 		
 		var is_drawing = false
