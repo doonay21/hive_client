@@ -29,7 +29,7 @@ func set_node(data: Dictionary) -> void:
 	background.self_modulate.a = 0.5
 	
 	for port in ports:
-		port.material.set_shader_parameter("alpha", 0.5)
+		port.set_alpha(0.5)
 	
 	var op = data.get("op", BlockData.Op.NONE)
 	var block_res: BlockData
@@ -55,23 +55,19 @@ func set_node(data: Dictionary) -> void:
 		var port_type = block_res.ports[original_port_idx]
 		
 		logical_ports[i] = port_type
-		ports[i].visible = false
+		ports[i].hide()
 
 func update_connections_visibility(active_connections: Array[bool]) -> void:
 	for i in range(4):
 		if logical_ports[i] == BlockData.Port.OUTPUT and active_connections[i]:
-			ports[i].visible = true
+			ports[i].show()
 		else:
-			ports[i].visible = false
+			ports[i].hide()
 
 func update_ports(node_size: float, node_margin: float) -> void:
 	var half_size: float = node_size / 2.0
 	
-	ports[0].points[0] = Vector2(0.0, -half_size)
-	ports[0].points[1] = Vector2(0.0, -half_size - node_margin)
-	ports[1].points[0] = Vector2(half_size, 0.0)
-	ports[1].points[1] = Vector2(half_size + node_margin, 0.0)
-	ports[2].points[0] = Vector2(0.0, half_size)
-	ports[2].points[1] = Vector2(0.0, half_size + node_margin)
-	ports[3].points[0] = Vector2(-half_size, 0.0)
-	ports[3].points[1] = Vector2(-half_size - node_margin, 0.0)
+	ports[0].set_line(Vector2(0.0, -half_size), Vector2(0.0, -half_size - node_margin))
+	ports[1].set_line(Vector2(half_size, 0.0), Vector2(half_size + node_margin, 0.0))
+	ports[2].set_line(Vector2(0.0, half_size), Vector2(0.0, half_size + node_margin))
+	ports[3].set_line(Vector2(-half_size, 0.0), Vector2(-half_size - node_margin, 0.0))

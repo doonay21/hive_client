@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cxct8fbwik63n"]
+
+[ext_resource type="Shader" uid="uid://fu8puevcjlwh" path="res://shaders/dashed_line_moving.gdshader" id="1_c87xl"]
+[ext_resource type="Texture2D" uid="uid://f73fgj1c5im7" path="res://assets/images/program_visualizer/dashed_line.png" id="2_tl3om"]
+[ext_resource type="Script" uid="uid://mhqct5njrkur" path="res://scenes/program_simulator/program_visualizer/port.gd" id="3_tl3om"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ya74h"]
+shader = ExtResource("1_c87xl")
+shader_parameter/speed = 0.0
+shader_parameter/alpha = 0.150000007125
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tl3om"]
+size = Vector2(20, 10)
+
+[node name="PortTop" type="Line2D" unique_id=1812750127]
+self_modulate = Color(1, 1, 1, 0.05882353)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ya74h")
+points = PackedVector2Array(0, 0, 20, 0)
+width = 4.0
+texture = ExtResource("2_tl3om")
+texture_mode = 1
+script = ExtResource("3_tl3om")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=225187109]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1712661810]
+visible = false
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_tl3om")
