@@ -6,24 +6,34 @@ extends Camera2D
 @export var zoom_smoothness: float = 10.0
 
 var target_zoom: float = 1.0
+var target_position: Vector2
 
 func _ready():
 	target_zoom = zoom.x
+	target_position = position
 
 func _process(delta: float) -> void:
-	zoom.x = lerp(zoom.x, target_zoom, zoom_smoothness * delta)
-	zoom.y = lerp(zoom.y, target_zoom, zoom_smoothness * delta)
+	zoom = zoom.lerp(Vector2(target_zoom, target_zoom), zoom_smoothness * delta)
+	position = position.lerp(target_position, zoom_smoothness * delta)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if event.button_mask & MOUSE_BUTTON_MASK_MIDDLE:
-			position -= event.relative / zoom.x
+			target_position -= event.relative / zoom.x
 
 	if event is InputEventMouseButton:
 		if event.is_pressed():
+			var old_zoom = target_zoom
+			
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				target_zoom += zoom_speed
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				target_zoom -= zoom_speed
 				
 			target_zoom = clamp(target_zoom, zoom_min, zoom_max)
+			
+			if target_zoom != old_zoom:
+				var screen_offset = get_local_mouse_position() * zoom.x
+				var shift = (screen_offset / old_zoom) - (screen_offset / target_zoom)
+				
+				target_position += shift

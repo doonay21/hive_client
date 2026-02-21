@@ -1,20 +1,32 @@
 class_name ProgramInterpreter extends Node
 
 var program_data: Dictionary = {}
+var robot: Robot
+
 var buffer: Array = []
 var columns: int = 7
 
-func _init(program_data_p: Dictionary) -> void:
+var sight: Array = [0.0, 0.0, 0.0] # left, front, right
+
+func _init(program_data_p: Dictionary, robot_p: Robot) -> void:
 	program_data = program_data_p
+	robot = robot_p
 	
 	columns = ProgramGrid.size_to_dimension(program_data["size"])
 	init_buffer()
 	tick()
 
 func set_inputs() -> void:
+	sight[0] = robot.sense_left()
+	sight[1] = robot.sense_forward()
+	sight[2] = robot.sense_right()
+
+func set_outputs() -> void:
 	pass
 
 func tick() -> void:
+	set_inputs()
+	
 	var counter: int = 0
 	
 	for y in range(columns):
@@ -27,6 +39,12 @@ func tick() -> void:
 			match op:
 				BlockData.Op.NONE: pass
 				BlockData.Op.SIGHT:
+					buffer[x][y][map[3]] = sight[0]
+					buffer[x][y][map[0]] = sight[1]
+					buffer[x][y][map[1]] = sight[2]
+				BlockData.Op.SENSE:
+					pass
+				BlockData.Op.CAN_DIG:
 					pass
 				BlockData.Op.MOVED:
 					pass
@@ -118,6 +136,8 @@ func tick() -> void:
 					assert(false, "Nieobsłużony operator: %s" % op)
 				
 			counter += 1
+
+	set_outputs()
 
 func init_buffer() -> void:
 	buffer = create_buffer()
