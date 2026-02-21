@@ -1,27 +1,29 @@
-class_name Map extends TextureRect
+class_name MapView extends Node2D
 
 enum MaterialType { VOID, SOFT_ROCK, HARD_ROCK, BEDROCK, GOLD, ROBOT }
 enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
 
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
+const TILE_SOURCE_ID: int = 0
 
-const COLORS: PackedColorArray = [
-	Color("000000"),       # VOID = 0
-	Color("A89F83"),       # SOFT_ROCK = 1
-	Color("696969"),       # HARD_ROCK = 2
-	Color("1A1A1A"),       # BEDROCK = 3
-	Color("FFC30B"),       # GOLD = 4
-	Color("ff0000")        # ROBOT = 6
+const TILE_COORDS: Array[Vector2i] = [
+	Vector2i.ZERO,  # 0: VOID
+	Vector2i(1, 1), # 1: SOFT_ROCK
+	Vector2i(3, 1), # 2: HARD_ROCK
+	Vector2i(5, 1), # 3: BEDROCK
+	Vector2i(1, 3), # 4: GOLD
+	Vector2i(0, 0)  # 5: ROBOT
 ]
 
-var image: Image
-var texture_ref: ImageTexture
-var texture_dirty: bool = false
-var noise: FastNoiseLite
+const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
+@onready var tile_map: TileMapLayer = $TileMapLayer
+
+var noise: FastNoiseLite
 var room_pixels: Array[Vector2i] = []
 var data_grid: PackedByteArray = []
 var current_seed: int = 0
+var map_bounds: Rect2i = Rect2i(Vector2i.ZERO, MAP_SIZE)
 
 func _ready() -> void:
 	randomize()
@@ -31,45 +33,37 @@ func _ready() -> void:
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.frequency = 0.05
 	noise.fractal_octaves = 2
-
-	texture_filter = TEXTURE_FILTER_NEAREST
-	focus_mode = Control.FOCUS_CLICK
-	
-	image = Image.create(MAP_SIZE.x, MAP_SIZE.y, false, Image.FORMAT_RGBA8)
-	texture_ref = ImageTexture.create_from_image(image)
-	texture = texture_ref
 	
 	data_grid.resize(MAP_SIZE.x * MAP_SIZE.y)
+	data_grid.fill(MaterialType.VOID)
 	
 	generate_world()
 
-func _process(_delta: float) -> void:
-	if texture_dirty:
-		texture_ref.update(image)
-		texture_dirty = false
-
 func clear_map(material_type: MaterialType = MaterialType.VOID) -> void:
-	image.fill(COLORS[material_type])
-	texture_dirty = true
+	tile_map.clear()
+	data_grid.fill(material_type)
+	if material_type != MaterialType.VOID:
+		for x in range(MAP_SIZE.x):
+			for y in range(MAP_SIZE.y):
+				set_tile(x, y, material_type)
 
-func paint_at(img_pos: Vector2, brush_steps: int, material_type: MaterialType = MaterialType.VOID) -> void:
+func paint_at(map_pos: Vector2, brush_steps: int, material_type: MaterialType = MaterialType.VOID) -> void:
+	var radius_sq: float = (brush_steps - 0.5) ** 2
 	for x in range(-brush_steps, brush_steps + 1):
 		for y in range(-brush_steps, brush_steps + 1):
-			if Vector2(x, y).length() <= brush_steps - 0.5:
-				var target_x = int(img_pos.x + x)
-				var target_y = int(img_pos.y + y)
-				
-				if target_x >= 0 and target_x < MAP_SIZE.x and target_y >= 0 and target_y < MAP_SIZE.y:
-					set_pixel(target_x, target_y, material_type)
-	
-	texture_dirty = true
+			if (x * x + y * y) <= radius_sq:
+				var target = Vector2i(int(map_pos.x + x), int(map_pos.y + y))
+				if map_bounds.has_point(target):
+					set_tile(target.x, target.y, material_type)
 
 func get_material_at(pos: Vector2i) -> MaterialType:
-	if pos.x < 0 or pos.x >= MAP_SIZE.x or pos.y < 0 or pos.y >= MAP_SIZE.y:
-		return MaterialType.BEDROCK
+	if not map_bounds.has_point(pos):
+		return MaterialType.VOID
+	
 	return data_grid[pos.x + pos.y * MAP_SIZE.x] as MaterialType
 
 func generate_world() -> void:
+	tile_map.clear()
 	current_seed = randi()
 	noise.seed = current_seed
 	room_pixels.clear()
@@ -90,10 +84,7 @@ func generate_world() -> void:
 	for i in range(room_count_axis):
 		for j in range(room_count_axis):
 			var is_center_room = (i == center_index and j == center_index)
-			var shape = RoomShape.values().pick_random()
-			
-			if is_center_room:
-				shape = RoomShape.CIRCLE
+			var shape = RoomShape.CIRCLE if is_center_room else RoomShape.values().pick_random()
 			
 			create_noise_room(i * room_w, j * room_h, room_w, room_h, shape)
 	
@@ -108,9 +99,7 @@ func generate_world() -> void:
 	add_complex_obstacles()
 	create_spawn_point(12.0)
 	
-	encode_seed_in_pixels(current_seed)
-	
-	texture_dirty = true
+	encode_seed_in_tiles(current_seed)
 
 func generate_noisy_background() -> void:
 	noise.frequency = 0.08 
@@ -123,13 +112,13 @@ func generate_noisy_background() -> void:
 			var pixel_val = noise_img.get_pixel(x, y).r
 			
 			if pixel_val < 0.45:
-				set_pixel(x, y, MaterialType.HARD_ROCK)
+				set_tile(x, y, MaterialType.HARD_ROCK)
 			elif pixel_val < 0.7:
-				set_pixel(x, y, MaterialType.SOFT_ROCK)
+				set_tile(x, y, MaterialType.SOFT_ROCK)
 			elif pixel_val < 0.825:
-				set_pixel(x, y, MaterialType.HARD_ROCK)
+				set_tile(x, y, MaterialType.HARD_ROCK)
 			else:
-				set_pixel(x, y, MaterialType.BEDROCK)
+				set_tile(x, y, MaterialType.BEDROCK)
 
 func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) -> void:
 	var center = Vector2(ox + w/2.0, oy + h/2.0)
@@ -139,20 +128,18 @@ func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) 
 
 	for x in range(ox + margin, ox + w - margin):
 		for y in range(oy + margin, oy + h - margin):
-			var dist_factor = 0.0
-			var dx = abs(x - center.x)
-			var dy = abs(y - center.y)
+			var dx = absf(x - center.x)
+			var dy = absf(y - center.y)
 			var nx = dx / half_size
 			var ny = dy / half_size
+			var dist_factor = 0.0
 			var force_floor = false 
 			
 			match shape_type:
 				RoomShape.CIRCLE:
-					var dist = Vector2(x, y).distance_to(center)
-					dist_factor = dist / half_size
+					dist_factor = sqrt(dx * dx + dy * dy) / half_size
 				RoomShape.SQUARE:
-					var max_axis = max(dx, dy)
-					dist_factor = max_axis / half_size
+					dist_factor = max(dx, dy) / half_size
 				RoomShape.DIAMOND:
 					dist_factor = (dx + dy) / (half_size * 1.1) 
 				RoomShape.CROSS:
@@ -163,7 +150,6 @@ func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) 
 					
 					if nx < 0.15 or ny < 0.15:
 						force_floor = true
-					
 				RoomShape.SUPERELLIPSE:
 					dist_factor = sqrt(sqrt(pow(nx, 4) + pow(ny, 4)))
 				RoomShape.CAVERN:
@@ -177,23 +163,20 @@ func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) 
 				continue
 			
 			if force_floor:
-				set_pixel(x, y, MaterialType.SOFT_ROCK)
+				set_tile(x, y, MaterialType.SOFT_ROCK)
 				room_pixels.append(Vector2i(x, y))
 				continue
 			
 			if dist_factor > 0.70:
 				if noise_val > -0.8: 
-					set_pixel(x, y, MaterialType.BEDROCK)
+					set_tile(x, y, MaterialType.BEDROCK)
 			else:
 				var is_room_floor = false
-				if dist_factor < 0.3:
-					set_pixel(x, y, MaterialType.SOFT_ROCK)
-					is_room_floor = true
-				elif noise_val > 0.1:
-					set_pixel(x, y, MaterialType.HARD_ROCK)
+				if dist_factor < 0.3 or noise_val <= 0.1:
+					set_tile(x, y, MaterialType.SOFT_ROCK)
 					is_room_floor = true
 				else:
-					set_pixel(x, y, MaterialType.SOFT_ROCK)
+					set_tile(x, y, MaterialType.HARD_ROCK)
 					is_room_floor = true
 				
 				if is_room_floor:
@@ -204,9 +187,9 @@ func try_generate_gold_vein(only_in_rooms: bool) -> void:
 	var valid_start = false
 	
 	if only_in_rooms:
-		if room_pixels.size() > 0:
+		if not room_pixels.is_empty():
 			start_pos = room_pixels.pick_random()
-			if image.get_pixelv(start_pos) != COLORS[MaterialType.BEDROCK]:
+			if get_material_at(start_pos) != MaterialType.BEDROCK:
 				valid_start = true
 	else:
 		for attempt in range(20):
@@ -214,8 +197,8 @@ func try_generate_gold_vein(only_in_rooms: bool) -> void:
 			if test_pos.x < 5 or test_pos.x > MAP_SIZE.x - 5 or test_pos.y < 5 or test_pos.y > MAP_SIZE.y - 5:
 				continue
 				
-			var pixel = image.get_pixelv(test_pos)
-			if pixel == COLORS[MaterialType.HARD_ROCK] or pixel == COLORS[MaterialType.SOFT_ROCK]:
+			var mat = get_material_at(test_pos)
+			if mat == MaterialType.HARD_ROCK or mat == MaterialType.SOFT_ROCK:
 				start_pos = test_pos
 				valid_start = true
 				break
@@ -225,39 +208,36 @@ func try_generate_gold_vein(only_in_rooms: bool) -> void:
 
 	var curr = start_pos
 	var length = randi_range(10, 30)
-	var bounds = Rect2i(1, 1, MAP_SIZE.x - 2, MAP_SIZE.y - 2)
+	var bounds = map_bounds.grow(-1) 
 	
 	for i in range(length):
-		var current_pixel = image.get_pixelv(curr)
+		var current_mat = get_material_at(curr)
 		
-		if only_in_rooms and current_pixel == COLORS[MaterialType.BEDROCK]:
-			pass
-		else:
-			set_pixel_v(curr, MaterialType.GOLD)
+		if not (only_in_rooms and current_mat == MaterialType.BEDROCK):
+			set_tile_v(curr, MaterialType.GOLD)
 			
 			if randf() > 0.7:
-				var neighbor = curr + [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+				var neighbor = curr + DIRS.pick_random()
 				if bounds.has_point(neighbor):
-					var n_pixel = image.get_pixelv(neighbor)
-					if n_pixel != COLORS[MaterialType.BEDROCK] and n_pixel != COLORS[MaterialType.GOLD]:
-						set_pixel_v(neighbor, MaterialType.GOLD)
+					var n_mat = get_material_at(neighbor)
+					if n_mat != MaterialType.BEDROCK and n_mat != MaterialType.GOLD:
+						set_tile_v(neighbor, MaterialType.GOLD)
 		
-		var possible_dirs = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 		var next_dir = Vector2i.ZERO
 		
 		if only_in_rooms:
-			var safe_dirs = []
-			for dir in possible_dirs:
+			var safe_dirs: Array[Vector2i] = []
+			for dir in DIRS:
 				var check_pos = curr + dir
-				if bounds.has_point(check_pos) and image.get_pixelv(check_pos) != COLORS[MaterialType.BEDROCK]:
+				if bounds.has_point(check_pos) and get_material_at(check_pos) != MaterialType.BEDROCK:
 					safe_dirs.append(dir)
 			
-			if safe_dirs.size() > 0:
+			if not safe_dirs.is_empty():
 				next_dir = safe_dirs.pick_random()
 			else:
 				break 
 		else:
-			next_dir = possible_dirs.pick_random()
+			next_dir = DIRS.pick_random()
 
 		curr += next_dir
 		
@@ -272,14 +252,12 @@ func create_random_edge_passages(grid_size: int, rw: int, rh: int) -> void:
 		for j in range(grid_size):
 			if i < grid_size - 1:
 				var edge_x = (i + 1) * rw
-				@warning_ignore("narrowing_conversion")
-				var rand_y = (j * rh) + randi_range(rh * 0.3, rh * 0.7)
+				var rand_y = (j * rh) + randi_range(int(rh * 0.3), int(rh * 0.7))
 				dig_tunnel(Vector2i(edge_x - reach_w, rand_y), Vector2i(edge_x + reach_w, rand_y))
 
 			if j < grid_size - 1:
 				var edge_y = (j + 1) * rh
-				@warning_ignore("narrowing_conversion")
-				var rand_x = (i * rw) + randi_range(rw * 0.3, rw * 0.7)
+				var rand_x = (i * rw) + randi_range(int(rw * 0.3), int(rw * 0.7))
 				dig_tunnel(Vector2i(rand_x, edge_y - reach_h), Vector2i(rand_x, edge_y + reach_h))
 
 func dig_tunnel(from: Vector2i, to: Vector2i) -> void:
@@ -287,10 +265,10 @@ func dig_tunnel(from: Vector2i, to: Vector2i) -> void:
 	var steps = int(from.distance_to(to)) * 2
 	
 	for s in range(steps):
-		set_pixel_v(current, MaterialType.SOFT_ROCK)
+		set_tile_v(current, MaterialType.SOFT_ROCK)
 		if randf() > 0.3:
-			set_pixel(current.x + 1, current.y, MaterialType.SOFT_ROCK)
-			set_pixel(current.x, current.y + 1, MaterialType.SOFT_ROCK)
+			set_tile(current.x + 1, current.y, MaterialType.SOFT_ROCK)
+			set_tile(current.x, current.y + 1, MaterialType.SOFT_ROCK)
 
 		var diff = to - current
 		if diff == Vector2i.ZERO: break
@@ -322,9 +300,7 @@ func generate_bedrock_artifact() -> void:
 	
 	if not valid: return
 
-	var type = randi() % 4
-	
-	match type:
+	match randi() % 4:
 		0: build_ancient_ruin(start)
 		1: build_pillar_cluster(start)
 		2: build_dense_geode(start)
@@ -333,42 +309,38 @@ func generate_bedrock_artifact() -> void:
 func build_ancient_ruin(pos: Vector2i) -> void:
 	var walker = pos
 	var steps = randi_range(15, 40)
-	var direction = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+	var direction = DIRS.pick_random()
+	var bounds = map_bounds.grow(-2)
 	
 	for s in range(steps):
-		set_pixelv_safe(walker, MaterialType.BEDROCK)
+		set_tilev_safe(walker, MaterialType.BEDROCK)
 		
 		if randf() < 0.2:
-			if direction.x == 0:
-				direction = [Vector2i.LEFT, Vector2i.RIGHT].pick_random()
-			else:
-				direction = [Vector2i.UP, Vector2i.DOWN].pick_random()
+			direction = [Vector2i.LEFT, Vector2i.RIGHT].pick_random() if direction.x == 0 else [Vector2i.UP, Vector2i.DOWN].pick_random()
 		
-		if randf() > 0.85:
-			walker += direction
+		walker += direction * (2 if randf() > 0.85 else 1)
 		
-		walker += direction
-		
-		if walker.x < 2 or walker.x >= MAP_SIZE.x - 2 or walker.y < 2 or walker.y >= MAP_SIZE.y - 2:
+		if not bounds.has_point(walker):
 			break
 
 func build_pillar_cluster(pos: Vector2i) -> void:
 	var radius = randi_range(3, 6)
+	var radius_sq = radius * radius
 	for x in range(-radius, radius + 1):
 		for y in range(-radius, radius + 1):
-			if Vector2(x, y).length() <= radius:
+			if (x*x + y*y) <= radius_sq:
 				if (x + y) % 2 == 0 and randf() > 0.3:
-					set_pixelv_safe(pos + Vector2i(x, y), MaterialType.BEDROCK)
+					set_tilev_safe(pos + Vector2i(x, y), MaterialType.BEDROCK)
 
 func build_dense_geode(pos: Vector2i) -> void:
 	var walker = pos
 	var mass = randi_range(10, 25)
 	
 	for i in range(mass):
-		set_pixelv_safe(walker, MaterialType.BEDROCK)
-		walker += [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT].pick_random()
+		set_tilev_safe(walker, MaterialType.BEDROCK)
+		walker += DIRS.pick_random()
 		
-		if walker.distance_to(pos) > 5.0:
+		if walker.distance_squared_to(pos) > 25.0:
 			walker = pos
 
 func build_hollow_box(pos: Vector2i) -> void:
@@ -381,54 +353,60 @@ func build_hollow_box(pos: Vector2i) -> void:
 
 			if x == 0 or x == w - 1 or y == 0 or y == h - 1:
 				if randf() > 0.1: 
-					set_pixelv_safe(p, MaterialType.BEDROCK)
-			else:
-				if randf() > 0.5:
-					set_pixelv_safe(p, MaterialType.VOID)
+					set_tilev_safe(p, MaterialType.BEDROCK)
+			elif randf() > 0.5:
+				set_tilev_safe(p, MaterialType.VOID)
 
-func set_pixel(x: int, y: int, material_type: MaterialType) -> void:
-	image.set_pixel(x, y, COLORS[material_type])
+func set_tile(x: int, y: int, material_type: MaterialType) -> void:
 	data_grid[x + y * MAP_SIZE.x] = material_type
+	
+	var pos = Vector2i(x, y)
+	if material_type == MaterialType.VOID:
+		tile_map.erase_cell(pos)
+	else:
+		tile_map.set_cell(pos, TILE_SOURCE_ID, TILE_COORDS[material_type])
 
-func set_pixel_v(pos: Vector2i, material_type: MaterialType) -> void:
-	set_pixel(pos.x, pos.y, material_type)
+func set_tile_v(pos: Vector2i, material_type: MaterialType) -> void:
+	set_tile(pos.x, pos.y, material_type)
 
-func set_pixel_safe(x: int, y: int, material_type: MaterialType) -> void:
-	if x >= 0 and x < MAP_SIZE.x and y >= 0 and y < MAP_SIZE.y:
-		var current = image.get_pixel(x, y)
-		if current == COLORS[MaterialType.SOFT_ROCK] or current == COLORS[MaterialType.HARD_ROCK]:
-			set_pixel(x, y, material_type)
+func set_tile_safe(x: int, y: int, material_type: MaterialType) -> void:
+	var pos = Vector2i(x, y)
+	if map_bounds.has_point(pos):
+		var current = get_material_at(pos)
+		if current == MaterialType.SOFT_ROCK or current == MaterialType.HARD_ROCK:
+			set_tile(x, y, material_type)
 
-func set_pixelv_safe(pos: Vector2i, material_type: MaterialType) -> void:
-	set_pixel_safe(pos.x, pos.y, material_type)
+func set_tilev_safe(pos: Vector2i, material_type: MaterialType) -> void:
+	set_tile_safe(pos.x, pos.y, material_type)
 
 func create_spawn_point(radius: float) -> void:
 	var center = Vector2(MAP_SIZE.x / 2.0, MAP_SIZE.y / 2.0)
+	var radius_sq = radius * radius
 	
 	var start_x = int(center.x - radius)
 	var end_x = int(center.x + radius)
 	var start_y = int(center.y - radius)
 	var end_y = int(center.y + radius)
 
-	for x in range(start_x, end_x):
-		for y in range(start_y, end_y):
-			if x < 0 or x >= MAP_SIZE.x or y < 0 or y >= MAP_SIZE.y:
-				continue
-			
-			if Vector2(x, y).distance_to(center) <= radius:
-				set_pixel(x, y, MaterialType.VOID)
+	for x in range(start_x, end_x + 1):
+		for y in range(start_y, end_y + 1):
+			if map_bounds.has_point(Vector2i(x,y)):
+				var dx = x - center.x
+				var dy = y - center.y
+				if dx*dx + dy*dy <= radius_sq:
+					set_tile(x, y, MaterialType.VOID)
 
-func encode_seed_in_pixels(seed_val: int) -> void:
+func encode_seed_in_tiles(seed_val: int) -> void:
 	var y = MAP_SIZE.y - 1
 	
 	for x in range(64):
-		set_pixel(x, y, MaterialType.HARD_ROCK)
+		set_tile(x, y, MaterialType.HARD_ROCK)
 	
 	for i in range(64):
 		if (seed_val & (1 << i)) != 0:
-			set_pixel(i, y, MaterialType.BEDROCK)
+			set_tile(i, y, MaterialType.BEDROCK)
 
-func extract_seed_from_pixels() -> int:
+func extract_seed_from_tiles() -> int:
 	var recovered_seed: int = 0
 	var y = MAP_SIZE.y - 1
 	

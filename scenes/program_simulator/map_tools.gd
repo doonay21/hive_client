@@ -3,62 +3,82 @@ class_name MapTools extends PanelContainer
 const icon_show = preload("res://assets/images/icons/show.png")
 const icon_hide = preload("res://assets/images/icons/hide.png")
 
-@export var map: Map
+@export var map_view: MapView
 @export var info_label: Label
+@export var cursor_preview: CursorPreview
 
 @onready var main_container: MarginContainer = $MainContainer
 @onready var toggle_button: Button = $ToggleButton
 @onready var pen_size_label: Label = $MainContainer/VBoxContainer/HBoxContainer/PenSizeLabel
 @onready var pen_type: OptionButton = $MainContainer/VBoxContainer/HBoxContainer2/PenType
-@onready var cursor_preview: CursorPreview = $CursorPreview
 @onready var pen_active: CheckButton = $MainContainer/VBoxContainer/PenActive
 
-var brush_clicked: bool = false
+var is_drawing: bool = false
 var info_label_enabled: bool = false
 
 func _ready() -> void:
 	toggle_button.tooltip_text = tr("program_simulator.map_tools.tooltip.show")
 	main_container.hide()
 	
-	var map_container: Control = map.get_parent()
-	map_container.gui_input.connect(on_map_gui_input)
+	if is_instance_valid(cursor_preview) and is_instance_valid(map_view):
+		cursor_preview.map_view = map_view
+	
+	if is_instance_valid(map_view):
+		var viewport_container = map_view.get_parent().get_parent() as SubViewportContainer
+		if viewport_container:
+			viewport_container.gui_input.connect(on_map_gui_input)
 
 func on_map_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouse:
-		var img_pos_i = get_texture_mouse_position(event.position)
-		var img_pos = Vector2(img_pos_i)
-		
-		if not pen_active.button_pressed: return
-		
-		var is_drawing = false
-		if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-				is_drawing = true
-		elif event is InputEventMouseMotion:
-			if event.button_mask & MOUSE_BUTTON_MASK_LEFT:
-				is_drawing = true
+	if event is InputEventMouseMotion:
+		if info_label_enabled and is_instance_valid(map_view):
+			var tile_map = map_view.tile_map
+			var mouse_world_pos = map_view.get_global_mouse_position()
+			var local_pos = tile_map.to_local(mouse_world_pos)
+			var map_pos = tile_map.local_to_map(local_pos)
+			var pointed_material = map_view.get_material_at(map_pos)
+			
+			print_material_info(pointed_material)
 
-		if is_drawing:
-			if img_pos_i.x >= 0 and img_pos_i.x < map.MAP_SIZE.x and img_pos_i.y >= 0 and img_pos_i.y < map.MAP_SIZE.y:
-				map.paint_at(img_pos, cursor_preview.brush_steps, pen_type.selected as Map.MaterialType)
+		if is_drawing and pen_active.button_pressed:
+			draw_on_map()
 
-func print_material_info(pointed_material: Map.MaterialType) -> void:
+	elif event is InputEventMouseButton:
+		if not pen_active.button_pressed: 
+			is_drawing = false
+			return
+			
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			is_drawing = event.pressed
+			if is_drawing:
+				draw_on_map()
+
+func draw_on_map() -> void:
+	if not is_instance_valid(map_view) or not is_instance_valid(cursor_preview): return
+	
+	var tile_map = map_view.tile_map
+	var mouse_world_pos = map_view.get_global_mouse_position()
+	var local_pos = tile_map.to_local(mouse_world_pos)
+	var map_pos = tile_map.local_to_map(local_pos)
+	
+	map_view.paint_at(Vector2(map_pos), cursor_preview.brush_steps, pen_type.selected as MapView.MaterialType)
+
+func print_material_info(pointed_material: MapView.MaterialType) -> void:
 	if not info_label_enabled: return
 	
 	match pointed_material:
-		Map.MaterialType.VOID: info_label.text = tr("map.material_type.void")
-		Map.MaterialType.SOFT_ROCK: info_label.text = tr("map.material_type.soft_rock")
-		Map.MaterialType.HARD_ROCK: info_label.text = tr("map.material_type.hard_rock")
-		Map.MaterialType.BEDROCK: info_label.text = tr("map.material_type.bedrock")
-		Map.MaterialType.GOLD: info_label.text = tr("map.material_type.gold")
-		Map.MaterialType.ROBOT: info_label.text = tr("map.material_type.robot")
+		MapView.MaterialType.VOID: info_label.text = tr("map.material_type.void")
+		MapView.MaterialType.SOFT_ROCK: info_label.text = tr("map.material_type.soft_rock")
+		MapView.MaterialType.HARD_ROCK: info_label.text = tr("map.material_type.hard_rock")
+		MapView.MaterialType.BEDROCK: info_label.text = tr("map.material_type.bedrock")
+		MapView.MaterialType.GOLD: info_label.text = tr("map.material_type.gold")
+		MapView.MaterialType.ROBOT: info_label.text = tr("map.material_type.robot")
 
 func get_texture_mouse_position(local_mouse_pos: Vector2) -> Vector2i:
-	if not map or not map.texture:
+	if not map_view or not map_view.texture:
 		return Vector2i(-1, -1)
 
-	var texture_size = Vector2(map.MAP_SIZE)
-	var control_size = map.size
+	var texture_size = Vector2(map_view.MAP_SIZE)
+	var control_size = map_view.size
 	var scale_x = control_size.x / texture_size.x
 	var scale_y = control_size.y / texture_size.y
 	var final_scale = min(scale_x, scale_y)
@@ -86,17 +106,17 @@ func on_pen_size_slider_value_changed(value: float) -> void:
 	cursor_preview.set_size(int(value))
 
 func on_clear_button_pressed() -> void:
-	if not is_instance_valid(map): return
+	if not is_instance_valid(map_view): return
 	
-	map.clear_map()
+	map_view.clear_map()
 
 func on_random_button_pressed() -> void:
-	if not is_instance_valid(map): return
+	if not is_instance_valid(map_view): return
 	
-	map.generate_world()
+	map_view.generate_world()
 
 func on_fill_button_pressed() -> void:
-	map.clear_map(pen_type.selected as Map.MaterialType)
+	map_view.clear_map(pen_type.selected as MapView.MaterialType)
 
 func enable_info_label() -> void:
 	info_label_enabled = true
