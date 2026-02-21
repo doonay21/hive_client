@@ -400,11 +400,14 @@ func encode_seed_in_tiles(seed_val: int) -> void:
 	var y = MAP_SIZE.y - 1
 	
 	for x in range(64):
-		set_tile(x, y, MaterialType.HARD_ROCK)
+		set_tile(x, y, MaterialType.VOID)
 	
 	for i in range(64):
 		if (seed_val & (1 << i)) != 0:
 			set_tile(i, y, MaterialType.BEDROCK)
+	
+	for x in range(4):
+		set_tile(64 + x, y, MaterialType.SOFT_ROCK)
 
 func extract_seed_from_tiles() -> int:
 	var recovered_seed: int = 0
