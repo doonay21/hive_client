@@ -1,25 +1,21 @@
 class_name ProgramInterpreter extends Node
 
 var program_data: Dictionary = {}
-var robot: Robot
 
 var buffer: Array = []
 var columns: int = 7
 
 var sight: Array = [0.0, 0.0, 0.0] # left, front, right
 
-func _init(program_data_p: Dictionary, robot_p: Robot) -> void:
+func _init(program_data_p: Dictionary) -> void:
 	program_data = program_data_p
-	robot = robot_p
 	
 	columns = ProgramGrid.size_to_dimension(program_data["size"])
 	init_buffer()
 	tick()
 
 func set_inputs() -> void:
-	sight[0] = robot.sense_left()
-	sight[1] = robot.sense_forward()
-	sight[2] = robot.sense_right()
+	pass
 
 func set_outputs() -> void:
 	pass

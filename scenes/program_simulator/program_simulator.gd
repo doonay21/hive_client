@@ -7,7 +7,6 @@ class_name ProgramSimulator extends Window
 var brain_editor: BrainEditor
 var program_data: Dictionary = {}
 var interpreter: ProgramInterpreter
-var robot: Robot
 
 func _ready() -> void:
 	popup_centered_ratio(0.9)
@@ -17,8 +16,7 @@ func _ready() -> void:
 	program_data = brain_editor.get_program_data()
 	program_visualizer.start(program_data)
 	
-	robot = Robot.new()
-	interpreter = ProgramInterpreter.new(program_data, robot)
+	interpreter = ProgramInterpreter.new(program_data)
 
 func tick() -> void:
 	interpreter.tick()

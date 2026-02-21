@@ -23,8 +23,6 @@ var room_pixels: Array[Vector2i] = []
 var data_grid: PackedByteArray = []
 var current_seed: int = 0
 
-var robots: Array[Robot] = []
-
 func _ready() -> void:
 	randomize()
 	
@@ -49,13 +47,6 @@ func _process(_delta: float) -> void:
 	if texture_dirty:
 		texture_ref.update(image)
 		texture_dirty = false
-
-func update() -> void:
-	for robot in robots:
-		pass
-
-func add_robot(robot: Robot) -> void:
-	robots.append(robot)
 
 func clear_map(material_type: MaterialType = MaterialType.VOID) -> void:
 	image.fill(COLORS[material_type])
