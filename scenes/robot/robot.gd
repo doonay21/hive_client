@@ -1,0 +1,121 @@
+class_name Robot extends Node2D
+
+@onready var radar_left: Line2D = $RadarLeft
+@onready var radar_front: Line2D = $RadarFront
+@onready var radar_right: Line2D = $RadarRight
+
+const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
+
+var grid_pos: Vector2i = Vector2i(-1, -1)
+var map: MapView
+
+var target_global_position: Vector2 = Vector2.ZERO
+var target_rotation: float = 0.0
+var facing_index: int = 0
+
+var sight: Array[float] = [0.0, 0.0, 0.0]
+
+func setup(target_map: MapView, start_pos: Vector2i) -> void:
+	map = target_map
+	set_grid_position(start_pos, true)
+
+func _process(_delta: float) -> void:
+	global_position = global_position.lerp(target_global_position, 0.3)
+	rotation = lerp_angle(rotation, target_rotation, 0.3)
+
+func turn_left() -> void:
+	facing_index = (facing_index + 3) % 4 
+	target_rotation -= PI / 2.0
+	update_radars()
+
+func turn_right() -> void:
+	facing_index = (facing_index + 1) % 4
+	target_rotation += PI / 2.0
+	update_radars()
+
+func turn_around() -> void:
+	facing_index = (facing_index + 2) % 4
+	target_rotation += PI
+	update_radars()
+
+func move_forward() -> bool:
+	return try_move(DIRS[facing_index])
+
+func move_backward() -> bool:
+	var back_index = (facing_index + 2) % 4
+	return try_move(DIRS[back_index])
+
+func set_grid_position(new_pos: Vector2i, instant: bool = false) -> void:
+	if grid_pos != Vector2i(-1, -1):
+		map.set_tile_v(grid_pos, MapView.MaterialType.VOID)
+		
+	grid_pos = new_pos
+	
+	map.set_tile_v(grid_pos, MapView.MaterialType.ROBOT)
+	
+	if instant:
+		global_position = map.tile_map.to_global(map.tile_map.map_to_local(grid_pos))
+		target_global_position = global_position
+	else:
+		target_global_position = map.tile_map.to_global(map.tile_map.map_to_local(grid_pos))
+	
+	update_radars()
+
+func try_move(direction: Vector2i) -> bool:
+	var target_pos = grid_pos + direction
+	
+	if map.get_material_at(target_pos) == MapView.MaterialType.VOID:
+		set_grid_position(target_pos)
+		return true
+		
+	return false
+
+func update_radars() -> void:
+	if not is_instance_valid(map) or grid_pos == Vector2i(-1, -1):
+		return
+		
+	var tile_size: Vector2i = map.tile_map.tile_set.tile_size
+	var dir_front = DIRS[facing_index]
+	var dir_right = DIRS[(facing_index + 1) % 4]
+	var dir_left  = DIRS[(facing_index + 3) % 4]
+	
+	sight[0] = update_single_radar(radar_left,  dir_left,  Vector2i.LEFT,  Vector2(-4, 0), tile_size)
+	sight[1] = update_single_radar(radar_front, dir_front, Vector2i.UP,    Vector2(0, -4), tile_size)
+	sight[2] = update_single_radar(radar_right, dir_right, Vector2i.RIGHT, Vector2(4, 0),  tile_size)
+
+func update_single_radar(radar: Line2D, grid_dir: Vector2i, local_dir: Vector2i, start_offset: Vector2, tile_size: Vector2i) -> float:
+	var steps: int = 1
+	var max_steps: int = 10
+	var obstacle_found: bool = false
+	
+	while steps <= max_steps:
+		var check_pos = grid_pos + grid_dir * steps
+		
+		if not map.map_bounds.has_point(check_pos):
+			obstacle_found = true
+			break
+			
+		var mat = map.get_material_at(check_pos)
+		if mat != MapView.MaterialType.VOID:
+			obstacle_found = true
+			break
+			
+		steps += 1
+		
+	var sight_value: float = 0.0
+	var distance_pixels: float = 0.0
+	var tile_dimension = tile_size.x if grid_dir.x != 0 else tile_size.y
+	
+	if obstacle_found:
+		sight_value = 1.0 - (float(steps - 1) / float(max_steps))
+		distance_pixels = (steps - 0.5) * tile_dimension
+	else:
+		sight_value = 0.0
+		distance_pixels = max_steps * tile_dimension
+		
+	distance_pixels = max(distance_pixels, 4.0)
+	
+	var end_pos = Vector2(local_dir) * distance_pixels
+	radar.points = PackedVector2Array([start_offset, end_pos])
+	
+	return sight_value

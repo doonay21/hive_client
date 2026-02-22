@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://beqbwjil6eov8" path="res://scenes/program_simulator/program_visualizer/program_visualizer.tscn" id="4_i1rra"]
 [ext_resource type="Script" uid="uid://c14wjyxaxu5pt" path="res://scenes/program_simulator/visualizer_camera.gd" id="4_ks85t"]
 [ext_resource type="PackedScene" uid="uid://n3jaf3upg5ke" path="res://scenes/program_simulator/cursor_preview.tscn" id="4_scjvv"]
+[ext_resource type="PackedScene" uid="uid://dhrwtxt1g718f" path="res://scenes/robot/robot.tscn" id="5_4qqjl"]
 [ext_resource type="PackedScene" uid="uid://bgio880wpyk7v" path="res://scenes/program_simulator/program_visualizer/program_visualizer_tools.tscn" id="5_cxbpe"]
 
 [node name="ProgramSimulator" type="Window" unique_id=801897607]
@@ -69,6 +70,9 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="CursorPreview" parent="HSplitContainer/WorldContainer/MapContainer/SubViewportContainer/SubViewport" unique_id=342309955 instance=ExtResource("4_scjvv")]
+
+[node name="Robot" parent="HSplitContainer/WorldContainer/MapContainer/SubViewportContainer/SubViewport" unique_id=1709235588 instance=ExtResource("5_4qqjl")]
+unique_name_in_owner = true
 
 [node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/WorldContainer/MapContainer" unique_id=812969122]
 layout_mode = 1

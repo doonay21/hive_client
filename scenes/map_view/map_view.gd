@@ -1,10 +1,13 @@
 class_name MapView extends Node2D
 
+signal map_generated
+
 enum MaterialType { VOID, SOFT_ROCK, HARD_ROCK, BEDROCK, GOLD, ROBOT }
 enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
 
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
 const TILE_SOURCE_ID: int = 0
+const SPAWN_RADIUS: float = 12.0
 
 const TILE_COORDS: Array[Vector2i] = [
 	Vector2i.ZERO,  # 0: VOID
@@ -12,7 +15,7 @@ const TILE_COORDS: Array[Vector2i] = [
 	Vector2i(3, 1), # 2: HARD_ROCK
 	Vector2i(5, 1), # 3: BEDROCK
 	Vector2i(1, 3), # 4: GOLD
-	Vector2i(0, 0)  # 5: ROBOT
+	Vector2i(3, 3)  # 5: ROBOT
 ]
 
 const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
@@ -97,9 +100,11 @@ func generate_world() -> void:
 		try_generate_gold_vein(false)
 		
 	add_complex_obstacles()
-	create_spawn_point(12.0)
+	create_spawn_point()
 	
 	encode_seed_in_tiles(current_seed)
+	
+	map_generated.emit()
 
 func generate_noisy_background() -> void:
 	noise.frequency = 0.08 
@@ -379,21 +384,21 @@ func set_tile_safe(x: int, y: int, material_type: MaterialType) -> void:
 func set_tilev_safe(pos: Vector2i, material_type: MaterialType) -> void:
 	set_tile_safe(pos.x, pos.y, material_type)
 
-func create_spawn_point(radius: float) -> void:
+func create_spawn_point() -> void:
 	var center = Vector2(MAP_SIZE.x / 2.0, MAP_SIZE.y / 2.0)
-	var radius_sq = radius * radius
+	var radius_sq = SPAWN_RADIUS * SPAWN_RADIUS
 	
-	var start_x = int(center.x - radius)
-	var end_x = int(center.x + radius)
-	var start_y = int(center.y - radius)
-	var end_y = int(center.y + radius)
+	var start_x = int(center.x - SPAWN_RADIUS)
+	var end_x = int(center.x + SPAWN_RADIUS)
+	var start_y = int(center.y - SPAWN_RADIUS)
+	var end_y = int(center.y + SPAWN_RADIUS)
 
 	for x in range(start_x, end_x + 1):
 		for y in range(start_y, end_y + 1):
 			if map_bounds.has_point(Vector2i(x,y)):
 				var dx = x - center.x
 				var dy = y - center.y
-				if dx*dx + dy*dy <= radius_sq:
+				if dx * dx + dy * dy <= radius_sq:
 					set_tile(x, y, MaterialType.VOID)
 
 func encode_seed_in_tiles(seed_val: int) -> void:
@@ -420,3 +425,27 @@ func extract_seed_from_tiles() -> int:
 			recovered_seed |= (1 << i)
 			
 	return recovered_seed
+
+func get_random_empty_spawn_point() -> Vector2i:
+	var center: Vector2 = Vector2(MAP_SIZE) / 2.0
+	var radius_sq: float = SPAWN_RADIUS * SPAWN_RADIUS
+	var max_attempts: int = 100
+	
+	var start_x: int = int(center.x - SPAWN_RADIUS)
+	var end_x: int = int(center.x + SPAWN_RADIUS)
+	var start_y: int = int(center.y - SPAWN_RADIUS)
+	var end_y: int = int(center.y + SPAWN_RADIUS)
+
+	for i in range(max_attempts):
+		var x: int = randi_range(start_x, end_x)
+		var y: int = randi_range(start_y, end_y)
+		var dx: float = x - center.x
+		var dy: float = y - center.y
+		
+		if dx * dx + dy * dy <= radius_sq:
+			var pos: Vector2i = Vector2i(x, y)
+			
+			if map_bounds.has_point(pos) and get_material_at(pos) == MaterialType.VOID:
+				return pos
+				
+	return Vector2i(-1, -1)

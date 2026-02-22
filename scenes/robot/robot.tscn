@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dhrwtxt1g718f"]
+
+[ext_resource type="Script" uid="uid://cg64hjgw2h2it" path="res://scenes/robot/robot.gd" id="1_ay6cs"]
+[ext_resource type="Texture2D" uid="uid://b2h5vmsfa6ofp" path="res://assets/images/robot.png" id="1_eh0qr"]
+
+[node name="Robot" type="Node2D" unique_id=1709235588]
+script = ExtResource("1_ay6cs")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=633749066]
+texture = ExtResource("1_eh0qr")
+
+[node name="RadarLeft" type="Line2D" parent="." unique_id=1074439347]
+points = PackedVector2Array(-4, 0, -4, 0)
+width = 4.0
+default_color = Color(0, 0.72156864, 0.8, 0.5019608)
+
+[node name="RadarFront" type="Line2D" parent="." unique_id=1712858889]
+points = PackedVector2Array(0, -4, 0, -4)
+width = 4.0
+default_color = Color(0, 0.72156864, 0.8, 0.5019608)
+
+[node name="RadarRight" type="Line2D" parent="." unique_id=850037749]
+points = PackedVector2Array(4, 0, 4, 0)
+width = 4.0
+default_color = Color(0, 0.72156864, 0.8, 0.5019608)
