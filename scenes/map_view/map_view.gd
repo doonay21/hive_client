@@ -1,6 +1,7 @@
 class_name MapView extends Node2D
 
 signal map_generated
+signal map_changed
 
 enum MaterialType { VOID, SOFT_ROCK, HARD_ROCK, BEDROCK, GOLD, ROBOT }
 enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
@@ -8,6 +9,12 @@ enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
 const TILE_SOURCE_ID: int = 0
 const SPAWN_RADIUS: float = 12.0
+
+const MATERIAL_HP: Dictionary = {
+	MaterialType.SOFT_ROCK: 2,
+	MaterialType.HARD_ROCK: 5,
+	MaterialType.GOLD: 3
+}
 
 const TILE_COORDS: Array[Vector2i] = [
 	Vector2i.ZERO,  # 0: VOID
@@ -25,6 +32,7 @@ const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector
 var noise: FastNoiseLite
 var room_pixels: Array[Vector2i] = []
 var data_grid: PackedByteArray = []
+var hp_grid: PackedByteArray = []
 var current_seed: int = 0
 var map_bounds: Rect2i = Rect2i(Vector2i.ZERO, MAP_SIZE)
 
@@ -40,30 +48,112 @@ func _ready() -> void:
 	data_grid.resize(MAP_SIZE.x * MAP_SIZE.y)
 	data_grid.fill(MaterialType.VOID)
 	
+	hp_grid.resize(MAP_SIZE.x * MAP_SIZE.y)
+	hp_grid.fill(0)
+	
 	generate_world()
 
 func clear_map(material_type: MaterialType = MaterialType.VOID) -> void:
-	tile_map.clear()
-	data_grid.fill(material_type)
-	if material_type != MaterialType.VOID:
-		for x in range(MAP_SIZE.x):
-			for y in range(MAP_SIZE.y):
+	var modified: bool = false
+	
+	for x in range(MAP_SIZE.x):
+		for y in range(MAP_SIZE.y):
+			var pos = Vector2i(x, y)
+			var current_mat = get_material_at(pos)
+			
+			if current_mat != MaterialType.ROBOT and current_mat != material_type:
 				set_tile(x, y, material_type)
+				modified = true
+				
+	if modified:
+		map_changed.emit()
 
 func paint_at(map_pos: Vector2, brush_steps: int, material_type: MaterialType = MaterialType.VOID) -> void:
 	var radius_sq: float = (brush_steps - 0.5) ** 2
+	var modified: bool = false
+	
 	for x in range(-brush_steps, brush_steps + 1):
 		for y in range(-brush_steps, brush_steps + 1):
 			if (x * x + y * y) <= radius_sq:
 				var target = Vector2i(int(map_pos.x + x), int(map_pos.y + y))
+				
 				if map_bounds.has_point(target):
-					set_tile(target.x, target.y, material_type)
+					if get_material_at(target) != MaterialType.ROBOT:
+						set_tile(target.x, target.y, material_type)
+						modified = true
+					
+	if modified:
+		map_changed.emit()
 
 func get_material_at(pos: Vector2i) -> MaterialType:
 	if not map_bounds.has_point(pos):
 		return MaterialType.VOID
 	
 	return data_grid[pos.x + pos.y * MAP_SIZE.x] as MaterialType
+
+func get_random_empty_spawn_point() -> Vector2i:
+	var center: Vector2 = Vector2(MAP_SIZE) / 2.0
+	var radius_sq: float = SPAWN_RADIUS * SPAWN_RADIUS
+	var max_attempts: int = 100
+	
+	var start_x: int = int(center.x - SPAWN_RADIUS)
+	var end_x: int = int(center.x + SPAWN_RADIUS)
+	var start_y: int = int(center.y - SPAWN_RADIUS)
+	var end_y: int = int(center.y + SPAWN_RADIUS)
+
+	for i in range(max_attempts):
+		var x: int = randi_range(start_x, end_x)
+		var y: int = randi_range(start_y, end_y)
+		var dx: float = x - center.x
+		var dy: float = y - center.y
+		
+		if dx * dx + dy * dy <= radius_sq:
+			var pos: Vector2i = Vector2i(x, y)
+			
+			if map_bounds.has_point(pos) and get_material_at(pos) == MaterialType.VOID:
+				return pos
+				
+	return Vector2i(-1, -1)
+
+func extract_seed_from_tiles() -> int:
+	var recovered_seed: int = 0
+	var y = MAP_SIZE.y - 1
+	
+	for i in range(64):
+		var mat = get_material_at(Vector2i(i, y))
+		
+		if mat == MaterialType.BEDROCK:
+			recovered_seed |= (1 << i)
+			
+	return recovered_seed
+
+func set_tile(x: int, y: int, material_type: MaterialType) -> void:
+	var index: int = x + y * MAP_SIZE.x
+	data_grid[index] = material_type
+	
+	if MATERIAL_HP.has(material_type):
+		hp_grid[index] = MATERIAL_HP[material_type]
+	else:
+		hp_grid[index] = 0
+	
+	var pos = Vector2i(x, y)
+	if material_type == MaterialType.VOID:
+		tile_map.erase_cell(pos)
+	else:
+		tile_map.set_cell(pos, TILE_SOURCE_ID, TILE_COORDS[material_type])
+
+func set_tile_v(pos: Vector2i, material_type: MaterialType) -> void:
+	set_tile(pos.x, pos.y, material_type)
+
+func set_tile_safe(x: int, y: int, material_type: MaterialType) -> void:
+	var pos = Vector2i(x, y)
+	if map_bounds.has_point(pos):
+		var current = get_material_at(pos)
+		if current == MaterialType.SOFT_ROCK or current == MaterialType.HARD_ROCK:
+			set_tile(x, y, material_type)
+
+func set_tilev_safe(pos: Vector2i, material_type: MaterialType) -> void:
+	set_tile_safe(pos.x, pos.y, material_type)
 
 func generate_world() -> void:
 	tile_map.clear()
@@ -101,7 +191,6 @@ func generate_world() -> void:
 		
 	add_complex_obstacles()
 	create_spawn_point()
-	
 	encode_seed_in_tiles(current_seed)
 	
 	map_generated.emit()
@@ -124,6 +213,36 @@ func generate_noisy_background() -> void:
 				set_tile(x, y, MaterialType.HARD_ROCK)
 			else:
 				set_tile(x, y, MaterialType.BEDROCK)
+
+func create_spawn_point() -> void:
+	var center = Vector2(MAP_SIZE.x / 2.0, MAP_SIZE.y / 2.0)
+	var radius_sq = SPAWN_RADIUS * SPAWN_RADIUS
+	
+	var start_x = int(center.x - SPAWN_RADIUS)
+	var end_x = int(center.x + SPAWN_RADIUS)
+	var start_y = int(center.y - SPAWN_RADIUS)
+	var end_y = int(center.y + SPAWN_RADIUS)
+
+	for x in range(start_x, end_x + 1):
+		for y in range(start_y, end_y + 1):
+			if map_bounds.has_point(Vector2i(x,y)):
+				var dx = x - center.x
+				var dy = y - center.y
+				if dx * dx + dy * dy <= radius_sq:
+					set_tile(x, y, MaterialType.VOID)
+
+func encode_seed_in_tiles(seed_val: int) -> void:
+	var y = MAP_SIZE.y - 1
+	
+	for x in range(64):
+		set_tile(x, y, MaterialType.VOID)
+	
+	for i in range(64):
+		if (seed_val & (1 << i)) != 0:
+			set_tile(i, y, MaterialType.BEDROCK)
+	
+	for x in range(4):
+		set_tile(64 + x, y, MaterialType.SOFT_ROCK)
 
 func create_noise_room(ox: int, oy: int, w: int, h: int, shape_type: RoomShape) -> void:
 	var center = Vector2(ox + w/2.0, oy + h/2.0)
@@ -362,90 +481,19 @@ func build_hollow_box(pos: Vector2i) -> void:
 			elif randf() > 0.5:
 				set_tilev_safe(p, MaterialType.VOID)
 
-func set_tile(x: int, y: int, material_type: MaterialType) -> void:
-	data_grid[x + y * MAP_SIZE.x] = material_type
-	
-	var pos = Vector2i(x, y)
-	if material_type == MaterialType.VOID:
-		tile_map.erase_cell(pos)
-	else:
-		tile_map.set_cell(pos, TILE_SOURCE_ID, TILE_COORDS[material_type])
-
-func set_tile_v(pos: Vector2i, material_type: MaterialType) -> void:
-	set_tile(pos.x, pos.y, material_type)
-
-func set_tile_safe(x: int, y: int, material_type: MaterialType) -> void:
-	var pos = Vector2i(x, y)
-	if map_bounds.has_point(pos):
-		var current = get_material_at(pos)
-		if current == MaterialType.SOFT_ROCK or current == MaterialType.HARD_ROCK:
-			set_tile(x, y, material_type)
-
-func set_tilev_safe(pos: Vector2i, material_type: MaterialType) -> void:
-	set_tile_safe(pos.x, pos.y, material_type)
-
-func create_spawn_point() -> void:
-	var center = Vector2(MAP_SIZE.x / 2.0, MAP_SIZE.y / 2.0)
-	var radius_sq = SPAWN_RADIUS * SPAWN_RADIUS
-	
-	var start_x = int(center.x - SPAWN_RADIUS)
-	var end_x = int(center.x + SPAWN_RADIUS)
-	var start_y = int(center.y - SPAWN_RADIUS)
-	var end_y = int(center.y + SPAWN_RADIUS)
-
-	for x in range(start_x, end_x + 1):
-		for y in range(start_y, end_y + 1):
-			if map_bounds.has_point(Vector2i(x,y)):
-				var dx = x - center.x
-				var dy = y - center.y
-				if dx * dx + dy * dy <= radius_sq:
-					set_tile(x, y, MaterialType.VOID)
-
-func encode_seed_in_tiles(seed_val: int) -> void:
-	var y = MAP_SIZE.y - 1
-	
-	for x in range(64):
-		set_tile(x, y, MaterialType.VOID)
-	
-	for i in range(64):
-		if (seed_val & (1 << i)) != 0:
-			set_tile(i, y, MaterialType.BEDROCK)
-	
-	for x in range(4):
-		set_tile(64 + x, y, MaterialType.SOFT_ROCK)
-
-func extract_seed_from_tiles() -> int:
-	var recovered_seed: int = 0
-	var y = MAP_SIZE.y - 1
-	
-	for i in range(64):
-		var mat = get_material_at(Vector2i(i, y))
+func damage_tile(pos: Vector2i) -> bool:
+	if not map_bounds.has_point(pos):
+		return false
 		
-		if mat == MaterialType.BEDROCK:
-			recovered_seed |= (1 << i)
-			
-	return recovered_seed
-
-func get_random_empty_spawn_point() -> Vector2i:
-	var center: Vector2 = Vector2(MAP_SIZE) / 2.0
-	var radius_sq: float = SPAWN_RADIUS * SPAWN_RADIUS
-	var max_attempts: int = 100
+	var index: int = pos.x + pos.y * MAP_SIZE.x
+	var mat: MaterialType = data_grid[index] as MaterialType
 	
-	var start_x: int = int(center.x - SPAWN_RADIUS)
-	var end_x: int = int(center.x + SPAWN_RADIUS)
-	var start_y: int = int(center.y - SPAWN_RADIUS)
-	var end_y: int = int(center.y + SPAWN_RADIUS)
-
-	for i in range(max_attempts):
-		var x: int = randi_range(start_x, end_x)
-		var y: int = randi_range(start_y, end_y)
-		var dx: float = x - center.x
-		var dy: float = y - center.y
+	if mat == MaterialType.SOFT_ROCK or mat == MaterialType.HARD_ROCK or mat == MaterialType.GOLD:
+		hp_grid[index] -= 1
 		
-		if dx * dx + dy * dy <= radius_sq:
-			var pos: Vector2i = Vector2i(x, y)
+		if hp_grid[index] <= 0:
+			set_tile(pos.x, pos.y, MaterialType.VOID)
+			map_changed.emit()
+			return true
 			
-			if map_bounds.has_point(pos) and get_material_at(pos) == MaterialType.VOID:
-				return pos
-				
-	return Vector2i(-1, -1)
+	return false

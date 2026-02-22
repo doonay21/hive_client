@@ -9,7 +9,6 @@ class_name ProgramSimulator extends Window
 
 var brain_editor: BrainEditor
 var program_data: Dictionary = {}
-var interpreter: ProgramInterpreter
 
 func _ready() -> void:
 	popup_centered_ratio(0.9)
@@ -18,8 +17,6 @@ func _ready() -> void:
 	
 	program_data = brain_editor.get_program_data()
 	program_visualizer.start(program_data)
-	
-	interpreter = ProgramInterpreter.new(program_data)
 	
 	call_deferred("center_and_fit_map")
 	
@@ -31,7 +28,7 @@ func spawn_robot() -> void:
 	var spawn_pos = map_view.get_random_empty_spawn_point()
 	
 	if spawn_pos != Vector2i(-1, -1):
-		robot.setup(map_view, spawn_pos)
+		robot.setup(map_view, spawn_pos, program_data)
 
 func center_and_fit_map() -> void:
 	if not is_instance_valid(map_view) or not is_instance_valid(map_camera) or not is_instance_valid(sub_viewport):
@@ -44,7 +41,7 @@ func center_and_fit_map() -> void:
 	map_camera.fit_to_bounds(map_pixel_size, vp_size)
 
 func tick() -> void:
-	interpreter.tick()
+	robot.tick()
 
 func on_close_requested() -> void:
 	queue_free()

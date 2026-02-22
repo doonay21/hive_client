@@ -15,13 +15,25 @@ var facing_index: int = 0
 
 var sight: Array[float] = [0.0, 0.0, 0.0]
 
-func setup(target_map: MapView, start_pos: Vector2i) -> void:
+var interpreter: ProgramInterpreter
+
+func setup(target_map: MapView, start_pos: Vector2i, program_data: Dictionary) -> void:
 	map = target_map
+	
+	if not map.map_changed.is_connected(update_radars):
+		map.map_changed.connect(update_radars)
+		
 	set_grid_position(start_pos, true)
+	
+	interpreter = ProgramInterpreter.new(program_data)
 
 func _process(_delta: float) -> void:
 	global_position = global_position.lerp(target_global_position, 0.3)
 	rotation = lerp_angle(rotation, target_rotation, 0.3)
+
+func tick() -> void:
+	interpreter.set_inputs(sight)
+	interpreter.tick()
 
 func turn_left() -> void:
 	facing_index = (facing_index + 3) % 4 
@@ -44,6 +56,14 @@ func move_forward() -> bool:
 func move_backward() -> bool:
 	var back_index = (facing_index + 2) % 4
 	return try_move(DIRS[back_index])
+
+func dig() -> bool:
+	if not is_instance_valid(map) or grid_pos == Vector2i(-1, -1):
+		return false
+		
+	var target_pos = grid_pos + DIRS[facing_index]
+	
+	return map.damage_tile(target_pos)
 
 func set_grid_position(new_pos: Vector2i, instant: bool = false) -> void:
 	if grid_pos != Vector2i(-1, -1):
