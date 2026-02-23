@@ -85,7 +85,7 @@ blocks:
     info: Utrzymuje na wyjściu stałą wartość 1.0 po otrzymaniu sygnału A, sygnał B zeruje wartość wyjściową. Próg aktywacji: 0.5.
   counter:
     title: Licznik
-    info: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls i zeruje stan pamięci.
+    info: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls i zeruje stan pamięci (z zachowaniem reszty).
   switch:
     title: Przełącznik
     info: Przekazuje na wyjście sygnał A, gdy wejście CON jest niskie, lub sygnał B, gdy CON przekroczy 0.5.
@@ -107,11 +107,6 @@ blocks:
   emitter:
     title: Emiter
     info: Wysyła sygnał A lokalnie do Odbiornika na matrycy tego robota.
-    ch1: CH1
-    ch2: CH2
-    ch3: CH3
-    ch4: CH4
-    ch5: CH5
   receiver:
     title: Odbiornik
     info: Odczytuje lokalny sygnał z Emitera na matrycy tego robota.
@@ -123,7 +118,7 @@ blocks:
     info: Jeśli na wejściu jest > 0.5 losowana jest nowa wartość wyjścia.
   geo:
     title: Geoskan
-    info: Skaner złota. Działa na dystansie 2 jednostek. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
+    info: Skaner złota. Działa na dystansie 2 jednostek przed robotem. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
   broadcast:
     title: Nadajnik
     info: Rozgłasza sygnał A globalnie do innych robotów przez fale radiowe.

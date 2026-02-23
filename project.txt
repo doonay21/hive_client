@@ -4,7 +4,7 @@ Opis:
     Interfejs programowania autonomicznych robotów poszukujących złota.
 
 Świat:
-    Dyskretny. Matryca 200x200 pikseli. Każdy piksel to dokładnie jedna rzecz (opis niżej) z założeniem, że materia może chować złoto.
+    Dyskretny. Matryca 200x200 pikseli. Każdy piksel to dokładnie jedna rzecz.
     W danej pozycji może być wyłącznie jeden robot. Robot nie może wchodzić na materię, złoto ani innego robota.
     Kopanie materii polega na wywołaniu akcji "kop", która w usuwa materię znajdującą się dokładnie przed robotem.
 	Usunięcie 1 bloku materii wymaga wykonania akcji kop X razy (zależnie od rodzaju materii). Każdy obiekt materii posiada własny stan i pamięć włśanych uszkodzeń, roboty mogą współpracować przy niszczeniu bloków.
@@ -15,30 +15,30 @@ Opis:
 	Możliwe elementy świata:
 		pustka: pusta przestrzeń, czarna, po niej poruszają się roboty
 		robot: czerwony, brak możliwości usunięcia
-		złoto: złote, schowane za ziemią lub kamieniem, wymaga 5 akcji kopania
+		złoto: złote, wymaga 3 akcji kopania
 		ściana: białe, niezniszczalne
 		ziemia: jasno szare, zniszczalne, wymaga 2 akcji kopania
-		skała: ciemno szare, zniszczalne, wymaga 10 akcji kopania
+		skała: ciemno szare, zniszczalne, wymaga 5 akcji kopania
 
 Generacja mapy:
-    Wykorzystywane jest 2 warstwowe generowanie z wykorzystaniem funkcji szumu.
-    Złoto generowane jest wyłącznie "pod" materią i zawsze minimum 1 piksel od krawędzi materii.
-	Wykopanie materii odkrywa złoto znajdujące się pod nią, wówczas wymagane jest ponowne kopanie by zdobyć złoto.
-    Złoto generowane jest w skupiskach (żyłach).
-    W 4 stronach świata znajdują się spawn pointy czyli strefy wolne od materii i złota. Pojawiają się w nich (losowo) roboty.
+    Mapa generowana jest proceduralnie. Generowane są skomplikowane struktury geometryczne.
+    Złoto generowane jest w żyłach w większości wewnątrz struktur geometrycznych.
+    Po środku mapy generowany jest pusty obszar "spawn area" o średnicy 12 pikseli.
 
 Robot:
     Zajmuje 1 piksel. Programowany przez gracza, autonomicznie porusza się po świecie, wykopuje materię, szuka i zbiera złoto.
     Ma swój zwrot. Może się poruszać w 4 kierunkach (NESW), nigdy na ukos. Może się obracać w lewo, prawo i o 180 stopni.
     Robot porusza się dyskretnie, z jednostajną prędkością (zgodnie z taktem symulacji). W danym takcie może się obrócić, poruszyć lub wykonać akcję kopania.
     Robot wykonuje jedną akcję w danym takcie: idź, skręć, kop. Akcja wybierana jest na podstawie siły sygnału, a w przypadku remisu obowiązuje hierarchia: Kop > Obrót LP > Obrót 180 > Ruch. W przypadku remisu obrotu LP stosuje sie hierarchię Prawo > Lewo.
-    Wzrok robota polega na wyrażeniu odległości do przeszkody na dystansie 10 jednostek sygnałem. Klocki wzroku mają możliwość konfiguracji obserwowanego elementu: materia, pustka, złoto, ściana, robot. Wzrok działa na maksymalnym dystancie 10 jednostek. Sygnał 1.0 oznacza, że obserwowany element jest bezpośrednio przed robotem, a 0.0 oznacza, że obserwowany obiekt nie jest widoczny na dystansie 10 jednostek. Możliwość wyboru pustki jako obserwowanego obiektu jest pewną abstrakcją dla wewnętrznego odwrócenia sygnału obserwacji materii.
+    Wzrok robota polega na wyrażeniu odległości do przeszkody na dystansie 10 jednostek sygnałem. Wzrok działa na maksymalnym dystancie 10 jednostek. Sygnał 1.0 oznacza, że materia jest bezpośrednio przed robotem, a 0.0 oznacza, że robot na dystansie 10 pikseli widzi pustkę.
 	Robot nie ma poziomu energii, w ogóle to pojęcie nie występuje w tej grze.
+    Pozycja startowa jest losowym punktem z "spawn area".
     
     Sensory:
         - wzrok: co widzi na dystansie 10 jednostek przed sobą, w lewej i z prawej
         - ruch: czy w poprzednim takcie robot się poruszył
         - skaner geologiczny: czy na dystansie 2 pikseli przed sobą znajduje się złoto
+        - czy materia bezpośrednio przed robotem może być wykopana
     
     Elementy wykonawcze:
         - obróć się w lewo
@@ -54,14 +54,15 @@ Program:
     Każdy klocek może mieć od 1 do 4 wejśc/wyjść. Są one umieszczone na 4 krawędziach klocka.
     Sygnał podąża od wejścia/wejść do wyjścia/wyjść. Wyjątkiem jest "bezprzewodowy" nadajnik sygnału.
     Sygnał poddany jest funkcji "clamp" przed podaniem go na wyjście. Sygnał zawsze utrzymuje zakres 0.0 - 1.0.
-    System wykorzystuje synchroniczny przepływ danych, co pozwala na jednoczesne przeliczanie wszystkich stanów matrycy w każdym takcie, eliminując opóźnienia propagacji sygnału.
-    Klocki umieszczone w swojej bezpośredniej bliskości wymieniają się wsygnałem pod warunkiem, że ich stykające się krawędzie są kompatybilne: wyjście -> wejście.
+    System wykorzystuje mechanizm relaksacji sygnału w pętli (max 50 mikro ticków),
+    Klocki umieszczone w swojej bezpośredniej bliskości wymieniają się sygnałem pod warunkiem, że ich stykające się krawędzie są kompatybilne: wyjście -> wejście.
     Przekazanie sygnału na dalsze odległości jest możliwe przez użycie klocków typu "przewód" lub nadajnik. Nadajnik i odbiornik komunikują się w ramach robota osobno, kanały nie są współdzielone między robotami.
+    Istnieją klocki umożliwiające wymianę sygnałów między robotami.
 
 Własne klocki:
-    Gracz może tworzyć własne klocki wykonawcze. Edycja własnego klocka włącza osobną matrycę 7x7.
-    Matryca 7x7 własnego klocka działa na tej samej zasadzie co główna z różnicą wynikającą z określania wejść/wyjść tworzonego klocka.
-    Na każdej krawędzi matrycy środkowe sloty to wejścia/wyjścia układu. Gracz decyduje (zmienia) czy dana krawędź to wejście, wyjście czy nic. Na tych slotach można kłaść dowolne klocki.
+    Gracz może tworzyć własne klocki wykonawcze. Edycja własnego klocka włącza osobną matrycę 5x5.
+    Matryca 5x5 własnego klocka działa na tej samej zasadzie co główna z różnicą wynikającą z określania wejść/wyjść tworzonego klocka.
+    Na każdej krawędzi matrycy środkowe sloty to wejścia/wyjścia układu. Gracz decyduje (zmienia) czy dana krawędź to wejście, wyjście czy nic.
     W matrycy własnego klocka można umieszczać dowolne klocki sygnałowe, logiczne i wykonawcze.
     Umieszczanie własnych klocków wewnątrz matryc własnych klocków jest zabronione.
     Uwaga: Nie ma możliwości by własny klocek miał więcej niż 1 wejście/wyjście na krawędź!
@@ -73,31 +74,13 @@ Klocki:
     Klocki mogą być dodawane w dowolnej ilości bez ograniczeń innych niż dostępna przestrzeń.
     
     Lista:
-        Wzrok lewo
-            Opis: Dystans do widzianej przeszkody z lewej strony robota. Maksymalnie 10 jednostek (pikseli).
+        Wzrok
+            Opis: Dystans do widzianej przeszkody z 3 stron robota. Maksymalnie 10 jednostek (pikseli).
             IO:
-                N - NIC
-                E - wyjście
+                N - wyjście (wzrok front)
+                E - wyjście (wzrok prawo)
                 S - NIC
-                W - NIC
-            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, skała, pustka, złoto, ściana, robot)
-        
-        Wzrok prosto
-            Opis: Dystans do widzianej przeszkody przed robotem. Maksymalnie 10 jednostek (pikseli).
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, skała, pustka, złoto, ściana, robot)
-
-        Wzrok prawo
-            Opis: Dystans do widzianej przeszkody z prawej strony robota. Maksymalnie 10 jednostek (pikseli).
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
+                W - wyjście (wzrok lewo)
             Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, skała, pustka, złoto, ściana, robot)
 
         Ruch?
@@ -109,8 +92,44 @@ Klocki:
                 W - NIC
             Opcje dodatkowe: brak
         
-        Geoskan
-            Opis: Skaner złota na dystansie 2 jednostek przed robotem. Wykrywa odkryte i zakryte złoto. 0.0: brak złota, 0.5: złoto 2 jednostki przed robotem, 1.0: złoto bezpośrednio przed robotem.
+        Kopanie?
+            Opis: Ustawia na wyjściu wartość 1.0 jeśli bezpośrednio przed robotem jest materiał, który można kopać.
+            IO:
+                N - wyjście
+                E - NIC
+                S - NIC
+                W - NIC
+            Opcje dodatkowe: brak
+        
+        Zmysł
+            Opis: Ustawia na wyjściu wartość 1.0 jeśli bezpośrednio przed robotem jest materiał danego typu (typ konfigurowalny na klocku).
+            IO:
+                N - wyjście
+                E - NIC
+                S - NIC
+                W - NIC
+            Opcje dodatkowe: brak
+
+        Geoskan Mk1
+            Opis: Skaner złota na dystansie 2 jednostek dookoła robota. 0.0: brak złota, 0.5: złoto na dystansie 2 jednostek, 1.0: złoto bezpośrednio przy robocie.
+            IO:
+                N - NIC
+                E - wyjście
+                S - NIC
+                W - NIC
+            Opcje dodatkowe: brak
+        
+        Geoskan Mk2
+            Opis: Skaner złota na dystansie 5 jednostek dookoła robota. 0.0: brak złota, 1.0: złoto bezpośrednio przy robocie. Pośrednie stany zgodnie ze wzorem: out = max(0.0, 1.0 - (dist/r_max))
+            IO:
+                N - NIC
+                E - wyjście
+                S - NIC
+                W - NIC
+            Opcje dodatkowe: brak
+        
+        Geoskan Mk3
+            Opis: Skaner złota na dystansie 15 jednostek przed robotem. Sygnał proporcjonalny do odległości, gdzie 0.0 to brak złota, 1.0 to złoto bezpośrednio przed robotem.
             IO:
                 N - NIC
                 E - wyjście
@@ -256,7 +275,7 @@ Klocki:
             Opcje dodatkowe: brak
 
         Licznik
-            Opis: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls 1.0 na wyjściu i zeruje stan pamięci i wyjście.
+            Opis: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls 1.0 na wyjściu po czym ustawia wewnętrzna wartość licznika na resztę.
             IO:
                 N - NIC
                 E - wyjście

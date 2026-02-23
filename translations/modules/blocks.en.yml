@@ -85,7 +85,7 @@ blocks:
     info: Holds a constant 1.0 output after receiving a A signal, until cleared by a B signal. Activation threshold: 0.5.
   counter:
     title: Counter
-    info: Accumulates the input signal until it reaches 1.0, then sends a pulse and resets memory.
+    info: Accumulates the input signal until it reaches 1.0, then sends a pulse and resets memory (maintaining the reminder).
   switch:
     title: Switch
     info: Outputs signal A when CON input is low, or signal B when control exceeds 0.5.
@@ -107,11 +107,6 @@ blocks:
   emitter:
     title: Emitter
     info: Sends signal A locally to a Receiver on this robot's matrix.
-    ch1: CH1
-    ch2: CH2
-    ch3: CH3
-    ch4: CH4
-    ch5: CH5
   receiver:
     title: Receiver
     info: Reads a local signal from an Emitter on this robot's matrix.
@@ -123,7 +118,7 @@ blocks:
     info: If input is > 0.5, a new output value is randomized.
   geo:
     title: Geoscan
-    info: Gold scanner. Range of 2 units. Returns a signal if gold is nearby.
+    info: Gold scanner. Range of 2 units in front. Returns a signal of gold is nearby.
   broadcast:
     title: Broadcast
     info: Broadcasts signal A globally to any robot via radio waves.
