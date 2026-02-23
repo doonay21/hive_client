@@ -31,7 +31,6 @@
 [ext_resource type="Resource" uid="uid://q0uo75hd23x4" path="res://scenes/brain_editor/blocks/connections/connection_ews.tres" id="15_2vtrv"]
 [ext_resource type="Resource" uid="uid://bwowdbex3h55m" path="res://scenes/brain_editor/blocks/functions/switch.tres" id="15_0323i"]
 [ext_resource type="Resource" uid="uid://l85ym1hysfni" path="res://scenes/brain_editor/blocks/connections/connection_cross.tres" id="15_jojpm"]
-[ext_resource type="Resource" uid="uid://7rg33x607o1" path="res://scenes/brain_editor/blocks/inputs/noise.tres" id="15_vw4n1"]
 [ext_resource type="Resource" uid="uid://be67ccd24rnql" path="res://scenes/brain_editor/blocks/functions/div.tres" id="16_6eqnj"]
 [ext_resource type="Resource" uid="uid://crwxy36ajluhj" path="res://scenes/brain_editor/blocks/functions/edge.tres" id="16_ne0bp"]
 [ext_resource type="Resource" uid="uid://2doahj3wioao" path="res://scenes/brain_editor/blocks/connections/connection_cross_joined.tres" id="17_5cbut"]
@@ -396,12 +395,6 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("11_2dt14")
-is_toolbox_source = true
-
-[node name="Noise" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConstants" unique_id=183559854 instance=ExtResource("2_iva03")]
-layout_mode = 2
-mouse_filter = 1
-block_data = ExtResource("15_vw4n1")
 is_toolbox_source = true
 
 [node name="Random" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridConstants" unique_id=1037052810 instance=ExtResource("2_iva03")]

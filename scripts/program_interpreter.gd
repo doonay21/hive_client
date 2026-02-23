@@ -12,6 +12,7 @@ const DIR_OFFSETS: Array[Vector2i] = [
 ]
 
 const MICRO_TICK_MAX: int = 50
+const SINUS_PERIOD: float = 40.0
 
 var program_data: Dictionary = {}
 var columns: int = 7
@@ -306,25 +307,34 @@ func micro_tick() -> void:
 					BlockData.Op.CONSTANT:
 						write_port(x, y, ports[PortDir.RIGHT], val)
 					BlockData.Op.SINUS:
-						pass
-					BlockData.Op.NOISE:
-						pass
+						var state_idx = get_state_index(x, y, 0)
+						var current_tick = state_buffer[state_idx]
+						var phase = current_tick / SINUS_PERIOD
+						var result = (sin(phase * TAU) + 1.0) / 2.0
+						
+						write_port(x, y, ports[PortDir.RIGHT], result)
 					BlockData.Op.RANDOM:
-						pass
+						var random_value = state_buffer[get_state_index(x, y, 0)]
+						write_port(x, y, ports[PortDir.RIGHT], random_value)
 					BlockData.Op.CONNECTION_WE:
-						pass
+						write_port(x, y, ports[PortDir.RIGHT], left)
 					BlockData.Op.CONNECTION_ES:
-						pass
+						write_port(x, y, ports[PortDir.BOTTOM], right)
 					BlockData.Op.CONNECTION_WS:
-						pass
+						write_port(x, y, ports[PortDir.BOTTOM], left)
 					BlockData.Op.CONNECTION_WES:
-						pass
+						write_port(x, y, ports[PortDir.RIGHT], left)
+						write_port(x, y, ports[PortDir.BOTTOM], left)
 					BlockData.Op.CONNECTION_EWS:
-						pass
+						write_port(x, y, ports[PortDir.LEFT], right)
+						write_port(x, y, ports[PortDir.BOTTOM], left)
 					BlockData.Op.CONNECTION_CROSS:
-						pass
+						write_port(x, y, ports[PortDir.RIGHT], left)
+						write_port(x, y, ports[PortDir.BOTTOM], left)
 					BlockData.Op.CONNECTION_CROSS_JOINED:
-						pass
+						write_port(x, y, ports[PortDir.RIGHT], top)
+						write_port(x, y, ports[PortDir.BOTTOM], top)
+						write_port(x, y, ports[PortDir.LEFT], top)
 					BlockData.Op.CUSTOM:
 						pass
 					_:
@@ -409,5 +419,13 @@ func update_sequential_states() -> void:
 							state_buffer[state_value_idx] = 0.0
 						
 						state_buffer[state_previous_idx] = left
+					BlockData.Op.SINUS:
+						var state_idx = get_state_index(x, y, 0)
+						state_buffer[state_idx] = fmod(state_buffer[state_idx] + 1.0, SINUS_PERIOD)
+					BlockData.Op.RANDOM:
+						var state_idx = get_state_index(x, y, 0)
 						
+						if left > 0.5:
+							state_buffer[state_idx] = randf()
+					
 			counter += 1

@@ -35,9 +35,6 @@ blocks:
   sinus:
     title: Sinus
     info: Sygnał zmienny w czasie (funkcja sinus od czasu).
-  noise:
-    title: Szum
-    info: Zwraca losowy szum.
   wire:
     we:
       info: Połączenie sygnału A do B.

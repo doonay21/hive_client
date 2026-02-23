@@ -35,9 +35,6 @@ blocks:
   sinus:
     title: Sine
     info: Time-varying signal (sine function of time).
-  noise:
-    title: Noise
-    info: Noise signal.
   wire:
     we:
       info: Connects signal A to B.
