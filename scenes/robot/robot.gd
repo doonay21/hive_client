@@ -21,6 +21,8 @@ var has_moved: bool = false
 
 var interpreter: ProgramInterpreter
 
+var current_broadcasts: Array[Dictionary] = []
+
 func setup(target_map: MapView, start_pos: Vector2i, program_data: Dictionary) -> void:
 	map = target_map
 	
@@ -30,13 +32,17 @@ func setup(target_map: MapView, start_pos: Vector2i, program_data: Dictionary) -
 	set_grid_position(start_pos, true)
 	
 	interpreter = ProgramInterpreter.new(program_data)
+	interpreter.outputs.connect(on_interpreter_outputs)
 
 func _process(_delta: float) -> void:
 	global_position = global_position.lerp(target_global_position, 0.3)
 	rotation = lerp_angle(rotation, target_rotation, 0.3)
 
+func set_radio_data(current_broadcasts_p: Array[Dictionary]) -> void:
+	current_broadcasts = current_broadcasts_p
+
 func tick() -> void:
-	interpreter.set_inputs(sight, front_material, has_moved, gold_scanner_value, facing_index)
+	interpreter.set_inputs(sight, front_material, has_moved, gold_scanner_value, facing_index, grid_pos, current_broadcasts)
 	has_moved = false
 	
 	interpreter.tick()
@@ -164,3 +170,23 @@ func update_gold_scanner(grid_dir: Vector2i) -> void:
 		gold_scanner_value = 0.5
 	else:
 		gold_scanner_value = 0.0
+
+func on_interpreter_outputs(turn_left_p: float, turn_right_p: float, turn_around_p: float, go_p: float, dig_p: float) -> void:
+	var max_signal: float = 0.0 
+	var action_to_execute: Callable = Callable() 
+	
+	var actions: Array[Dictionary] = [
+		{"callable": self.dig, "signal": dig_p},
+		{"callable": self.turn_right, "signal": turn_left_p},
+		{"callable": self.turn_left, "signal": turn_right_p},
+		{"callable": self.turn_around, "signal": turn_around_p},
+		{"callable": self.move_forward, "signal": go_p}
+	]
+	
+	for action in actions:
+		if action["signal"] > max_signal:
+			max_signal = action["signal"]
+			action_to_execute = action["callable"]
+			
+	if action_to_execute.is_valid():
+		action_to_execute.call()

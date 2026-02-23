@@ -5,10 +5,13 @@ class_name ProgramSimulator extends Window
 @onready var map_view: MapView = %MapView
 @onready var map_camera: Camera2D = %MapCamera
 @onready var sub_viewport: SubViewport = %SubViewport
-@onready var robot: Robot = %Robot
+@onready var robot_node: Robot = %Robot
 
 var brain_editor: BrainEditor
 var program_data: Dictionary = {}
+
+var robots: Array = []
+var current_broadcasts: Array[Dictionary] = []
 
 func _ready() -> void:
 	popup_centered_ratio(0.9)
@@ -28,7 +31,8 @@ func spawn_robot() -> void:
 	var spawn_pos = map_view.get_random_empty_spawn_point()
 	
 	if spawn_pos != Vector2i(-1, -1):
-		robot.setup(map_view, spawn_pos, program_data)
+		robot_node.setup(map_view, spawn_pos, program_data)
+		robots.append(robot_node)
 
 func center_and_fit_map() -> void:
 	if not is_instance_valid(map_view) or not is_instance_valid(map_camera) or not is_instance_valid(sub_viewport):
@@ -41,7 +45,18 @@ func center_and_fit_map() -> void:
 	map_camera.fit_to_bounds(map_pixel_size, vp_size)
 
 func tick() -> void:
-	robot.tick()
+	for robot in robots:
+		robot.set_radio_data(current_broadcasts)
+		robot.tick()
+		
+	current_broadcasts.clear()
+	
+	for robot in robots:
+		if robot.last_broadcast_value > 0.01:
+			current_broadcasts.append({
+				"pos": robot.grid_pos,
+				"value": robot.last_broadcast_value
+			})
 
 func on_close_requested() -> void:
 	queue_free()
