@@ -14,11 +14,11 @@ Opis:
 	
 	Możliwe elementy świata:
 		pustka: pusta przestrzeń, czarna, po niej poruszają się roboty
-		robot: czerwony, brak możliwości usunięcia
+		piasek: jasno szare, zniszczalne, wymaga 2 akcji kopania
+		kamień: ciemno szare, zniszczalne, wymaga 5 akcji kopania
+		skała: białe, niezniszczalne
 		złoto: złote, wymaga 3 akcji kopania
-		ściana: białe, niezniszczalne
-		ziemia: jasno szare, zniszczalne, wymaga 2 akcji kopania
-		skała: ciemno szare, zniszczalne, wymaga 5 akcji kopania
+		robot: czerwony, brak możliwości usunięcia
 
 Generacja mapy:
     Mapa generowana jest proceduralnie. Generowane są skomplikowane struktury geometryczne.
@@ -33,6 +33,7 @@ Robot:
     Wzrok robota polega na wyrażeniu odległości do przeszkody na dystansie 10 jednostek sygnałem. Wzrok działa na maksymalnym dystancie 10 jednostek. Sygnał 1.0 oznacza, że materia jest bezpośrednio przed robotem, a 0.0 oznacza, że robot na dystansie 10 pikseli widzi pustkę.
 	Robot nie ma poziomu energii, w ogóle to pojęcie nie występuje w tej grze.
     Pozycja startowa jest losowym punktem z "spawn area".
+    Gracz może mieć max 100 robotów na jednej mapie.
     
     Sensory:
         - wzrok: co widzi na dystansie 10 jednostek przed sobą, w lewej i z prawej
@@ -57,7 +58,6 @@ Program:
     System wykorzystuje mechanizm relaksacji sygnału w pętli (max 50 mikro ticków),
     Klocki umieszczone w swojej bezpośredniej bliskości wymieniają się sygnałem pod warunkiem, że ich stykające się krawędzie są kompatybilne: wyjście -> wejście.
     Przekazanie sygnału na dalsze odległości jest możliwe przez użycie klocków typu "przewód" lub nadajnik. Nadajnik i odbiornik komunikują się w ramach robota osobno, kanały nie są współdzielone między robotami.
-    Istnieją klocki umożliwiające wymianę sygnałów między robotami.
 
 Własne klocki:
     Gracz może tworzyć własne klocki wykonawcze. Edycja własnego klocka włącza osobną matrycę 5x5.
@@ -81,7 +81,7 @@ Klocki:
                 E - wyjście (wzrok prawo)
                 S - NIC
                 W - wyjście (wzrok lewo)
-            Opcje dodatkowe: Wybór typu obserwowanej materii (ziemia, skała, pustka, złoto, ściana, robot)
+            Opcje dodatkowe: brak
 
         Ruch?
             Opis: Ustawia na wyjściu wartość 1.0 jeśli w poprzednim takcie robot wykonał ruch (tylko zmiana pozycji w świecie).
@@ -328,33 +328,6 @@ Klocki:
                 W - NIC
             Opcje dodatkowe: Wybór kanału odbiorczego. Dostępne 5 kanałów: CH1, CH2, CH3, CH4, CH5
         
-        Nadajnik
-            Opis: Rozgłasza sygnał A globalnie do innych robotów przez fale radiowe. Zasięg sygnału wynosi 20 jednostek. Jeśli w danym obszarze występuje więcej niż jeden sygnał to "wygrywa" najsilniejszy.
-            IO:
-                N - NIC
-                E - NIC
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: Wybór kanału nadawczego w formie częstotliwości 0.00 - 10.00 z dokładnością do 0.01 co efektywnie daje 1000 kanałów.
-
-        Skaner
-            Opis: Skanuje fale radiowe, by odebrać sygnał od dowolnego robota.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: Wybór kanału odbiorczego w formie częstotliwości 0.00 - 10.00 z dokładnością do 0.01 co efektywnie daje 1000 kanałów.
-		
-		Talerz
-            Opis: Skanuje fale radiowe w kierunku obrotu robota, jest to skaner kierunkowy, widzi 90 stopni przed robotem.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: Wybór kanału odbiorczego w formie częstotliwości 0.00 - 10.00 z dokładnością do 0.01 co efektywnie daje 1000 kanałów.
-
         W lewo
             Opis: Skręć w lewo
             IO:
@@ -411,15 +384,6 @@ Klocki:
 
         Sinus
             Opis: Generuje sygnał zmienny w czasie (Sin(time)).
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
-
-        Szum
-            Opis: Generuje sygnał szumu (Perlin Noise 1D).
             IO:
                 N - NIC
                 E - wyjście

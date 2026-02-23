@@ -14,7 +14,7 @@ const DIR_OFFSETS: Array[Vector2i] = [
 const MICRO_TICK_MAX: int = 50
 const SINUS_PERIOD: float = 40.0
 const SIGNAL_FALLOFF: float = 0.05
-const DISH_ANGLE_COS: float = 0.7071 #cos(45 deg)
+const PRECISION_STEP: float = 0.001
 
 var program_data: Dictionary = {}
 var columns: int = 7
@@ -22,6 +22,9 @@ var columns: int = 7
 var is_main: bool = true
 var parent_interpreter: ProgramInterpreter = null
 var sub_interpreters: Dictionary = {}
+
+var custom_block_ports: Dictionary = {} 
+
 var external_inputs: Array[float] = [0.0, 0.0, 0.0, 0.0]
 
 var op_array: PackedInt32Array
@@ -49,11 +52,8 @@ var output_turn_right: float = 0.0
 var output_turn_around: float = 0.0
 var output_go: float = 0.0
 var output_dig: float = 0.0
-var output_broadcast: float = 0.0
 
 var ports_map: Array[Array] = []
-var robot_position: Vector2i = Vector2i.ZERO
-var active_broadcasts: Array[Dictionary] = []
 
 func _init(data: Dictionary, is_main_p: bool = true, parent_p: ProgramInterpreter = null) -> void:
 	program_data = data
@@ -87,9 +87,16 @@ func init_op_val_arrays() -> void:
 				if op == BlockData.Op.CUSTOM:
 					var uuid = block.get("uuid")
 					var root_data = get_root_data()
+					
 					if root_data["custom_blocks"].has(uuid):
 						var cb_data = root_data["custom_blocks"][uuid]
 						sub_interpreters[counter] = ProgramInterpreter.new(cb_data, false, self)
+					
+					var block_res = BlockLibrary.get_custom_block_data(uuid)
+					if block_res:
+						custom_block_ports[counter] = block_res.ports
+					else:
+						custom_block_ports[counter] = [0, 0, 0, 0]
 			
 			counter += 1
 
@@ -131,15 +138,13 @@ func get_buffer_index(x: int, y: int, port: int) -> int:
 func get_state_index(x: int, y: int, var_index: int = 0) -> int:
 	return (y * columns + x) * 2 + var_index
 
-func set_inputs(sight_p: Array, front_material_p: MapView.MaterialType, moved_last_tick_p: bool, gold_scanner_p: Array[float], facing_index_p: int, robot_position_p: Vector2i, active_broadcasts_p: Array[Dictionary]) -> void:
+func set_inputs(sight_p: Array, front_material_p: MapView.MaterialType, moved_last_tick_p: bool, gold_scanner_p: Array[float], facing_index_p: int) -> void:
 	sight = sight_p
 	front_material = front_material_p
 	can_dig = MapView.MATERIAL_HP.has(front_material)
 	moved_last_tick = moved_last_tick_p
 	gold_scanner = gold_scanner_p
 	facing_index = facing_index_p
-	robot_position = robot_position_p
-	active_broadcasts = active_broadcasts_p
 
 func get_sight() -> Array: return sight if is_main else parent_interpreter.get_sight()
 func get_front_material() -> MapView.MaterialType: return front_material if is_main else parent_interpreter.get_front_material()
@@ -147,8 +152,6 @@ func get_can_dig() -> bool: return can_dig if is_main else parent_interpreter.ge
 func get_moved_last_tick() -> bool: return moved_last_tick if is_main else parent_interpreter.get_moved_last_tick()
 func get_gold_scanner() -> Array[float]: return gold_scanner if is_main else parent_interpreter.get_gold_scanner()
 func get_facing_index() -> int: return facing_index if is_main else parent_interpreter.get_facing_index()
-func get_robot_position() -> Vector2i: return robot_position if is_main else parent_interpreter.get_robot_position()
-func get_active_broadcasts() -> Array[Dictionary]: return active_broadcasts if is_main else parent_interpreter.get_active_broadcasts()
 func get_read_channels() -> Dictionary: return read_channels if is_main else parent_interpreter.get_read_channels()
 
 func write_channel(key: int, val: float) -> void:
@@ -176,10 +179,6 @@ func add_output_go(val: float) -> void:
 func add_output_dig(val: float) -> void:
 	if is_main: output_dig = max(output_dig, val)
 	else: parent_interpreter.add_output_dig(val)
-
-func add_output_broadcast(val: float) -> void:
-	if is_main: output_broadcast = max(output_broadcast, val)
-	else: parent_interpreter.add_output_broadcast(val)
 
 func read_neighbor_port(x: int, y: int, my_physical_port: int) -> float:
 	var offset: Vector2i = DIR_OFFSETS[my_physical_port]
@@ -263,9 +262,12 @@ func channels_alike() -> bool:
 		if abs(read_channels[key] - write_channels[key]) > 0.001: return false
 	return true
 
+func snap_signal(value: float) -> float:
+	return snappedf(clampf(value, 0.0, 1.0), PRECISION_STEP)
+
 func write_port(x: int, y: int, port: int, value: float) -> void:
 	var index: int = get_buffer_index(x, y, port)
-	rw_buffers[write_idx][index] = value
+	rw_buffers[write_idx][index] = snap_signal(value)
 
 func micro_tick() -> void:
 	rw_buffers[write_idx].fill(0.0)
@@ -277,7 +279,6 @@ func micro_tick() -> void:
 		output_turn_around = 0.0
 		output_go = 0.0
 		output_dig = 0.0
-		output_broadcast = 0.0
 	
 	var counter: int = 0
 	for y in range(columns):
@@ -403,30 +404,6 @@ func micro_tick() -> void:
 						var channel_key: int = int(round(val * 100.0))
 						var received_value: float = get_read_channels().get(channel_key, 0.0)
 						write_port(x, y, ports[PortDir.RIGHT], received_value)
-					BlockData.Op.BROADCAST:
-						add_output_broadcast(left)
-					BlockData.Op.SCANNER:
-						var max_signal: float = 0.0
-						var robot_pos = get_robot_position()
-						for broadcast in get_active_broadcasts():
-							if broadcast.pos == robot_pos: continue
-							var dist = robot_pos.distance_to(broadcast.pos)
-							var received = max(0.0, broadcast.value - (dist * SIGNAL_FALLOFF))
-							if received > max_signal: max_signal = received
-						write_port(x, y, ports[PortDir.RIGHT], max_signal)
-					BlockData.Op.DISH:
-						var max_signal: float = 0.0
-						var forward_dir = Vector2(Robot.DIRS[get_facing_index()])
-						var robot_pos = get_robot_position()
-						for broadcast in get_active_broadcasts():
-							if broadcast.pos == robot_pos: continue
-							var vector_to_target = Vector2(broadcast.pos - robot_pos)
-							var dir_to_target = vector_to_target.normalized()
-							if forward_dir.dot(dir_to_target) >= DISH_ANGLE_COS:
-								var dist = vector_to_target.length()
-								var received = max(0.0, broadcast.value - (dist * SIGNAL_FALLOFF))
-								if received > max_signal: max_signal = received
-						write_port(x, y, ports[PortDir.RIGHT], max_signal)
 					BlockData.Op.TURN_LEFT:
 						add_output_turn_left(left)
 					BlockData.Op.GO:
@@ -462,25 +439,35 @@ func micro_tick() -> void:
 						write_port(x, y, ports[PortDir.BOTTOM], left)
 					BlockData.Op.CONNECTION_CROSS:
 						write_port(x, y, ports[PortDir.RIGHT], left)
-						write_port(x, y, ports[PortDir.BOTTOM], left)
+						write_port(x, y, ports[PortDir.BOTTOM], top)
 					BlockData.Op.CONNECTION_CROSS_JOINED:
 						write_port(x, y, ports[PortDir.RIGHT], top)
 						write_port(x, y, ports[PortDir.BOTTOM], top)
 						write_port(x, y, ports[PortDir.LEFT], top)
-						
 					BlockData.Op.CUSTOM:
 						var sub: ProgramInterpreter = sub_interpreters[counter]
-						sub.external_inputs[PortDir.TOP] = top
-						sub.external_inputs[PortDir.RIGHT] = right
-						sub.external_inputs[PortDir.BOTTOM] = bottom
-						sub.external_inputs[PortDir.LEFT] = left
+						var def_ports: Array = custom_block_ports.get(counter, [0, 0, 0, 0])
+						
+						sub.external_inputs[PortDir.TOP] = top if def_ports[PortDir.TOP] == BlockData.Port.INPUT else 0.0
+						sub.external_inputs[PortDir.RIGHT] = right if def_ports[PortDir.RIGHT] == BlockData.Port.INPUT else 0.0
+						sub.external_inputs[PortDir.BOTTOM] = bottom if def_ports[PortDir.BOTTOM] == BlockData.Port.INPUT else 0.0
+						sub.external_inputs[PortDir.LEFT] = left if def_ports[PortDir.LEFT] == BlockData.Port.INPUT else 0.0
+						
 						sub.micro_tick()
 						
 						var sub_outs = sub.get_edge_outputs()
-						write_port(x, y, ports[PortDir.TOP], sub_outs[PortDir.TOP])
-						write_port(x, y, ports[PortDir.RIGHT], sub_outs[PortDir.RIGHT])
-						write_port(x, y, ports[PortDir.BOTTOM], sub_outs[PortDir.BOTTOM])
-						write_port(x, y, ports[PortDir.LEFT], sub_outs[PortDir.LEFT])
+						
+						if def_ports[PortDir.TOP] == BlockData.Port.OUTPUT:
+							write_port(x, y, ports[PortDir.TOP], sub_outs[PortDir.TOP])
+							
+						if def_ports[PortDir.RIGHT] == BlockData.Port.OUTPUT:
+							write_port(x, y, ports[PortDir.RIGHT], sub_outs[PortDir.RIGHT])
+							
+						if def_ports[PortDir.BOTTOM] == BlockData.Port.OUTPUT:
+							write_port(x, y, ports[PortDir.BOTTOM], sub_outs[PortDir.BOTTOM])
+							
+						if def_ports[PortDir.LEFT] == BlockData.Port.OUTPUT:
+							write_port(x, y, ports[PortDir.LEFT], sub_outs[PortDir.LEFT])
 					_:
 						assert(false, "Nieobsłużony operator: %s" % op)
 			counter += 1

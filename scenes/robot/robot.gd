@@ -21,8 +21,6 @@ var has_moved: bool = false
 
 var interpreter: ProgramInterpreter
 
-var current_broadcasts: Array[Dictionary] = []
-
 func setup(target_map: MapView, start_pos: Vector2i, program_data: Dictionary) -> void:
 	map = target_map
 	
@@ -38,11 +36,8 @@ func _process(_delta: float) -> void:
 	global_position = global_position.lerp(target_global_position, 0.3)
 	rotation = lerp_angle(rotation, target_rotation, 0.3)
 
-func set_radio_data(current_broadcasts_p: Array[Dictionary]) -> void:
-	current_broadcasts = current_broadcasts_p
-
 func tick() -> void:
-	interpreter.set_inputs(sight, front_material, has_moved, gold_scanner_values, facing_index, grid_pos, current_broadcasts)
+	interpreter.set_inputs(sight, front_material, has_moved, gold_scanner_values, facing_index)
 	has_moved = false
 	
 	interpreter.tick()

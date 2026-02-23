@@ -122,15 +122,6 @@ blocks:
   geo_mk3:
     title: Geoskan 3
     info: Skaner złota. Działa na dystansie 15 jednostek przed robotem. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
-  broadcast:
-    title: Nadajnik
-    info: Rozgłasza sygnał A globalnie do innych robotów przez fale radiowe.
-  scanner:
-    title: Skaner
-    info: Skanuje fale radiowe, by odebrać sygnał od dowolnego robota.
-  dish:
-    title: Talerz
-    info: Skanuje fale radiowe w kierunku obrotu robota, jest to skaner kierunkowy, widzi 90 stopni przed robotem.
   sense:
     title: Zmysł
     info: Zwraca 1.0 jeśli przed robotem jest obiekt danego typu.

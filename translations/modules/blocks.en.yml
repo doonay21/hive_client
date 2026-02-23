@@ -122,15 +122,6 @@ blocks:
   geo_mk3:
     title: Geoscan 3
     info: Gold scanner. Range of 15 units in front. Returns a signal of gold is nearby.
-  broadcast:
-    title: Broadcast
-    info: Broadcasts signal A globally to any robot via radio waves.
-  scanner:
-    title: Scanner
-    info: Scans radio frequencies to receive signals from any robot.
-  dish:
-    title: Dish
-    info: It scans radio waves in the direction of the robot's rotation, it is a directional scanner, it sees 90 degrees in front of the robot.
   sense:
     title: Sense
     info: Returns 1.0 if there is a object in front of the robot.

@@ -11,7 +11,6 @@ var brain_editor: BrainEditor
 var program_data: Dictionary = {}
 
 var robots: Array = []
-var current_broadcasts: Array[Dictionary] = []
 
 func _ready() -> void:
 	popup_centered_ratio(0.9)
@@ -46,17 +45,7 @@ func center_and_fit_map() -> void:
 
 func tick() -> void:
 	for robot in robots:
-		robot.set_radio_data(current_broadcasts)
 		robot.tick()
-		
-	current_broadcasts.clear()
-	
-	for robot in robots:
-		if robot.last_broadcast_value > 0.01:
-			current_broadcasts.append({
-				"pos": robot.grid_pos,
-				"value": robot.last_broadcast_value
-			})
 
 func on_close_requested() -> void:
 	queue_free()

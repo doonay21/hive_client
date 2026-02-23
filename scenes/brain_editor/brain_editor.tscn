@@ -44,11 +44,8 @@
 [ext_resource type="Resource" uid="uid://bvtl8uxtafpnx" path="res://scenes/brain_editor/blocks/functions/receiver.tres" id="21_fvgwa"]
 [ext_resource type="Resource" uid="uid://ck1memdpra6no" path="res://scenes/brain_editor/blocks/outputs/dig.tres" id="22_ev8rl"]
 [ext_resource type="Resource" uid="uid://kjm25ps86kkd" path="res://scenes/brain_editor/blocks/inputs/compass.tres" id="27_jfl5t"]
-[ext_resource type="Resource" uid="uid://d17von4pkiuun" path="res://scenes/brain_editor/blocks/functions/broadcast.tres" id="28_t25mb"]
 [ext_resource type="Resource" uid="uid://bf7p8fir0rbnb" path="res://scenes/brain_editor/blocks/functions/emitter.tres" id="29_ltgp1"]
-[ext_resource type="Resource" uid="uid://dkr4w026yn4g" path="res://scenes/brain_editor/blocks/functions/scanner.tres" id="29_olgwc"]
 [ext_resource type="Resource" uid="uid://ief65dh3y1la" path="res://scenes/brain_editor/blocks/inputs/random.tres" id="31_8ed7p"]
-[ext_resource type="Resource" uid="uid://cbc8wik2qmecs" path="res://scenes/brain_editor/blocks/functions/dish.tres" id="31_oshdk"]
 [ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
 [ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/program_grid/program_grid.tscn" id="49_ag5fd"]
 [ext_resource type="Texture2D" uid="uid://c6a1qt8g0rgkt" path="res://assets/images/icons/test_program.png" id="50_tamat"]
@@ -321,24 +318,6 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("21_fvgwa")
-is_toolbox_source = true
-
-[node name="Broadcast" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=806958736 instance=ExtResource("2_iva03")]
-layout_mode = 2
-mouse_filter = 1
-block_data = ExtResource("28_t25mb")
-is_toolbox_source = true
-
-[node name="Scanner" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1921968592 instance=ExtResource("2_iva03")]
-layout_mode = 2
-mouse_filter = 1
-block_data = ExtResource("29_olgwc")
-is_toolbox_source = true
-
-[node name="Dish" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=770604081 instance=ExtResource("2_iva03")]
-layout_mode = 2
-mouse_filter = 1
-block_data = ExtResource("31_oshdk")
 is_toolbox_source = true
 
 [node name="Separator2" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1254500277]
