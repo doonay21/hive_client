@@ -329,7 +329,7 @@ Klocki:
             Opcje dodatkowe: Wybór kanału odbiorczego. Dostępne 5 kanałów: CH1, CH2, CH3, CH4, CH5
         
         Nadajnik
-            Opis: Rozgłasza sygnał A globalnie do innych robotów przez fale radiowe. Zasięg sygnału wynosi 50 jednostek i zanika wraz z odległością (gradient). Dwa sygnały od różnych robotów się sumują (z użyciem clamp).
+            Opis: Rozgłasza sygnał A globalnie do innych robotów przez fale radiowe. Zasięg sygnału wynosi 20 jednostek. Jeśli w danym obszarze występuje więcej niż jeden sygnał to "wygrywa" najsilniejszy.
             IO:
                 N - NIC
                 E - NIC

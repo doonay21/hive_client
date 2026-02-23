@@ -19,6 +19,11 @@ const DISH_ANGLE_COS: float = 0.7071 #cos(45 deg)
 var program_data: Dictionary = {}
 var columns: int = 7
 
+var is_main: bool = true
+var parent_interpreter: ProgramInterpreter = null
+var sub_interpreters: Dictionary = {}
+var external_inputs: Array[float] = [0.0, 0.0, 0.0, 0.0]
+
 var op_array: PackedInt32Array
 var val_array: PackedFloat64Array
 
@@ -36,7 +41,7 @@ var sight: Array = [0.0, 0.0, 0.0] # left, front, right
 var front_material: MapView.MaterialType = MapView.MaterialType.VOID
 var can_dig: bool = false
 var moved_last_tick: bool = false
-var gold_scanner: float = 0.0
+var gold_scanner: Array[float] = [0.0, 0.0, 0.0]
 var facing_index: int = 0
 
 var output_turn_left: float = 0.0
@@ -44,66 +49,69 @@ var output_turn_right: float = 0.0
 var output_turn_around: float = 0.0
 var output_go: float = 0.0
 var output_dig: float = 0.0
-
-var ports_map: Array[Array] = []
-
-var robot_position: Vector2i = Vector2i.ZERO
-var active_broadcasts: Array[Dictionary] = []
 var output_broadcast: float = 0.0
 
-func _init(program_data_p: Dictionary) -> void:
-	program_data = program_data_p
+var ports_map: Array[Array] = []
+var robot_position: Vector2i = Vector2i.ZERO
+var active_broadcasts: Array[Dictionary] = []
+
+func _init(data: Dictionary, is_main_p: bool = true, parent_p: ProgramInterpreter = null) -> void:
+	program_data = data
+	is_main = is_main_p
+	parent_interpreter = parent_p
 	columns = ProgramGrid.size_to_dimension(program_data["size"])
 	
 	init_op_val_arrays()
 	init_buffers()
 	calculate_ports()
 
+func get_root_data() -> Dictionary:
+	if is_main: return program_data
+	return parent_interpreter.get_root_data()
+
 func init_op_val_arrays() -> void:
 	op_array.resize(columns * columns)
 	val_array.resize(columns * columns)
 	
 	var counter: int = 0
-	
 	for y in range(columns):
 		for x in range(columns):
 			var block: Dictionary = program_data["grid"][counter]
 			var op: int = block.get("op", BlockData.Op.NONE)
-			
 			op_array[counter] = op
 			
 			if op != BlockData.Op.NONE:
 				var val: float = block.get("val", 0.0)
 				val_array[counter] = val
+				
+				if op == BlockData.Op.CUSTOM:
+					var uuid = block.get("uuid")
+					var root_data = get_root_data()
+					if root_data["custom_blocks"].has(uuid):
+						var cb_data = root_data["custom_blocks"][uuid]
+						sub_interpreters[counter] = ProgramInterpreter.new(cb_data, false, self)
 			
 			counter += 1
 
 func calculate_ports() -> void:
 	ports_map.resize(columns * columns)
-	
 	var counter: int = 0
-	
 	for y in range(columns):
 		for x in range(columns):
 			var block: Dictionary = program_data["grid"][counter]
 			var op: int = block.get("op", BlockData.Op.NONE)
-			
 			if op != BlockData.Op.NONE:
 				var map: Array = block.get("map", [0, 1, 2, 3])
-				
 				var description: Array[int] = [0, 0, 0, 0]
 				description[PortDir.TOP] = map.find(0)
 				description[PortDir.RIGHT] = map.find(1)
 				description[PortDir.BOTTOM] = map.find(2)
 				description[PortDir.LEFT] = map.find(3)
-				
 				ports_map[counter] = description
-			
 			counter += 1
 
 func init_buffers() -> void:
 	var total_size = columns * columns * 4
-	
 	rw_buffers[read_idx].resize(total_size)
 	rw_buffers[read_idx].fill(0.0)
 	rw_buffers[write_idx] = rw_buffers[read_idx].duplicate()
@@ -113,9 +121,9 @@ func init_buffers() -> void:
 	state_buffer.fill(0.0)
 	
 	delay_buffers.clear()
-	
-	read_channels.clear()
-	write_channels.clear()
+	if is_main:
+		read_channels.clear()
+		write_channels.clear()
 
 func get_buffer_index(x: int, y: int, port: int) -> int:
 	return (y * columns + x) * 4 + port
@@ -123,7 +131,7 @@ func get_buffer_index(x: int, y: int, port: int) -> int:
 func get_state_index(x: int, y: int, var_index: int = 0) -> int:
 	return (y * columns + x) * 2 + var_index
 
-func set_inputs(sight_p: Array, front_material_p: MapView.MaterialType, moved_last_tick_p: bool, gold_scanner_p: float, facing_index_p: int, robot_position_p: Vector2i, active_broadcasts_p: Array[Dictionary]) -> void:
+func set_inputs(sight_p: Array, front_material_p: MapView.MaterialType, moved_last_tick_p: bool, gold_scanner_p: Array[float], facing_index_p: int, robot_position_p: Vector2i, active_broadcasts_p: Array[Dictionary]) -> void:
 	sight = sight_p
 	front_material = front_material_p
 	can_dig = MapView.MATERIAL_HP.has(front_material)
@@ -133,41 +141,119 @@ func set_inputs(sight_p: Array, front_material_p: MapView.MaterialType, moved_la
 	robot_position = robot_position_p
 	active_broadcasts = active_broadcasts_p
 
+func get_sight() -> Array: return sight if is_main else parent_interpreter.get_sight()
+func get_front_material() -> MapView.MaterialType: return front_material if is_main else parent_interpreter.get_front_material()
+func get_can_dig() -> bool: return can_dig if is_main else parent_interpreter.get_can_dig()
+func get_moved_last_tick() -> bool: return moved_last_tick if is_main else parent_interpreter.get_moved_last_tick()
+func get_gold_scanner() -> Array[float]: return gold_scanner if is_main else parent_interpreter.get_gold_scanner()
+func get_facing_index() -> int: return facing_index if is_main else parent_interpreter.get_facing_index()
+func get_robot_position() -> Vector2i: return robot_position if is_main else parent_interpreter.get_robot_position()
+func get_active_broadcasts() -> Array[Dictionary]: return active_broadcasts if is_main else parent_interpreter.get_active_broadcasts()
+func get_read_channels() -> Dictionary: return read_channels if is_main else parent_interpreter.get_read_channels()
+
+func write_channel(key: int, val: float) -> void:
+	if is_main:
+		if not write_channels.has(key): write_channels[key] = val
+		else: write_channels[key] = max(write_channels[key], val)
+	else: parent_interpreter.write_channel(key, val)
+
+func add_output_turn_left(val: float) -> void:
+	if is_main: output_turn_left = max(output_turn_left, val)
+	else: parent_interpreter.add_output_turn_left(val)
+
+func add_output_turn_right(val: float) -> void:
+	if is_main: output_turn_right = max(output_turn_right, val)
+	else: parent_interpreter.add_output_turn_right(val)
+
+func add_output_turn_around(val: float) -> void:
+	if is_main: output_turn_around = max(output_turn_around, val)
+	else: parent_interpreter.add_output_turn_around(val)
+
+func add_output_go(val: float) -> void:
+	if is_main: output_go = max(output_go, val)
+	else: parent_interpreter.add_output_go(val)
+
+func add_output_dig(val: float) -> void:
+	if is_main: output_dig = max(output_dig, val)
+	else: parent_interpreter.add_output_dig(val)
+
+func add_output_broadcast(val: float) -> void:
+	if is_main: output_broadcast = max(output_broadcast, val)
+	else: parent_interpreter.add_output_broadcast(val)
+
 func read_neighbor_port(x: int, y: int, my_physical_port: int) -> float:
 	var offset: Vector2i = DIR_OFFSETS[my_physical_port]
 	var nx: int = x + offset.x
 	var ny: int = y + offset.y
 	
 	if nx < 0 or nx >= columns or ny < 0 or ny >= columns:
+		if not is_main:
+			@warning_ignore("integer_division")
+			var center: int = columns / 2
+			if my_physical_port == PortDir.TOP and x == center and y == 0: return external_inputs[PortDir.TOP]
+			if my_physical_port == PortDir.RIGHT and x == columns - 1 and y == center: return external_inputs[PortDir.RIGHT]
+			if my_physical_port == PortDir.BOTTOM and x == center and y == columns - 1: return external_inputs[PortDir.BOTTOM]
+			if my_physical_port == PortDir.LEFT and x == 0 and y == center: return external_inputs[PortDir.LEFT]
 		return 0.0
 		
 	var neighbor_port: int = (my_physical_port + 2) % 4
 	var target_index: int = get_buffer_index(nx, ny, neighbor_port)
-	
 	return rw_buffers[read_idx][target_index]
 
+func get_edge_outputs() -> Array[float]:
+	@warning_ignore("integer_division")
+	var center: int = columns / 2
+	var max_idx: int = columns - 1
+	return [
+		rw_buffers[write_idx][get_buffer_index(center, 0, PortDir.TOP)],
+		rw_buffers[write_idx][get_buffer_index(max_idx, center, PortDir.RIGHT)],
+		rw_buffers[write_idx][get_buffer_index(center, max_idx, PortDir.BOTTOM)],
+		rw_buffers[write_idx][get_buffer_index(0, center, PortDir.LEFT)]
+	]
+
 func tick() -> void:
+	if not is_main: return
+
 	for i in range(MICRO_TICK_MAX):
 		micro_tick()
 		
-		if buffers_alike() and channels_alike():
+		if is_fully_stable():
 			break
 		else:
-			read_idx = 1 - read_idx
-			write_idx = 1 - write_idx
-			
-			var temp_ch = read_channels
-			read_channels = write_channels
-			write_channels = temp_ch
+			swap_buffers_recursive()
 
+	update_sequential_states_recursive()
+	
+	if is_main:
+		outputs.emit(output_turn_left, output_turn_right, output_turn_around, output_go, output_dig)
+
+func is_fully_stable() -> bool:
+	if not buffers_alike(): return false
+	if is_main and not channels_alike(): return false
+	for sub in sub_interpreters.values():
+		if not sub.is_fully_stable(): return false
+	return true
+
+func swap_buffers_recursive() -> void:
+	read_idx = 1 - read_idx
+	write_idx = 1 - write_idx
+	if is_main:
+		var temp_ch = read_channels
+		read_channels = write_channels
+		write_channels = temp_ch
+		
+	for sub in sub_interpreters.values():
+		sub.swap_buffers_recursive()
+
+func update_sequential_states_recursive() -> void:
 	update_sequential_states()
-	outputs.emit(output_turn_left, output_turn_right, output_turn_around, output_go, output_dig)
+	for sub in sub_interpreters.values():
+		sub.update_sequential_states_recursive()
 
 func buffers_alike() -> bool:
 	for i in range(rw_buffers[read_idx].size()):
 		if abs(rw_buffers[read_idx][i] - rw_buffers[write_idx][i]) > 0.001:
 			return false
-			
 	return true
 
 func channels_alike() -> bool:
@@ -183,16 +269,17 @@ func write_port(x: int, y: int, port: int, value: float) -> void:
 
 func micro_tick() -> void:
 	rw_buffers[write_idx].fill(0.0)
-	write_channels.clear()
-	output_turn_left = 0.0
-	output_turn_right = 0.0
-	output_turn_around = 0.0
-	output_go = 0.0
-	output_dig = 0.0
-	output_broadcast = 0.0
+	
+	if is_main:
+		write_channels.clear()
+		output_turn_left = 0.0
+		output_turn_right = 0.0
+		output_turn_around = 0.0
+		output_go = 0.0
+		output_dig = 0.0
+		output_broadcast = 0.0
 	
 	var counter: int = 0
-	
 	for y in range(columns):
 		for x in range(columns):
 			var op: int = op_array[counter]
@@ -205,28 +292,35 @@ func micro_tick() -> void:
 				var top = read_neighbor_port(x, y, ports[PortDir.TOP])
 				var left = read_neighbor_port(x, y, ports[PortDir.LEFT])
 				var right = read_neighbor_port(x, y, ports[PortDir.RIGHT])
+				var bottom = read_neighbor_port(x, y, ports[PortDir.BOTTOM])
 				
 				match op:
 					BlockData.Op.SIGHT:
-						write_port(x, y, ports[PortDir.LEFT], sight[0])
-						write_port(x, y, ports[PortDir.TOP], sight[1])
-						write_port(x, y, ports[PortDir.RIGHT], sight[2])
+						write_port(x, y, ports[PortDir.LEFT], get_sight()[0])
+						write_port(x, y, ports[PortDir.TOP], get_sight()[1])
+						write_port(x, y, ports[PortDir.RIGHT], get_sight()[2])
 					BlockData.Op.SENSE:
-						var result = 1.0 if front_material == val_i else 0.0
+						var result = 1.0 if get_front_material() == val_i else 0.0
 						write_port(x, y, ports[PortDir.TOP], result)
 					BlockData.Op.CAN_DIG:
-						var result = 1.0 if can_dig else 0.0
+						var result = 1.0 if get_can_dig() else 0.0
 						write_port(x, y, ports[PortDir.TOP], result)
 					BlockData.Op.MOVED:
-						var result = 1.0 if moved_last_tick else 0.0
+						var result = 1.0 if get_moved_last_tick() else 0.0
 						write_port(x, y, ports[PortDir.RIGHT], result)
-					BlockData.Op.GEO:
-						write_port(x, y, ports[PortDir.TOP], gold_scanner)
+					BlockData.Op.GEO_MK1:
+						var scanners = get_gold_scanner()
+						write_port(x, y, ports[PortDir.RIGHT], scanners[0])
+					BlockData.Op.GEO_MK2:
+						var scanners = get_gold_scanner()
+						write_port(x, y, ports[PortDir.RIGHT], scanners[1])
+					BlockData.Op.GEO_MK3:
+						var scanners = get_gold_scanner()
+						write_port(x, y, ports[PortDir.RIGHT], scanners[2])
 					BlockData.Op.COMPASS:
 						var ew = 0.0
 						var ns = 0.0
-						
-						match facing_index:
+						match get_facing_index():
 							0: # TOP
 								ew = 0.5
 								ns = 0.0
@@ -239,7 +333,6 @@ func micro_tick() -> void:
 							3: # LEFT
 								ew = 0.0
 								ns = 0.5
-						
 						write_port(x, y, ports[PortDir.RIGHT], ew)
 						write_port(x, y, ports[PortDir.BOTTOM], ns)
 					BlockData.Op.CLOCK:
@@ -264,13 +357,13 @@ func micro_tick() -> void:
 						var result = clamp(left - right, 0.0, 1.0)
 						write_port(x, y, ports[PortDir.BOTTOM], result)
 					BlockData.Op.DIV:
-						var result = clamp(left / right, 0.0, 1.0)
+						var result = clamp(left / right, 0.0, 1.0) if right != 0 else 0.0
 						write_port(x, y, ports[PortDir.BOTTOM], result)
 					BlockData.Op.MUL:
 						var result = clamp(left * right, 0.0, 1.0)
 						write_port(x, y, ports[PortDir.BOTTOM], result)
 					BlockData.Op.MODULO:
-						var result = clamp(left % right, 0.0, 1.0)
+						var result = clamp(left % right, 0.0, 1.0) if right != 0 else 0.0
 						write_port(x, y, ports[PortDir.BOTTOM], result)
 					BlockData.Op.AVG:
 						var result = (left + right) / 2.0
@@ -281,10 +374,8 @@ func micro_tick() -> void:
 					BlockData.Op.DELAY:
 						var delay_time = int(max(1, val_i))
 						var current_value = 0.0
-						
 						if delay_buffers.has(counter) and delay_buffers[counter].size() >= delay_time:
 							current_value = delay_buffers[counter].front()
-							
 						write_port(x, y, ports[PortDir.RIGHT], current_value)
 					BlockData.Op.LATCH:
 						var current_memory = state_buffer[get_state_index(x, y, 0)]
@@ -301,70 +392,51 @@ func micro_tick() -> void:
 					BlockData.Op.THRESHOLD:
 						var state_idx = get_state_index(x, y, 0)
 						var current_state = state_buffer[state_idx]
-						
-						if left > 0.8:
-							current_state = 1.0
-						elif left < 0.2:
-							current_state = 0.0
-							
+						if left > 0.8: current_state = 1.0
+						elif left < 0.2: current_state = 0.0
 						state_buffer[state_idx] = current_state
-						
 						write_port(x, y, ports[PortDir.RIGHT], current_state)
 					BlockData.Op.EMITTER:
 						var channel_key: int = int(round(val * 100.0))
-						
-						if not write_channels.has(channel_key):
-							write_channels[channel_key] = left
-						else:
-							write_channels[channel_key] = max(write_channels[channel_key], left)
+						write_channel(channel_key, left)
 					BlockData.Op.RECEIVER:
 						var channel_key: int = int(round(val * 100.0))
-						var received_value: float = read_channels.get(channel_key, 0.0)
-						
+						var received_value: float = get_read_channels().get(channel_key, 0.0)
 						write_port(x, y, ports[PortDir.RIGHT], received_value)
 					BlockData.Op.BROADCAST:
-						output_broadcast = max(output_broadcast, left)
+						add_output_broadcast(left)
 					BlockData.Op.SCANNER:
 						var max_signal: float = 0.0
-						
-						for broadcast in active_broadcasts:
-							if broadcast.pos == robot_position: continue
-							
-							var dist = robot_position.distance_to(broadcast.pos)
+						var robot_pos = get_robot_position()
+						for broadcast in get_active_broadcasts():
+							if broadcast.pos == robot_pos: continue
+							var dist = robot_pos.distance_to(broadcast.pos)
 							var received = max(0.0, broadcast.value - (dist * SIGNAL_FALLOFF))
-							
-							if received > max_signal:
-								max_signal = received
-								
+							if received > max_signal: max_signal = received
 						write_port(x, y, ports[PortDir.RIGHT], max_signal)
 					BlockData.Op.DISH:
 						var max_signal: float = 0.0
-						var forward_dir = Vector2(Robot.DIRS[facing_index])
-						
-						for broadcast in active_broadcasts:
-							if broadcast.pos == robot_position: continue
-							
-							var vector_to_target = Vector2(broadcast.pos - robot_position)
+						var forward_dir = Vector2(Robot.DIRS[get_facing_index()])
+						var robot_pos = get_robot_position()
+						for broadcast in get_active_broadcasts():
+							if broadcast.pos == robot_pos: continue
+							var vector_to_target = Vector2(broadcast.pos - robot_pos)
 							var dir_to_target = vector_to_target.normalized()
-							
 							if forward_dir.dot(dir_to_target) >= DISH_ANGLE_COS:
 								var dist = vector_to_target.length()
 								var received = max(0.0, broadcast.value - (dist * SIGNAL_FALLOFF))
-								
-								if received > max_signal:
-									max_signal = received
-									
+								if received > max_signal: max_signal = received
 						write_port(x, y, ports[PortDir.RIGHT], max_signal)
 					BlockData.Op.TURN_LEFT:
-						output_turn_left = max(output_turn_left, left)
+						add_output_turn_left(left)
 					BlockData.Op.GO:
-						output_go = max(output_go, left)
+						add_output_go(left)
 					BlockData.Op.TURN_RIGHT:
-						output_turn_right = max(output_turn_right, left)
+						add_output_turn_right(left)
 					BlockData.Op.TURN_AROUND:
-						output_turn_around = max(output_turn_around, left)
+						add_output_turn_around(left)
 					BlockData.Op.DIG:
-						output_dig = max(output_dig, left)
+						add_output_dig(left)
 					BlockData.Op.CONSTANT:
 						write_port(x, y, ports[PortDir.RIGHT], val)
 					BlockData.Op.SINUS:
@@ -372,7 +444,6 @@ func micro_tick() -> void:
 						var current_tick = state_buffer[state_idx]
 						var phase = current_tick / SINUS_PERIOD
 						var result = (sin(phase * TAU) + 1.0) / 2.0
-						
 						write_port(x, y, ports[PortDir.RIGHT], result)
 					BlockData.Op.RANDOM:
 						var random_value = state_buffer[get_state_index(x, y, 0)]
@@ -396,20 +467,29 @@ func micro_tick() -> void:
 						write_port(x, y, ports[PortDir.RIGHT], top)
 						write_port(x, y, ports[PortDir.BOTTOM], top)
 						write_port(x, y, ports[PortDir.LEFT], top)
+						
 					BlockData.Op.CUSTOM:
-						pass
+						var sub: ProgramInterpreter = sub_interpreters[counter]
+						sub.external_inputs[PortDir.TOP] = top
+						sub.external_inputs[PortDir.RIGHT] = right
+						sub.external_inputs[PortDir.BOTTOM] = bottom
+						sub.external_inputs[PortDir.LEFT] = left
+						sub.micro_tick()
+						
+						var sub_outs = sub.get_edge_outputs()
+						write_port(x, y, ports[PortDir.TOP], sub_outs[PortDir.TOP])
+						write_port(x, y, ports[PortDir.RIGHT], sub_outs[PortDir.RIGHT])
+						write_port(x, y, ports[PortDir.BOTTOM], sub_outs[PortDir.BOTTOM])
+						write_port(x, y, ports[PortDir.LEFT], sub_outs[PortDir.LEFT])
 					_:
 						assert(false, "Nieobsłużony operator: %s" % op)
-				
 			counter += 1
 
 func update_sequential_states() -> void:
 	var counter: int = 0
-	
 	for y in range(columns):
 		for x in range(columns):
 			var op: int = op_array[counter]
-			
 			if op != BlockData.Op.NONE:
 				var val: float = val_array[counter]
 				var val_i: int = int(val)
@@ -419,9 +499,7 @@ func update_sequential_states() -> void:
 					BlockData.Op.CLOCK:
 						var state_counter_idx = get_state_index(x, y, 0)
 						var state_value_idx = get_state_index(x, y, 1)
-						
 						state_buffer[state_counter_idx] += 1
-						
 						if state_buffer[state_counter_idx] >= val_i:
 							state_buffer[state_counter_idx] = 0.0
 							state_buffer[state_value_idx] = 1.0
@@ -430,13 +508,10 @@ func update_sequential_states() -> void:
 					BlockData.Op.DELAY:
 						var left = read_neighbor_port(x, y, ports[PortDir.LEFT])
 						var delay_time = int(max(1, val_i))
-						
 						if not delay_buffers.has(counter):
 							delay_buffers[counter] = []
-							
 						var buffer: Array = delay_buffers[counter]
 						buffer.push_back(left)
-						
 						while buffer.size() > delay_time:
 							buffer.pop_front()
 					BlockData.Op.LATCH:
@@ -444,25 +519,16 @@ func update_sequential_states() -> void:
 						var right = read_neighbor_port(x, y, ports[PortDir.RIGHT])
 						var state_idx = get_state_index(x, y, 0)
 						var value: float = state_buffer[state_idx]
-						
 						if left > 0.5 and right > 0.5:
-							if left > right:
-								value = 1.0
-							else:
-								value = 0.0
-						elif left > 0.5:
-							value = 1.0
-						elif right > 0.5:
-							value = 0.0
-						
+							value = 1.0 if left > right else 0.0
+						elif left > 0.5: value = 1.0
+						elif right > 0.5: value = 0.0
 						state_buffer[state_idx] = value
 					BlockData.Op.COUNTER:
 						var left = read_neighbor_port(x, y, ports[PortDir.LEFT])
 						var state_counter_idx = get_state_index(x, y, 0)
 						var state_value_idx = get_state_index(x, y, 1)
-						
 						state_buffer[state_counter_idx] += left
-						
 						if state_buffer[state_counter_idx] >= 1.0:
 							state_buffer[state_counter_idx] -= 1.0
 							state_buffer[state_value_idx] = 1.0
@@ -472,12 +538,10 @@ func update_sequential_states() -> void:
 						var left = read_neighbor_port(x, y, ports[PortDir.LEFT])
 						var state_previous_idx = get_state_index(x, y, 0)
 						var state_value_idx = get_state_index(x, y, 1)
-						
 						if state_buffer[state_previous_idx] <= 0.5 and left > 0.5:
 							state_buffer[state_value_idx] = 1.0
 						else:
 							state_buffer[state_value_idx] = 0.0
-						
 						state_buffer[state_previous_idx] = left
 					BlockData.Op.SINUS:
 						var state_idx = get_state_index(x, y, 0)
@@ -485,8 +549,6 @@ func update_sequential_states() -> void:
 					BlockData.Op.RANDOM:
 						var left = read_neighbor_port(x, y, ports[PortDir.LEFT])
 						var state_idx = get_state_index(x, y, 0)
-						
 						if left > 0.5:
 							state_buffer[state_idx] = randf()
-					
 			counter += 1

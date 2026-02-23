@@ -15,7 +15,7 @@ var facing_index: int = 0
 
 var sight: Array[float] = [0.0, 0.0, 0.0]
 var front_material: MapView.MaterialType = MapView.MaterialType.VOID
-var gold_scanner_value: float = 0.0
+var gold_scanner_values: Array[float] = [0.0, 0.0, 0.0]
 
 var has_moved: bool = false
 
@@ -42,7 +42,7 @@ func set_radio_data(current_broadcasts_p: Array[Dictionary]) -> void:
 	current_broadcasts = current_broadcasts_p
 
 func tick() -> void:
-	interpreter.set_inputs(sight, front_material, has_moved, gold_scanner_value, facing_index, grid_pos, current_broadcasts)
+	interpreter.set_inputs(sight, front_material, has_moved, gold_scanner_values, facing_index, grid_pos, current_broadcasts)
 	has_moved = false
 	
 	interpreter.tick()
@@ -161,15 +161,55 @@ func check_front_material(grid_dir: Vector2i) -> void:
 	front_material = map.get_material_at(check_pos)
 
 func update_gold_scanner(grid_dir: Vector2i) -> void:
-	var pos_1_ahead = grid_pos + grid_dir
-	var pos_2_ahead = grid_pos + grid_dir * 2
+	gold_scanner_values[0] = scan_mk1()
+	gold_scanner_values[1] = scan_mk2()
+	gold_scanner_values[2] = scan_mk3(grid_dir)
+
+func scan_mk1() -> float:
+	var found_at_dist_2 = false
 	
-	if map.get_material_at(pos_1_ahead) == MapView.MaterialType.GOLD:
-		gold_scanner_value = 1.0
-	elif map.get_material_at(pos_2_ahead) == MapView.MaterialType.GOLD:
-		gold_scanner_value = 0.5
-	else:
-		gold_scanner_value = 0.0
+	for x in range(-2, 3):
+		for y in range(-2, 3):
+			if x == 0 and y == 0: continue
+			
+			var check_pos = grid_pos + Vector2i(x, y)
+			if map.get_material_at(check_pos) == MapView.MaterialType.GOLD:
+				if abs(x) <= 1 and abs(y) <= 1:
+					return 1.0
+				else:
+					found_at_dist_2 = true
+	
+	return 0.5 if found_at_dist_2 else 0.0
+
+func scan_mk2() -> float:
+	var max_signal = 0.0
+	var r_max = 5.0
+	
+	for x in range(-5, 6):
+		for y in range(-5, 6):
+			if x == 0 and y == 0: continue
+			
+			var vec = Vector2(x, y)
+			var dist = vec.length()
+			
+			if dist > r_max: continue
+			
+			var check_pos = grid_pos + Vector2i(x, y)
+			if map.get_material_at(check_pos) == MapView.MaterialType.GOLD:
+				var sig = max(0.0, 1.0 - (dist / r_max))
+				if sig > max_signal:
+					max_signal = sig
+	
+	return max_signal
+
+func scan_mk3(grid_dir: Vector2i) -> float:
+	for i in range(1, 16):
+		var check_pos = grid_pos + grid_dir * i
+		
+		if map.get_material_at(check_pos) == MapView.MaterialType.GOLD:
+			return max(0.0, 1.0 - (float(i - 1) / 15.0))
+			
+	return 0.0
 
 func on_interpreter_outputs(turn_left_p: float, turn_right_p: float, turn_around_p: float, go_p: float, dig_p: float) -> void:
 	var max_signal: float = 0.0 

@@ -7,7 +7,9 @@
 [ext_resource type="Resource" uid="uid://bvwnjwnwx4e8n" path="res://scenes/brain_editor/blocks/functions/inverter.tres" id="6_fwxd3"]
 [ext_resource type="Resource" uid="uid://cd3377n5wjdfv" path="res://scenes/brain_editor/blocks/inputs/moved.tres" id="6_j6oka"]
 [ext_resource type="Resource" uid="uid://1atatt16cc1b" path="res://scenes/brain_editor/blocks/outputs/turn_left.tres" id="6_s5qgd"]
-[ext_resource type="Resource" uid="uid://dj8h5lk448t5w" path="res://scenes/brain_editor/blocks/inputs/geo.tres" id="7_xsm4g"]
+[ext_resource type="Resource" uid="uid://bl5mamm0j7d2w" path="res://scenes/brain_editor/blocks/inputs/geo_mk2.tres" id="6_wp2ke"]
+[ext_resource type="Resource" uid="uid://bwo1f7pw2rida" path="res://scenes/brain_editor/blocks/inputs/geo_mk3.tres" id="7_jnf8e"]
+[ext_resource type="Resource" uid="uid://dj8h5lk448t5w" path="res://scenes/brain_editor/blocks/inputs/geo_mk1.tres" id="7_xsm4g"]
 [ext_resource type="Resource" uid="uid://xgmlalsgbxmo" path="res://scenes/brain_editor/blocks/functions/comparator.tres" id="7_yf51x"]
 [ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/outputs/turn_right.tres" id="8_fwxd3"]
 [ext_resource type="Resource" uid="uid://dbpbvocdtblt8" path="res://scenes/brain_editor/blocks/functions/minimum.tres" id="8_gvqid"]
@@ -145,10 +147,22 @@ mouse_filter = 1
 block_data = ExtResource("6_j6oka")
 is_toolbox_source = true
 
-[node name="Geo" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1739791132 instance=ExtResource("2_iva03")]
+[node name="GeoMk1" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1739791132 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("7_xsm4g")
+is_toolbox_source = true
+
+[node name="GeoMk2" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1385599306 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("6_wp2ke")
+is_toolbox_source = true
+
+[node name="GeoMk3" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=2120979788 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("7_jnf8e")
 is_toolbox_source = true
 
 [node name="Compass" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=390730601 instance=ExtResource("2_iva03")]
@@ -157,7 +171,7 @@ mouse_filter = 1
 block_data = ExtResource("27_jfl5t")
 is_toolbox_source = true
 
-[node name="Sight" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1385599306 instance=ExtResource("2_iva03")]
+[node name="Sight" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=631464838 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("4_ag5fd")

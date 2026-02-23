@@ -113,9 +113,15 @@ blocks:
   random:
     title: Random
     info: If input is > 0.5, a new output value is randomized.
-  geo:
-    title: Geoscan
-    info: Gold scanner. Range of 2 units in front. Returns a signal of gold is nearby.
+  geo_mk1:
+    title: Geoscan 1
+    info: Gold scanner. Range of 2 units. Returns a signal of gold is nearby.
+  geo_mk2:
+    title: Geoscan 2
+    info: Gold scanner. Range of 5 units. Returns a signal of gold is nearby.
+  geo_mk3:
+    title: Geoscan 3
+    info: Gold scanner. Range of 15 units in front. Returns a signal of gold is nearby.
   broadcast:
     title: Broadcast
     info: Broadcasts signal A globally to any robot via radio waves.

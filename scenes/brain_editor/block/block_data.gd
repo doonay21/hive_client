@@ -9,7 +9,7 @@ enum Op {
 	NONE = 0,
 	SIGHT = 1,
 	MOVED = 2,
-	GEO = 3,
+	GEO_MK1 = 3,
 	COMPASS = 4,
 	CLOCK = 5,
 	INVERTER = 6,
@@ -52,7 +52,9 @@ enum Op {
 	CONNECTION_CROSS_JOINED = 43,
 	SENSE = 44,
 	CAN_DIG = 45,
-	CUSTOM = 0xFFFFFFFF
+	CUSTOM = 0xFFFFFFFF,
+	GEO_MK2 = 46,
+	GEO_MK3 = 47
 }
 
 const COLORS: Dictionary = {

@@ -113,9 +113,15 @@ blocks:
   random:
     title: Losowość
     info: Jeśli na wejściu jest > 0.5 losowana jest nowa wartość wyjścia.
-  geo:
-    title: Geoskan
-    info: Skaner złota. Działa na dystansie 2 jednostek przed robotem. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
+  geo_mk1:
+    title: Geoskan 1
+    info: Skaner złota. Działa na dystansie 2 jednostek. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
+  geo_mk2:
+    title: Geoskan 2
+    info: Skaner złota. Działa na dystansie 5 jednostek. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
+  geo_mk3:
+    title: Geoskan 3
+    info: Skaner złota. Działa na dystansie 15 jednostek przed robotem. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
   broadcast:
     title: Nadajnik
     info: Rozgłasza sygnał A globalnie do innych robotów przez fale radiowe.
