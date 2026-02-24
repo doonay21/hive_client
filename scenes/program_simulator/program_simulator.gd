@@ -8,6 +8,7 @@ const robot_scene: PackedScene = preload("res://scenes/robot/robot.tscn")
 @onready var map_camera: Camera2D = %MapCamera
 @onready var sub_viewport: SubViewport = %SubViewport
 @onready var robots_container: Node2D = %Robots
+@onready var label_time: Label = $HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/HBoxContainer/LHSTime
 
 var brain_editor: BrainEditor
 var program_data: Dictionary = {}
@@ -17,6 +18,8 @@ var robot_id_counter: int = 0
 
 var radio_messages_current: Array[Dictionary] = []
 var radio_messages_next: Array[Dictionary] = []
+
+var tick_timer: Timer
 
 func _ready() -> void:
 	popup_centered_ratio(0.9)
@@ -31,6 +34,12 @@ func _ready() -> void:
 	map_view.map_generated.connect(on_map_view_map_generated)
 	
 	spawn_robot()
+	
+	tick_timer = Timer.new()
+	tick_timer.wait_time = 0.5
+	tick_timer.timeout.connect(on_tick_timer_timeout)
+	
+	add_child(tick_timer)
 
 func spawn_robot() -> void:
 	var spawn_pos = map_view.get_random_empty_spawn_point()
@@ -114,5 +123,18 @@ func on_map_view_map_generated() -> void:
 	
 	spawn_robot()
 
-func on_button_pressed() -> void:
+func on_tick_timer_timeout() -> void:
 	tick()
+
+func on_b_step_pressed() -> void:
+	tick()
+
+func on_b_start_pressed() -> void:
+	tick_timer.start()
+
+func on_b_stop_pressed() -> void:
+	tick_timer.stop()
+
+func on_hs_time_value_changed(value: float) -> void:
+	tick_timer.wait_time = 1.0 / value
+	label_time.text = "%s Hz" % str(int(value))

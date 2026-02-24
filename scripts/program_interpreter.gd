@@ -26,7 +26,7 @@ var custom_block_ports: Dictionary = {}
 
 var external_inputs: Array[float] = [0.0, 0.0, 0.0, 0.0]
 
-var op_array: PackedInt32Array
+var op_array: PackedInt64Array
 var val_array: PackedFloat64Array
 
 var rw_buffers: Array[PackedFloat64Array] = [PackedFloat64Array(), PackedFloat64Array()]

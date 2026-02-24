@@ -177,13 +177,42 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Button" type="Button" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control" unique_id=1840794939]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control" unique_id=1929305221]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BStep" type="Button" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer" unique_id=1840794939]
+layout_mode = 2
 text = "Step"
+
+[node name="BStart" type="Button" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer" unique_id=883028030]
+layout_mode = 2
+text = "Start"
+
+[node name="BStop" type="Button" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer" unique_id=1346659389]
+layout_mode = 2
+text = "Stop"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer" unique_id=1122428108]
+layout_mode = 2
+
+[node name="HSTime" type="HSlider" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/HBoxContainer" unique_id=1524782556]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+min_value = 1.0
+value = 2.0
+
+[node name="LHSTime" type="Label" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/HBoxContainer" unique_id=942755187]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+text = "2 Hz"
+horizontal_alignment = 1
 
 [connection signal="close_requested" from="." to="." method="on_close_requested"]
 [connection signal="mouse_entered" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_entered"]
 [connection signal="mouse_exited" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_exited"]
-[connection signal="pressed" from="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/Button" to="." method="on_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/BStep" to="." method="on_b_step_pressed"]
+[connection signal="pressed" from="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/BStart" to="." method="on_b_start_pressed"]
+[connection signal="pressed" from="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/BStop" to="." method="on_b_stop_pressed"]
+[connection signal="value_changed" from="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/HBoxContainer/HSTime" to="." method="on_hs_time_value_changed"]
