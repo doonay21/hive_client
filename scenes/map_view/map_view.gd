@@ -9,6 +9,7 @@ enum RoomShape { CIRCLE, SQUARE, DIAMOND, CROSS, SUPERELLIPSE, CAVERN }
 const MAP_SIZE: Vector2i = Vector2i(200, 200)
 const TILE_SOURCE_ID: int = 0
 const SPAWN_RADIUS: float = 12.0
+const SPANW_CRACK_COUNT: int = 4
 
 const MATERIAL_HP: Dictionary = {
 	MaterialType.SOFT_ROCK: 2,
@@ -237,7 +238,6 @@ func generate_noisy_background() -> void:
 func create_spawn_point() -> void:
 	var center = Vector2(MAP_SIZE.x / 2.0, MAP_SIZE.y / 2.0)
 	var radius_sq = SPAWN_RADIUS * SPAWN_RADIUS
-	
 	var start_x = int(center.x - SPAWN_RADIUS)
 	var end_x = int(center.x + SPAWN_RADIUS)
 	var start_y = int(center.y - SPAWN_RADIUS)
@@ -250,6 +250,36 @@ func create_spawn_point() -> void:
 				var dy = y - center.y
 				if dx * dx + dy * dy <= radius_sq:
 					set_tile(x, y, MaterialType.VOID)
+
+	var noise_offset = randf() * 100.0 
+
+	for i in range(SPANW_CRACK_COUNT):
+		var base_angle = (i * TAU / SPANW_CRACK_COUNT) + randf_range(-0.15, 0.15)
+		var direction = Vector2.RIGHT.rotated(base_angle)
+		var current_exit_length = randf_range(20.0, 35.0)
+		var start_thickness = randf_range(3.5, 5.0)
+		var current_dist = SPAWN_RADIUS - 2.0
+		
+		while current_dist < SPAWN_RADIUS + current_exit_length:
+			var target_pos = center + (direction * current_dist)
+			var side_offset = sin(current_dist * 0.25) * 2.0 + noise.get_noise_1d(current_dist + noise_offset + (i * 200)) * 5.0
+			var perpendicular = direction.rotated(PI / 2)
+			var final_pos = target_pos + (perpendicular * side_offset)
+			var progress = (current_dist - SPAWN_RADIUS) / current_exit_length
+			var brush_radius = lerp(start_thickness, 1.5, clamp(progress, 0.0, 1.0))
+			
+			paint_spawn_tunnel_blob(Vector2i(final_pos), int(brush_radius))
+			
+			current_dist += 1.0
+
+func paint_spawn_tunnel_blob(center: Vector2i, radius: int) -> void:
+	var r_sq = radius * radius
+	for x in range(-radius, radius + 1):
+		for y in range(-radius, radius + 1):
+			if x*x + y*y <= r_sq:
+				var target = center + Vector2i(x, y)
+				if map_bounds.has_point(target):
+					set_tile_v(target, MaterialType.VOID)
 
 func encode_seed_in_tiles(seed_val: int) -> void:
 	var y = MAP_SIZE.y - 1
