@@ -385,10 +385,46 @@ func generate_deep_gold_veins() -> void:
 	var cfg = GOLD_VEIN_CONFIG
 	var vein_count: int = randi_range(cfg.count.x, cfg.count.y)
 	
-	for i in range(vein_count):
+	# 1. Obliczamy optymalny podział mapy na siatkę w zależności od liczby żył.
+	# Pierwiastek z liczby żył da nam wymiar siatki (np. dla 16 żył -> siatka 4x4).
+	# Dodajemy lekki margines (+1), aby siatka była luźniejsza.
+	var grid_axis = ceil(sqrt(vein_count))
+	var sector_w = MAP_SIZE.x / float(grid_axis)
+	var sector_h = MAP_SIZE.y / float(grid_axis)
+	
+	# 2. Tworzymy listę wszystkich dostępnych sektorów
+	var sectors: Array[Vector2i] = []
+	for x in range(grid_axis):
+		for y in range(grid_axis):
+			sectors.append(Vector2i(x, y))
+	
+	# 3. Mieszamy sektory, aby nie wypełniać ich po kolei (góra-dół),
+	# co daje bardziej naturalny efekt przy mniejszej liczbie żył.
+	sectors.shuffle()
+	
+	# Zabezpieczenie: nie możemy wygenerować więcej żył niż mamy sektorów
+	# (choć przy obecnym wzorze grid_axis to rzadki przypadek).
+	var loop_count = min(vein_count, sectors.size())
+	
+	for i in range(loop_count):
+		var sector = sectors[i]
+		var padding = 10.0
+		var min_x = (sector.x * sector_w) + padding
+		var max_x = ((sector.x + 1) * sector_w) - padding
+		var min_y = (sector.y * sector_h) + padding
+		var max_y = ((sector.y + 1) * sector_h) - padding
+		
+		min_x = max(min_x, 5.0)
+		max_x = min(max_x, MAP_SIZE.x - 5.0)
+		min_y = max(min_y, 5.0)
+		max_y = min(max_y, MAP_SIZE.y - 5.0)
+		
+		if min_x >= max_x: min_x = (sector.x * sector_w)
+		if min_y >= max_y: min_y = (sector.y * sector_h)
+
 		var start_pos = Vector2(
-			randf_range(15.0, MAP_SIZE.x - 15.0),
-			randf_range(15.0, MAP_SIZE.y - 15.0)
+			randf_range(min_x, max_x),
+			randf_range(min_y, max_y)
 		)
 		
 		var direction = Vector2.RIGHT.rotated(randf() * TAU)
@@ -406,10 +442,13 @@ func generate_deep_gold_veins() -> void:
 			var raw_width_noise = noise.get_noise_1d(width_noise_offset + step * cfg.width_change_speed)
 			var current_radius = remap(raw_width_noise, -1.0, 1.0, cfg.thickness_min, cfg.thickness_max)
 			
-			paint_vein_blob(Vector2i(current_float_pos), current_radius)
-			
-			if current_radius > 1.0 and randf() < cfg.branch_chance:
-				create_small_branch(current_float_pos, direction.rotated(deg_to_rad(90)))
+			if map_bounds.has_point(Vector2i(current_float_pos)):
+				paint_vein_blob(Vector2i(current_float_pos), current_radius)
+				
+				if current_radius > 1.0 and randf() < cfg.branch_chance:
+					create_small_branch(current_float_pos, direction.rotated(deg_to_rad(90)))
+			else:
+				break
 
 func paint_vein_blob(center: Vector2i, radius: float) -> void:
 	var r_ceil = ceil(radius)
