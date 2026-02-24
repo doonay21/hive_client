@@ -145,7 +145,7 @@ func get_state_index(x: int, y: int, var_index: int = 0) -> int:
 func set_inputs(inputs: Dictionary) -> void:
 	sight = inputs.get("sight", [0.0, 0.0, 0.0, 0.0]) as Array
 	front_material = inputs.get("front_material", MapView.MaterialType.VOID) as MapView.MaterialType
-	can_dig = MapView.MATERIAL_HP.has(front_material)
+	can_dig = inputs.get("can_dig", false) as bool
 	moved_last_tick = inputs.get("moved_last_tick", false) as bool
 	gold_scanner = inputs.get("gold_scanner", [0.0, 0.0, 0.0]) as Array[float]
 	facing_index = inputs.get("facing_index", 0) as int

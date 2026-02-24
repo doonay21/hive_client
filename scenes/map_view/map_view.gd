@@ -392,7 +392,6 @@ func generate_deep_gold_veins() -> void:
 	var cfg = GOLD_VEIN_CONFIG
 	var vein_count: int = randi_range(cfg.count.x, cfg.count.y)
 	
-	# Logika siatki pozostaje bez zmian - służy do wstępnego, równomiernego rozłożenia
 	var grid_axis = ceil(sqrt(vein_count))
 	var sector_w = MAP_SIZE.x / float(grid_axis)
 	var sector_h = MAP_SIZE.y / float(grid_axis)
@@ -407,21 +406,17 @@ func generate_deep_gold_veins() -> void:
 	
 	for i in range(loop_count):
 		var sector = sectors[i]
-		# Obliczamy granice sektora
 		var padding = 10.0
 		var min_x = (sector.x * sector_w) + padding
 		var max_x = ((sector.x + 1) * sector_w) - padding
 		var min_y = (sector.y * sector_h) + padding
 		var max_y = ((sector.y + 1) * sector_h) - padding
 		
-		# Wywołujemy nową funkcję pomocniczą
 		create_single_deep_vein(Rect2(min_x, min_y, max_x - min_x, max_y - min_y))
 
-# Nowa funkcja pomocnicza - tworzy jedną dużą żyłę w zadanym obszarze (lub losowo na mapie)
 func create_single_deep_vein(spawn_rect: Rect2 = Rect2()) -> void:
 	var cfg = GOLD_VEIN_CONFIG
 	
-	# Jeśli nie podano rect, użyj całej mapy z marginesem
 	if spawn_rect.has_area() == false:
 		spawn_rect = Rect2(10, 10, MAP_SIZE.x - 20, MAP_SIZE.y - 20)
 
@@ -456,25 +451,17 @@ func create_single_deep_vein(spawn_rect: Rect2 = Rect2()) -> void:
 func ensure_gold_percentage(target_percent: float) -> void:
 	var total_pixels = MAP_SIZE.x * MAP_SIZE.y
 	var target_count = int(total_pixels * target_percent)
-	var max_attempts = 500 # Zabezpieczenie przed nieskończoną pętlą
+	var max_attempts = 500
 	var attempts = 0
-	
-	print("Gold target: ", target_count, " Current: ", current_gold_count)
 	
 	while current_gold_count < target_count and attempts < max_attempts:
 		attempts += 1
 		var deficit = target_count - current_gold_count
 		
-		# Jeśli brakuje bardzo dużo złota (np. więcej niż 200 pikseli),
-		# generujemy dużą, głęboką żyłę, żeby szybciej nadgonić.
 		if deficit > 200:
-			create_single_deep_vein() # Losowa pozycja na całej mapie
+			create_single_deep_vein()
 		else:
-			# Jeśli brakuje mało, "dopychamy" małymi żyłkami
-			# true/false dla only_in_rooms losowo dla urozmaicenia
 			try_generate_gold_vein(randf() > 0.3) 
-			
-	print("Gold generation finished. Final count: ", current_gold_count, " (Iterations: ", attempts, ")")
 
 func paint_vein_blob(center: Vector2i, radius: float) -> void:
 	var r_ceil = ceil(radius)

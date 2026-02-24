@@ -24,7 +24,7 @@ var has_moved: bool = false
 var interpreter: ProgramInterpreter
 
 var my_id: int = 0
-var gps_data: Array = [0.0, 0.0]
+var gps_data: Array[float] = [0.0, 0.0]
 
 func setup(target_sim: ProgramSimulator, target_map: MapView, start_pos: Vector2i, program_data: Dictionary, id: int) -> void:
 	simulator = target_sim
@@ -45,10 +45,12 @@ func _process(_delta: float) -> void:
 
 func tick() -> void:
 	var radio_inputs = simulator.get_radio_signals_for_robot(my_id)
+	var is_diggable: bool = MapView.MATERIAL_HP.has(front_material)
 	
 	var inputs: Dictionary = {
 		"sight": sight,
 		"front_material": front_material,
+		"can_dig": is_diggable,
 		"moved_last_tick": has_moved,
 		"gold_scanner": gold_scanner_values,
 		"facing_index": facing_index,
@@ -242,8 +244,8 @@ func on_interpreter_outputs(turn_left_p: float, turn_right_p: float, turn_around
 	
 	var actions: Array[Dictionary] = [
 		{"callable": self.dig, "signal": dig_p},
-		{"callable": self.turn_right, "signal": turn_left_p},
-		{"callable": self.turn_left, "signal": turn_right_p},
+		{"callable": self.turn_left, "signal": turn_left_p},
+		{"callable": self.turn_right, "signal": turn_right_p},
 		{"callable": self.turn_around, "signal": turn_around_p},
 		{"callable": self.move_forward, "signal": go_p}
 	]

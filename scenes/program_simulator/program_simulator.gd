@@ -113,3 +113,6 @@ func on_map_view_map_generated() -> void:
 	robots.clear()
 	
 	spawn_robot()
+
+func on_button_pressed() -> void:
+	tick()

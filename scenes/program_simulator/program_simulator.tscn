@@ -177,6 +177,13 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
+[node name="Button" type="Button" parent="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control" unique_id=1840794939]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Step"
+
 [connection signal="close_requested" from="." to="." method="on_close_requested"]
 [connection signal="mouse_entered" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_entered"]
 [connection signal="mouse_exited" from="HSplitContainer/WorldContainer/MapContainer" to="." method="on_map_container_mouse_exited"]
+[connection signal="pressed" from="HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/Button" to="." method="on_button_pressed"]
