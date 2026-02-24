@@ -15,6 +15,9 @@ var program_data: Dictionary = {}
 var robots: Array = []
 var robot_id_counter: int = 0
 
+var radio_messages_current: Array[Dictionary] = []
+var radio_messages_next: Array[Dictionary] = []
+
 func _ready() -> void:
 	popup_centered_ratio(0.9)
 	
@@ -36,7 +39,7 @@ func spawn_robot() -> void:
 		var robot: Robot = robot_scene.instantiate()
 		robots_container.add_child(robot)
 		
-		robot.setup(map_view, spawn_pos, program_data, robot_id_counter)
+		robot.setup(self, map_view, spawn_pos, program_data, robot_id_counter)
 		robots.append(robot)
 		
 		robot_id_counter += 1
@@ -52,8 +55,43 @@ func center_and_fit_map() -> void:
 	map_camera.fit_to_bounds(map_pixel_size, vp_size)
 
 func tick() -> void:
+	process_radio_tick()
+	
 	for robot in robots:
 		robot.tick()
+
+func process_radio_tick() -> void:
+	radio_messages_current = radio_messages_next.duplicate()
+	radio_messages_next.clear()
+
+func queue_radio_message(sender_id: int, slot: int, value: float, priority: int) -> void:
+	if value <= 0.001: return
+	
+	radio_messages_next.append({
+		"sender_id": sender_id,
+		"slot": slot,
+		"value": value,
+		"priority": priority
+	})
+
+func get_radio_signals_for_robot(receiver_id: int) -> Array[float]:
+	var results: Array[float] = [0.0, 0.0, 0.0, 0.0]
+	var best_priorities: Array[int] = [-1, -1, -1, -1]
+	
+	for msg in radio_messages_current:
+		if msg.sender_id == receiver_id: continue
+		
+		var slot = msg.slot
+		var prio = msg.priority
+		var val = msg.value
+		
+		if prio > best_priorities[slot]:
+			best_priorities[slot] = prio
+			results[slot] = val
+		elif prio == best_priorities[slot]:
+			results[slot] = max(results[slot], val)
+			
+	return results
 
 func on_close_requested() -> void:
 	queue_free()

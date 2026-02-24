@@ -9,6 +9,7 @@ const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vecto
 
 var grid_pos: Vector2i = Vector2i(-1, -1)
 var map: MapView
+var simulator: ProgramSimulator # Dodana referencja do symulatora
 
 var target_global_position: Vector2 = Vector2.ZERO
 var target_rotation: float = 0.0
@@ -22,16 +23,17 @@ var has_moved: bool = false
 
 var interpreter: ProgramInterpreter
 
-var my_id: float
+var my_id: int = 0
 var gps_data: Array = [0.0, 0.0]
 
-func setup(target_map: MapView, start_pos: Vector2i, program_data: Dictionary, id: int) -> void:
+func setup(target_sim: ProgramSimulator, target_map: MapView, start_pos: Vector2i, program_data: Dictionary, id: int) -> void:
+	simulator = target_sim
 	map = target_map
-	my_id = float(id / 100.0)
+	my_id = id
 	
 	if not map.map_changed.is_connected(update_inputs):
 		map.map_changed.connect(update_inputs)
-		
+
 	set_grid_position(start_pos, true)
 	
 	interpreter = ProgramInterpreter.new(program_data)
@@ -42,13 +44,17 @@ func _process(_delta: float) -> void:
 	rotation = lerp_angle(rotation, target_rotation, 0.3)
 
 func tick() -> void:
+	var radio_inputs = simulator.get_radio_signals_for_robot(my_id)
+	
 	var inputs: Dictionary = {
 		"sight": sight,
 		"front_material": front_material,
 		"moved_last_tick": has_moved,
 		"gold_scanner": gold_scanner_values,
 		"facing_index": facing_index,
-		"gps": gps_data
+		"id": float(my_id) / 100.0,
+		"gps": gps_data,
+		"radio_rx": radio_inputs
 	}
 	
 	interpreter.set_inputs(inputs)
@@ -230,7 +236,7 @@ func scan_mk3(grid_dir: Vector2i) -> float:
 			
 	return 0.0
 
-func on_interpreter_outputs(turn_left_p: float, turn_right_p: float, turn_around_p: float, go_p: float, dig_p: float) -> void:
+func on_interpreter_outputs(turn_left_p: float, turn_right_p: float, turn_around_p: float, go_p: float, dig_p: float, radio_data: Array, radio_prio: int) -> void:
 	var max_signal: float = 0.0 
 	var action_to_execute: Callable = Callable() 
 	
@@ -249,3 +255,7 @@ func on_interpreter_outputs(turn_left_p: float, turn_right_p: float, turn_around
 			
 	if action_to_execute.is_valid():
 		action_to_execute.call()
+
+	for i in range(4):
+		if radio_data[i] > 0.0:
+			simulator.queue_radio_message(my_id, i, radio_data[i], radio_prio)

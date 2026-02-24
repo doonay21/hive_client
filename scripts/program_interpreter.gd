@@ -1,14 +1,14 @@
 class_name ProgramInterpreter extends Node
 
-signal outputs(turn_left: float, turn_right: float, turn_around: float, go: float, dig: float)
+signal outputs(turn_left: float, turn_right: float, turn_around: float, go: float, dig: float, radio_data: Array, radio_prio: int)
 
 enum PortDir { TOP = 0, RIGHT = 1, BOTTOM = 2, LEFT = 3 }
 
 const DIR_OFFSETS: Array[Vector2i] = [
-	Vector2i(0, -1), # Górny sąsiad
-	Vector2i(1, 0),  # Prawy sąsiad
-	Vector2i(0, 1),  # Dolny sąsiad
-	Vector2i(-1, 0)  # Lewy sąsiad
+	Vector2i(0, -1),
+	Vector2i(1, 0),
+	Vector2i(0, 1),
+	Vector2i(-1, 0)
 ]
 
 const MICRO_TICK_MAX: int = 50
@@ -39,7 +39,7 @@ var delay_buffers: Dictionary = {}
 var read_channels: Dictionary = {}
 var write_channels: Dictionary = {}
 
-var sight: Array = [0.0, 0.0, 0.0, 0.0] # left, front, right, back
+var sight: Array = [0.0, 0.0, 0.0, 0.0]
 var front_material: MapView.MaterialType = MapView.MaterialType.VOID
 var can_dig: bool = false
 var moved_last_tick: bool = false
@@ -47,12 +47,15 @@ var gold_scanner: Array[float] = [0.0, 0.0, 0.0]
 var facing_index: int = 0
 var robot_id: float = 0.0
 var robot_gps_data: Array[float] = [0.0, 0.0]
+var radio_rx_data: Array[float] = [0.0, 0.0, 0.0, 0.0] # Dane odebrane z eteru
 
 var output_turn_left: float = 0.0
 var output_turn_right: float = 0.0
 var output_turn_around: float = 0.0
 var output_go: float = 0.0
 var output_dig: float = 0.0
+var output_radio_tx: Array[float] = [0.0, 0.0, 0.0, 0.0] # Sygnały do wysłania [Top, Right, Bottom, Left]
+var output_radio_prio: int = 0
 
 var ports_map: Array[Array] = []
 
@@ -148,6 +151,7 @@ func set_inputs(inputs: Dictionary) -> void:
 	facing_index = inputs.get("facing_index", 0) as int
 	robot_id = inputs.get("id", 0.0) as float
 	robot_gps_data = inputs.get("gps", [0.0, 0.0]) as Array[float]
+	radio_rx_data = inputs.get("radio_rx", [0.0, 0.0, 0.0, 0.0]) as Array[float]
 
 func get_sight() -> Array: return sight if is_main else parent_interpreter.get_sight()
 func get_front_material() -> MapView.MaterialType: return front_material if is_main else parent_interpreter.get_front_material()
@@ -156,6 +160,7 @@ func get_moved_last_tick() -> bool: return moved_last_tick if is_main else paren
 func get_gold_scanner() -> Array[float]: return gold_scanner if is_main else parent_interpreter.get_gold_scanner()
 func get_facing_index() -> int: return facing_index if is_main else parent_interpreter.get_facing_index()
 func get_read_channels() -> Dictionary: return read_channels if is_main else parent_interpreter.get_read_channels()
+func get_radio_rx_data() -> Array[float]: return radio_rx_data if is_main else parent_interpreter.get_radio_rx_data()
 
 func write_channel(key: int, val: float) -> void:
 	if is_main:
@@ -182,6 +187,13 @@ func add_output_go(val: float) -> void:
 func add_output_dig(val: float) -> void:
 	if is_main: output_dig = max(output_dig, val)
 	else: parent_interpreter.add_output_dig(val)
+
+func add_output_radio(slot_idx: int, val: float, priority: int) -> void:
+	if is_main:
+		output_radio_tx[slot_idx] = max(output_radio_tx[slot_idx], val)
+		output_radio_prio = max(output_radio_prio, priority) 
+	else:
+		parent_interpreter.add_output_radio(slot_idx, val, priority)
 
 func read_neighbor_port(x: int, y: int, my_physical_port: int) -> float:
 	var offset: Vector2i = DIR_OFFSETS[my_physical_port]
@@ -227,7 +239,7 @@ func tick() -> void:
 	update_sequential_states_recursive()
 	
 	if is_main:
-		outputs.emit(output_turn_left, output_turn_right, output_turn_around, output_go, output_dig)
+		outputs.emit(output_turn_left, output_turn_right, output_turn_around, output_go, output_dig, output_radio_tx, output_radio_prio)
 
 func is_fully_stable() -> bool:
 	if not buffers_alike(): return false
@@ -282,6 +294,8 @@ func micro_tick() -> void:
 		output_turn_around = 0.0
 		output_go = 0.0
 		output_dig = 0.0
+		output_radio_tx = [0.0, 0.0, 0.0, 0.0]
+		output_radio_prio = 0
 	
 	var counter: int = 0
 	for y in range(columns):
@@ -450,9 +464,16 @@ func micro_tick() -> void:
 					BlockData.Op.BEHIND:
 						write_port(x, y, ports[PortDir.BOTTOM], get_sight()[3])
 					BlockData.Op.RADIO_TX:
-						pass
+						add_output_radio(0, top, val_i)
+						add_output_radio(1, right, val_i)
+						add_output_radio(2, bottom, val_i)
+						add_output_radio(3, left, val_i)
 					BlockData.Op.RADIO_RX:
-						pass
+						var radio_signals = get_radio_rx_data()
+						write_port(x, y, ports[PortDir.TOP], radio_signals[0])
+						write_port(x, y, ports[PortDir.RIGHT], radio_signals[1])
+						write_port(x, y, ports[PortDir.BOTTOM], radio_signals[2])
+						write_port(x, y, ports[PortDir.LEFT], radio_signals[3])
 					BlockData.Op.GPS:
 						write_port(x, y, ports[PortDir.RIGHT], robot_gps_data[0])
 						write_port(x, y, ports[PortDir.BOTTOM], robot_gps_data[1])
