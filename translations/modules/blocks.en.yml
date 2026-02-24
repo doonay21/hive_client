@@ -146,3 +146,15 @@ blocks:
   eq:
     title: Equality
     info: Returns 1.0 if the signals are equal, 0.0 otherwise.
+  delta:
+    title: Delta
+    info: Calculates a shifted difference. An output of 0.5 means signals are equal (A = B). Values < 0.5 mean A < B, and > 0.5 mean A > B.
+  azimuth:
+    title: Azimuth
+    info: Calculates the target angle based on signals from Delta blocks (dX and dY). 0.0 is Up, 0.25 is Right, 0.5 is Down, 0.75 is Left.
+  sqrt:
+    title: Sqrt
+    info: Returns the square root of the input signal.
+  memory:
+    title: Register
+    info: Stores and holds the exact value of signal A when signal B (write) is high (> 0.5).

@@ -146,3 +146,15 @@ blocks:
   eq:
     title: Równość
     info: Zwraca 1.0 jeśli sygnały są równe, 0.0 w przeciwnym przypadku.
+  delta:
+    title: Różnica
+    info: Oblicza przesuniętą różnicę. Wyjście 0.5 oznacza, że sygnały są równe (A = B). Wartości < 0.5 to A < B, a > 0.5 to A > B.
+  azimuth:
+    title: Azymut
+    info: Oblicza kąt do celu na podstawie sygnałów z bloków Różnica (dX i dY). 0.0 - góra, 0.25 - prawo, 0.5 - dół, 0.75 - lewo.
+  sqrt:
+    title: Pierwiastek
+    info: Zwraca pierwiastek kwadratowy sygnału wejściowego.
+  memory:
+    title: Rejestr
+    info: Zapamiętuje i trzyma dokładną wartość sygnału A w momencie, gdy sygnał B (zapis) jest wysoki (> 0.5).

@@ -11,6 +11,7 @@ icon = ExtResource("1_mq2b5")
 display = 2
 style = 1
 ports = [1, 1, 1, 1]
+port_labels = Array[String](["A", "B", "C", "D"])
 info_text = "blocks.radio_tx.info"
 value_mode = 2
 custom_max = 10.0

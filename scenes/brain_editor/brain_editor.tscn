@@ -48,10 +48,14 @@
 [ext_resource type="Resource" uid="uid://bvtl8uxtafpnx" path="res://scenes/brain_editor/blocks/functions/receiver.tres" id="21_fvgwa"]
 [ext_resource type="Resource" uid="uid://ck1memdpra6no" path="res://scenes/brain_editor/blocks/outputs/dig.tres" id="22_ev8rl"]
 [ext_resource type="Resource" uid="uid://kjm25ps86kkd" path="res://scenes/brain_editor/blocks/inputs/compass.tres" id="27_jfl5t"]
+[ext_resource type="Resource" uid="uid://bhuh3viiwqnap" path="res://scenes/brain_editor/blocks/functions/sqrt.tres" id="28_8fhy1"]
+[ext_resource type="Resource" uid="uid://cq2hhirqrbs4j" path="res://scenes/brain_editor/blocks/functions/delta.tres" id="29_2pi7v"]
 [ext_resource type="Resource" uid="uid://bf7p8fir0rbnb" path="res://scenes/brain_editor/blocks/functions/emitter.tres" id="29_ltgp1"]
 [ext_resource type="Resource" uid="uid://ief65dh3y1la" path="res://scenes/brain_editor/blocks/inputs/random.tres" id="31_8ed7p"]
+[ext_resource type="Resource" uid="uid://f6xqx03ths0n" path="res://scenes/brain_editor/blocks/functions/memory.tres" id="31_oo3wi"]
 [ext_resource type="Resource" uid="uid://bjr0y17tysn1o" path="res://scenes/brain_editor/blocks/functions/radio_tx.tres" id="33_jnf8e"]
 [ext_resource type="Resource" uid="uid://cnqi7hf3t2x6c" path="res://scenes/brain_editor/blocks/functions/radio_rx.tres" id="34_y6bvk"]
+[ext_resource type="Resource" uid="uid://cxp75ega3koag" path="res://scenes/brain_editor/blocks/functions/azimuth.tres" id="36_u5u1y"]
 [ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
 [ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/program_grid/program_grid.tscn" id="49_ag5fd"]
 [ext_resource type="Texture2D" uid="uid://c6a1qt8g0rgkt" path="res://assets/images/icons/test_program.png" id="50_tamat"]
@@ -302,6 +306,18 @@ mouse_filter = 1
 block_data = ExtResource("14_228nc")
 is_toolbox_source = true
 
+[node name="Sqrt" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=2088605557 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("28_8fhy1")
+is_toolbox_source = true
+
+[node name="Delta" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=860988451 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("29_2pi7v")
+is_toolbox_source = true
+
 [node name="Delay" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=22221292 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
@@ -312,6 +328,12 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("13_6lhc5")
+is_toolbox_source = true
+
+[node name="Memory" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=850011707 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("31_oo3wi")
 is_toolbox_source = true
 
 [node name="Counter" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1787815659 instance=ExtResource("2_iva03")]
@@ -336,6 +358,12 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("17_54ksm")
+is_toolbox_source = true
+
+[node name="Azimuth" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=341230163 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("36_u5u1y")
 is_toolbox_source = true
 
 [node name="Emitter" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=446482537 instance=ExtResource("2_iva03")]

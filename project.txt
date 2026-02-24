@@ -144,8 +144,8 @@ Klocki:
             IO:
                 N - NIC
                 E - wyjście EW
-                S - NIC
-                W - wyjście NS
+                S - wyjście NS
+                W - NIC
             Opcje dodatkowe: brak
 
 		Zegar
@@ -275,7 +275,7 @@ Klocki:
             Opcje dodatkowe: brak
 
         Licznik
-            Opis: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls 1.0 na wyjściu po czym ustawia wewnętrzna wartość licznika na resztę.
+            Opis: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls 1.0 na wyjściu po czym ustawia wewnętrzną wartość licznika na resztę.
             IO:
                 N - NIC
                 E - wyjście
@@ -451,6 +451,42 @@ Klocki:
                 N - NIC
                 E - wejście
                 S - wyjście
+                W - wejście
+            Opcje dodatkowe: brak
+        
+        Różnica
+            Opis: Oblicza przesuniętą różnicę. Wyjście 0.5 oznacza, że sygnały są równe (A = B). Wartości < 0.5 to A < B, a > 0.5 to A > B.
+            IO:
+                N - wejście
+                E - wyjście
+                S - wejście
+                W - NIC
+            Opcje dodatkowe: brak
+        
+        Azymut
+            Opis: Oblicza kąt do celu na podstawie sygnałów z bloków Różnica (dX i dY). 0.0 - góra, 0.25 - prawo, 0.5 - dół, 0.75 - lewo.
+            IO:
+                N - wejście
+                E - NIC
+                S - wyjście
+                W - wejście
+            Opcje dodatkowe: brak
+        
+        Pierwiastek
+            Opis: Zwraca pierwiastek kwadratowy sygnału wejściowego.
+            IO:
+                N - NIC
+                E - wyjście
+                S - NIC
+                W - wejście
+            Opcje dodatkowe: brak
+        
+        Rejestr
+            Opis: Zapamiętuje i trzyma dokładną wartość sygnału A w momencie, gdy sygnał B (zapis) jest wysoki (> 0.5).
+            IO:
+                N - wejście
+                E - wyjście
+                S - NIC
                 W - wejście
             Opcje dodatkowe: brak
 

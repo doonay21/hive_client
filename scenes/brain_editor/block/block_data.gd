@@ -57,6 +57,10 @@ enum Op {
 	GPS = 51,
 	ID = 52,
 	EQ = 53,
+	DELTA = 54,
+	AZIMUTH = 55,
+	SQRT = 56,
+	MEMORY = 57,
 	CUSTOM = 0xFFFFFFFF
 }
 

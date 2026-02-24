@@ -482,6 +482,22 @@ func micro_tick() -> void:
 					BlockData.Op.EQ:
 						var result = 1.0 if abs(left - right) < 0.001 else 0.0
 						write_port(x, y, ports[PortDir.BOTTOM], result)
+					BlockData.Op.DELTA:
+						var result = ((top - bottom) * 0.5) + 0.5
+						write_port(x, y, ports[PortDir.RIGHT], result)
+					BlockData.Op.AZIMUTH:
+						var dy = (top - 0.5) * 2.0
+						var dx = (left - 0.5) * 2.0
+						var angle_rad = atan2(dy, dx)
+						var normalized_angle = fposmod(angle_rad + PI / 2.0, TAU) / TAU
+						
+						write_port(x, y, ports[PortDir.BOTTOM], normalized_angle)
+					BlockData.Op.SQRT:
+						var result = sqrt(left)
+						write_port(x, y, ports[PortDir.RIGHT], result)
+					BlockData.Op.MEMORY:
+						var current_memory = state_buffer[get_state_index(x, y, 0)]
+						write_port(x, y, ports[PortDir.RIGHT], current_memory)
 					BlockData.Op.CUSTOM:
 						var sub: ProgramInterpreter = sub_interpreters[counter]
 						var def_ports: Array = custom_block_ports.get(counter, [0, 0, 0, 0])
@@ -576,4 +592,14 @@ func update_sequential_states() -> void:
 						var state_idx = get_state_index(x, y, 0)
 						if left > 0.5:
 							state_buffer[state_idx] = randf()
+					BlockData.Op.MEMORY:
+						var left = read_neighbor_port(x, y, ports[PortDir.LEFT])
+						var top = read_neighbor_port(x, y, ports[PortDir.TOP])
+						var state_idx = get_state_index(x, y, 0)
+						var value: float = state_buffer[state_idx]
+						
+						if top > 0.5:
+							value = left
+						
+						state_buffer[state_idx] = value
 			counter += 1

@@ -10,5 +10,6 @@ op = 50
 icon = ExtResource("1_hxvuh")
 style = 1
 ports = [2, 2, 2, 2]
+port_labels = Array[String](["A", "B", "C", "D"])
 info_text = "blocks.radio_rx.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"
