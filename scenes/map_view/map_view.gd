@@ -28,6 +28,7 @@ const TILE_COORDS: Array[Vector2i] = [
 const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
 const GOLD_VEIN_CONFIG: Dictionary = {
+	"percentage": 0.05,
 	"count": Vector2i(8, 16),
 	"length": Vector2i(50, 150),
 	"thickness_min": 0.5,
@@ -46,6 +47,8 @@ var data_grid: PackedByteArray = []
 var hp_grid: PackedByteArray = []
 var current_seed: int = 0
 var map_bounds: Rect2i = Rect2i(Vector2i.ZERO, MAP_SIZE)
+
+var current_gold_count: int = 0
 
 func _ready() -> void:
 	randomize()
@@ -140,6 +143,14 @@ func extract_seed_from_tiles() -> int:
 
 func set_tile(x: int, y: int, material_type: MaterialType) -> void:
 	var index: int = x + y * MAP_SIZE.x
+	
+	var previous_mat = data_grid[index]
+	if previous_mat == MaterialType.GOLD:
+		current_gold_count -= 1
+	
+	if material_type == MaterialType.GOLD:
+		current_gold_count += 1
+
 	data_grid[index] = material_type
 	
 	if MATERIAL_HP.has(material_type):
@@ -196,11 +207,7 @@ func generate_world() -> void:
 	
 	generate_deep_gold_veins()
 	
-	for n in range(60): 
-		try_generate_gold_vein(true)
-		
-	for n in range(5):
-		try_generate_gold_vein(false)
+	ensure_gold_percentage(GOLD_VEIN_CONFIG["percentage"])
 		
 	add_complex_obstacles()
 	create_spawn_point()
@@ -385,70 +392,89 @@ func generate_deep_gold_veins() -> void:
 	var cfg = GOLD_VEIN_CONFIG
 	var vein_count: int = randi_range(cfg.count.x, cfg.count.y)
 	
-	# 1. Obliczamy optymalny podział mapy na siatkę w zależności od liczby żył.
-	# Pierwiastek z liczby żył da nam wymiar siatki (np. dla 16 żył -> siatka 4x4).
-	# Dodajemy lekki margines (+1), aby siatka była luźniejsza.
+	# Logika siatki pozostaje bez zmian - służy do wstępnego, równomiernego rozłożenia
 	var grid_axis = ceil(sqrt(vein_count))
 	var sector_w = MAP_SIZE.x / float(grid_axis)
 	var sector_h = MAP_SIZE.y / float(grid_axis)
 	
-	# 2. Tworzymy listę wszystkich dostępnych sektorów
 	var sectors: Array[Vector2i] = []
 	for x in range(grid_axis):
 		for y in range(grid_axis):
 			sectors.append(Vector2i(x, y))
 	
-	# 3. Mieszamy sektory, aby nie wypełniać ich po kolei (góra-dół),
-	# co daje bardziej naturalny efekt przy mniejszej liczbie żył.
 	sectors.shuffle()
-	
-	# Zabezpieczenie: nie możemy wygenerować więcej żył niż mamy sektorów
-	# (choć przy obecnym wzorze grid_axis to rzadki przypadek).
 	var loop_count = min(vein_count, sectors.size())
 	
 	for i in range(loop_count):
 		var sector = sectors[i]
+		# Obliczamy granice sektora
 		var padding = 10.0
 		var min_x = (sector.x * sector_w) + padding
 		var max_x = ((sector.x + 1) * sector_w) - padding
 		var min_y = (sector.y * sector_h) + padding
 		var max_y = ((sector.y + 1) * sector_h) - padding
 		
-		min_x = max(min_x, 5.0)
-		max_x = min(max_x, MAP_SIZE.x - 5.0)
-		min_y = max(min_y, 5.0)
-		max_y = min(max_y, MAP_SIZE.y - 5.0)
-		
-		if min_x >= max_x: min_x = (sector.x * sector_w)
-		if min_y >= max_y: min_y = (sector.y * sector_h)
+		# Wywołujemy nową funkcję pomocniczą
+		create_single_deep_vein(Rect2(min_x, min_y, max_x - min_x, max_y - min_y))
 
-		var start_pos = Vector2(
-			randf_range(min_x, max_x),
-			randf_range(min_y, max_y)
-		)
+# Nowa funkcja pomocnicza - tworzy jedną dużą żyłę w zadanym obszarze (lub losowo na mapie)
+func create_single_deep_vein(spawn_rect: Rect2 = Rect2()) -> void:
+	var cfg = GOLD_VEIN_CONFIG
+	
+	# Jeśli nie podano rect, użyj całej mapy z marginesem
+	if spawn_rect.has_area() == false:
+		spawn_rect = Rect2(10, 10, MAP_SIZE.x - 20, MAP_SIZE.y - 20)
+
+	var start_pos = Vector2(
+		randf_range(spawn_rect.position.x, spawn_rect.end.x),
+		randf_range(spawn_rect.position.y, spawn_rect.end.y)
+	)
+	
+	var direction = Vector2.RIGHT.rotated(randf() * TAU)
+	var length = randi_range(cfg.length.x, cfg.length.y)
+	var current_float_pos = start_pos
+	
+	var turn_noise_offset = randf() * 1000.0
+	var width_noise_offset = randf() * 1000.0
+	
+	for step in range(length):
+		var turn_angle = noise.get_noise_1d(turn_noise_offset + step * cfg.wobble_speed) * 0.5
+		direction = direction.rotated(turn_angle)
+		current_float_pos += direction
 		
-		var direction = Vector2.RIGHT.rotated(randf() * TAU)
-		var length = randi_range(cfg.length.x, cfg.length.y)
-		var current_float_pos = start_pos
+		var raw_width_noise = noise.get_noise_1d(width_noise_offset + step * cfg.width_change_speed)
+		var current_radius = remap(raw_width_noise, -1.0, 1.0, cfg.thickness_min, cfg.thickness_max)
 		
-		var turn_noise_offset = randf() * 1000.0
-		var width_noise_offset = randf() * 1000.0
-		
-		for step in range(length):
-			var turn_angle = noise.get_noise_1d(turn_noise_offset + step * cfg.wobble_speed) * 0.5
-			direction = direction.rotated(turn_angle)
-			current_float_pos += direction
+		if map_bounds.has_point(Vector2i(current_float_pos)):
+			paint_vein_blob(Vector2i(current_float_pos), current_radius)
 			
-			var raw_width_noise = noise.get_noise_1d(width_noise_offset + step * cfg.width_change_speed)
-			var current_radius = remap(raw_width_noise, -1.0, 1.0, cfg.thickness_min, cfg.thickness_max)
+			if current_radius > 1.0 and randf() < cfg.branch_chance:
+				create_small_branch(current_float_pos, direction.rotated(deg_to_rad(90)))
+		else:
+			break
+
+func ensure_gold_percentage(target_percent: float) -> void:
+	var total_pixels = MAP_SIZE.x * MAP_SIZE.y
+	var target_count = int(total_pixels * target_percent)
+	var max_attempts = 500 # Zabezpieczenie przed nieskończoną pętlą
+	var attempts = 0
+	
+	print("Gold target: ", target_count, " Current: ", current_gold_count)
+	
+	while current_gold_count < target_count and attempts < max_attempts:
+		attempts += 1
+		var deficit = target_count - current_gold_count
+		
+		# Jeśli brakuje bardzo dużo złota (np. więcej niż 200 pikseli),
+		# generujemy dużą, głęboką żyłę, żeby szybciej nadgonić.
+		if deficit > 200:
+			create_single_deep_vein() # Losowa pozycja na całej mapie
+		else:
+			# Jeśli brakuje mało, "dopychamy" małymi żyłkami
+			# true/false dla only_in_rooms losowo dla urozmaicenia
+			try_generate_gold_vein(randf() > 0.3) 
 			
-			if map_bounds.has_point(Vector2i(current_float_pos)):
-				paint_vein_blob(Vector2i(current_float_pos), current_radius)
-				
-				if current_radius > 1.0 and randf() < cfg.branch_chance:
-					create_small_branch(current_float_pos, direction.rotated(deg_to_rad(90)))
-			else:
-				break
+	print("Gold generation finished. Final count: ", current_gold_count, " (Iterations: ", attempts, ")")
 
 func paint_vein_blob(center: Vector2i, radius: float) -> void:
 	var r_ceil = ceil(radius)
