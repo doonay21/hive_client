@@ -28,7 +28,7 @@ func _ready() -> void:
 	
 	call_deferred("center_and_fit_map")
 	
-	map_view.map_generated.connect(spawn_robot)
+	map_view.map_generated.connect(on_map_view_map_generated)
 	
 	spawn_robot()
 
@@ -105,3 +105,11 @@ func on_map_container_mouse_entered() -> void:
 
 func on_map_container_mouse_exited() -> void:
 	map_tools.disable_info_label()
+
+func on_map_view_map_generated() -> void:
+	for robot in robots:
+		robot.queue_free()
+	
+	robots.clear()
+	
+	spawn_robot()

@@ -27,6 +27,17 @@ const TILE_COORDS: Array[Vector2i] = [
 
 const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
+const GOLD_VEIN_CONFIG: Dictionary = {
+	"count": Vector2i(8, 16),
+	"length": Vector2i(50, 150),
+	"thickness_min": 0.5,
+	"thickness_max": 1.2,
+	"wobble_speed": 0.08,
+	"width_change_speed": 0.1,
+	"roughness": 0.4,
+	"branch_chance": 0.03
+}
+
 @onready var tile_map: TileMapLayer = $TileMapLayer
 
 var noise: FastNoiseLite
@@ -182,6 +193,8 @@ func generate_world() -> void:
 			create_noise_room(i * room_w, j * room_h, room_w, room_h, shape)
 	
 	create_random_edge_passages(room_count_axis, room_w, room_h)
+	
+	generate_deep_gold_veins()
 	
 	for n in range(60): 
 		try_generate_gold_vein(true)
@@ -367,6 +380,63 @@ func try_generate_gold_vein(only_in_rooms: bool) -> void:
 		
 		if not bounds.has_point(curr):
 			break
+
+func generate_deep_gold_veins() -> void:
+	var cfg = GOLD_VEIN_CONFIG
+	var vein_count: int = randi_range(cfg.count.x, cfg.count.y)
+	
+	for i in range(vein_count):
+		var start_pos = Vector2(
+			randf_range(15.0, MAP_SIZE.x - 15.0),
+			randf_range(15.0, MAP_SIZE.y - 15.0)
+		)
+		
+		var direction = Vector2.RIGHT.rotated(randf() * TAU)
+		var length = randi_range(cfg.length.x, cfg.length.y)
+		var current_float_pos = start_pos
+		
+		var turn_noise_offset = randf() * 1000.0
+		var width_noise_offset = randf() * 1000.0
+		
+		for step in range(length):
+			var turn_angle = noise.get_noise_1d(turn_noise_offset + step * cfg.wobble_speed) * 0.5
+			direction = direction.rotated(turn_angle)
+			current_float_pos += direction
+			
+			var raw_width_noise = noise.get_noise_1d(width_noise_offset + step * cfg.width_change_speed)
+			var current_radius = remap(raw_width_noise, -1.0, 1.0, cfg.thickness_min, cfg.thickness_max)
+			
+			paint_vein_blob(Vector2i(current_float_pos), current_radius)
+			
+			if current_radius > 1.0 and randf() < cfg.branch_chance:
+				create_small_branch(current_float_pos, direction.rotated(deg_to_rad(90)))
+
+func paint_vein_blob(center: Vector2i, radius: float) -> void:
+	var r_ceil = ceil(radius)
+	var roughness = GOLD_VEIN_CONFIG.roughness
+	
+	for x in range(-r_ceil, r_ceil + 1):
+		for y in range(-r_ceil, r_ceil + 1):
+			var dist = sqrt(x*x + y*y)
+			
+			if dist <= radius + randf_range(-roughness, roughness):
+				var target_pos = center + Vector2i(x, y)
+				set_tile_if_rock(target_pos, MaterialType.GOLD)
+
+func create_small_branch(start_pos: Vector2, dir: Vector2) -> void:
+	var current = start_pos
+	var length = randi_range(4, 10)
+	var thin_radius = GOLD_VEIN_CONFIG.thickness_min
+	
+	for k in range(length):
+		paint_vein_blob(Vector2i(current), thin_radius)
+		current += dir + Vector2(randf()-0.5, randf()-0.5)
+
+func set_tile_if_rock(pos: Vector2i, type: MaterialType) -> void:
+	if map_bounds.has_point(pos):
+		var current_mat = get_material_at(pos)
+		if current_mat == MaterialType.SOFT_ROCK or current_mat == MaterialType.HARD_ROCK:
+			set_tile_v(pos, type)
 
 func create_random_edge_passages(grid_size: int, rw: int, rh: int) -> void:
 	var reach_w = int(rw * 0.3)
