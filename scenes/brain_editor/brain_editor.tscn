@@ -14,10 +14,12 @@
 [ext_resource type="Resource" uid="uid://3dusfptgbskq" path="res://scenes/brain_editor/blocks/outputs/turn_right.tres" id="8_fwxd3"]
 [ext_resource type="Resource" uid="uid://dbpbvocdtblt8" path="res://scenes/brain_editor/blocks/functions/minimum.tres" id="8_gvqid"]
 [ext_resource type="Resource" uid="uid://caj6rsjfp6awv" path="res://scenes/brain_editor/blocks/inputs/clock.tres" id="9_olgwc"]
+[ext_resource type="Resource" uid="uid://cy0c81d25xnxs" path="res://scenes/brain_editor/blocks/inputs/gps.tres" id="9_pv6fw"]
 [ext_resource type="Resource" uid="uid://b6tenloknv6xl" path="res://scenes/brain_editor/blocks/functions/maximum.tres" id="9_r6xee"]
 [ext_resource type="Resource" uid="uid://clm65r8eai1ku" path="res://scenes/brain_editor/blocks/inputs/sense.tres" id="9_tamat"]
 [ext_resource type="Resource" uid="uid://dv6c8d1558tdj" path="res://scenes/brain_editor/blocks/functions/add.tres" id="10_8ovbo"]
 [ext_resource type="Resource" uid="uid://c7t4h83eaf47u" path="res://scenes/brain_editor/blocks/inputs/constant.tres" id="10_61fpg"]
+[ext_resource type="Resource" uid="uid://b82y6ro36fe5a" path="res://scenes/brain_editor/blocks/inputs/behind.tres" id="10_tamat"]
 [ext_resource type="Resource" uid="uid://bswda4dd1vtaj" path="res://scenes/brain_editor/blocks/inputs/can_dig.tres" id="10_wp2ke"]
 [ext_resource type="Resource" uid="uid://crvprij0g4k31" path="res://scenes/brain_editor/blocks/inputs/sinus.tres" id="11_2dt14"]
 [ext_resource type="Resource" uid="uid://ptnrs8ur786k" path="res://scenes/brain_editor/blocks/connections/connection_we.tres" id="11_bbaqc"]
@@ -32,6 +34,7 @@
 [ext_resource type="Resource" uid="uid://dho708bcqiknr" path="res://scenes/brain_editor/blocks/functions/counter.tres" id="14_opfkc"]
 [ext_resource type="Resource" uid="uid://q0uo75hd23x4" path="res://scenes/brain_editor/blocks/connections/connection_ews.tres" id="15_2vtrv"]
 [ext_resource type="Resource" uid="uid://bwowdbex3h55m" path="res://scenes/brain_editor/blocks/functions/switch.tres" id="15_0323i"]
+[ext_resource type="Resource" uid="uid://1atuje2mudts" path="res://scenes/brain_editor/blocks/inputs/id.tres" id="15_eeo1o"]
 [ext_resource type="Resource" uid="uid://l85ym1hysfni" path="res://scenes/brain_editor/blocks/connections/connection_cross.tres" id="15_jojpm"]
 [ext_resource type="Resource" uid="uid://be67ccd24rnql" path="res://scenes/brain_editor/blocks/functions/div.tres" id="16_6eqnj"]
 [ext_resource type="Resource" uid="uid://crwxy36ajluhj" path="res://scenes/brain_editor/blocks/functions/edge.tres" id="16_ne0bp"]
@@ -39,6 +42,7 @@
 [ext_resource type="Resource" uid="uid://dbw86f1rbwyix" path="res://scenes/brain_editor/blocks/functions/threshold.tres" id="17_54ksm"]
 [ext_resource type="Resource" uid="uid://cfembt4fw4bry" path="res://scenes/brain_editor/blocks/functions/modulo.tres" id="17_ls3y5"]
 [ext_resource type="Resource" uid="uid://bmivvnpud7ky8" path="res://scenes/brain_editor/blocks/functions/avg.tres" id="18_nufi7"]
+[ext_resource type="Resource" uid="uid://ocejt05dk2y" path="res://scenes/brain_editor/blocks/functions/eq.tres" id="20_eeo1o"]
 [ext_resource type="Script" uid="uid://bjxrpyvrlsgip" path="res://scenes/brain_editor/info_box.gd" id="20_j144m"]
 [ext_resource type="Resource" uid="uid://b5nhwlavmvxoa" path="res://scenes/brain_editor/blocks/outputs/turn_around.tres" id="21_dibky"]
 [ext_resource type="Resource" uid="uid://bvtl8uxtafpnx" path="res://scenes/brain_editor/blocks/functions/receiver.tres" id="21_fvgwa"]
@@ -46,6 +50,8 @@
 [ext_resource type="Resource" uid="uid://kjm25ps86kkd" path="res://scenes/brain_editor/blocks/inputs/compass.tres" id="27_jfl5t"]
 [ext_resource type="Resource" uid="uid://bf7p8fir0rbnb" path="res://scenes/brain_editor/blocks/functions/emitter.tres" id="29_ltgp1"]
 [ext_resource type="Resource" uid="uid://ief65dh3y1la" path="res://scenes/brain_editor/blocks/inputs/random.tres" id="31_8ed7p"]
+[ext_resource type="Resource" uid="uid://bjr0y17tysn1o" path="res://scenes/brain_editor/blocks/functions/radio_tx.tres" id="33_jnf8e"]
+[ext_resource type="Resource" uid="uid://cnqi7hf3t2x6c" path="res://scenes/brain_editor/blocks/functions/radio_rx.tres" id="34_y6bvk"]
 [ext_resource type="PackedScene" uid="uid://gi3rom78yju3" path="res://scenes/brain_editor/custom_blocks/custom_blocks.tscn" id="48_84dns"]
 [ext_resource type="PackedScene" uid="uid://df8v6ufd87dd4" path="res://scenes/brain_editor/program_grid/program_grid.tscn" id="49_ag5fd"]
 [ext_resource type="Texture2D" uid="uid://c6a1qt8g0rgkt" path="res://assets/images/icons/test_program.png" id="50_tamat"]
@@ -168,6 +174,12 @@ mouse_filter = 1
 block_data = ExtResource("27_jfl5t")
 is_toolbox_source = true
 
+[node name="GPS" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1877757447 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("9_pv6fw")
+is_toolbox_source = true
+
 [node name="Sight" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=631464838 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
@@ -180,6 +192,12 @@ mouse_filter = 1
 block_data = ExtResource("9_tamat")
 is_toolbox_source = true
 
+[node name="Behind" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1404865290 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("10_tamat")
+is_toolbox_source = true
+
 [node name="Clock" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1165599403 instance=ExtResource("2_iva03")]
 layout_mode = 2
 mouse_filter = 1
@@ -190,6 +208,12 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("10_wp2ke")
+is_toolbox_source = true
+
+[node name="ID" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridInputs" unique_id=1571171260 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("15_eeo1o")
 is_toolbox_source = true
 
 [node name="Separator" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=62041208]
@@ -228,6 +252,12 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("9_r6xee")
+is_toolbox_source = true
+
+[node name="Eq" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=1820520604 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("20_eeo1o")
 is_toolbox_source = true
 
 [node name="Add" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=668373957 instance=ExtResource("2_iva03")]
@@ -318,6 +348,18 @@ is_toolbox_source = true
 layout_mode = 2
 mouse_filter = 1
 block_data = ExtResource("21_fvgwa")
+is_toolbox_source = true
+
+[node name="RadioTX" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=836397489 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("33_jnf8e")
+is_toolbox_source = true
+
+[node name="RadioRX" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer/GridFunctions" unique_id=79260697 instance=ExtResource("2_iva03")]
+layout_mode = 2
+mouse_filter = 1
+block_data = ExtResource("34_y6bvk")
 is_toolbox_source = true
 
 [node name="Separator2" type="Control" parent="VBoxContainer/HBoxContainer/SidebarContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/CenterContainer/VBoxContainer" unique_id=1254500277]

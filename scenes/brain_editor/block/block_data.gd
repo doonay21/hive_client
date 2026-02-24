@@ -49,9 +49,15 @@ enum Op {
 	CONNECTION_CROSS_JOINED = 43,
 	SENSE = 44,
 	CAN_DIG = 45,
-	CUSTOM = 0xFFFFFFFF,
 	GEO_MK2 = 46,
-	GEO_MK3 = 47
+	GEO_MK3 = 47,
+	BEHIND = 48,
+	RADIO_TX = 49,
+	RADIO_RX = 50,
+	GPS = 51,
+	ID = 52,
+	EQ = 53,
+	CUSTOM = 0xFFFFFFFF
 }
 
 const COLORS: Dictionary = {

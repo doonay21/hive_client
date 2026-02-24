@@ -14,7 +14,6 @@ const DIR_OFFSETS: Array[Vector2i] = [
 const MICRO_TICK_MAX: int = 50
 const SINUS_PERIOD: float = 40.0
 const SIGNAL_FALLOFF: float = 0.05
-const PRECISION_STEP: float = 0.001
 
 var program_data: Dictionary = {}
 var columns: int = 7
@@ -40,12 +39,14 @@ var delay_buffers: Dictionary = {}
 var read_channels: Dictionary = {}
 var write_channels: Dictionary = {}
 
-var sight: Array = [0.0, 0.0, 0.0] # left, front, right
+var sight: Array = [0.0, 0.0, 0.0, 0.0] # left, front, right, back
 var front_material: MapView.MaterialType = MapView.MaterialType.VOID
 var can_dig: bool = false
 var moved_last_tick: bool = false
 var gold_scanner: Array[float] = [0.0, 0.0, 0.0]
 var facing_index: int = 0
+var robot_id: float = 0.0
+var robot_gps_data: Array[float] = [0.0, 0.0]
 
 var output_turn_left: float = 0.0
 var output_turn_right: float = 0.0
@@ -138,13 +139,15 @@ func get_buffer_index(x: int, y: int, port: int) -> int:
 func get_state_index(x: int, y: int, var_index: int = 0) -> int:
 	return (y * columns + x) * 2 + var_index
 
-func set_inputs(sight_p: Array, front_material_p: MapView.MaterialType, moved_last_tick_p: bool, gold_scanner_p: Array[float], facing_index_p: int) -> void:
-	sight = sight_p
-	front_material = front_material_p
+func set_inputs(inputs: Dictionary) -> void:
+	sight = inputs.get("sight", [0.0, 0.0, 0.0, 0.0]) as Array
+	front_material = inputs.get("front_material", MapView.MaterialType.VOID) as MapView.MaterialType
 	can_dig = MapView.MATERIAL_HP.has(front_material)
-	moved_last_tick = moved_last_tick_p
-	gold_scanner = gold_scanner_p
-	facing_index = facing_index_p
+	moved_last_tick = inputs.get("moved_last_tick", false) as bool
+	gold_scanner = inputs.get("gold_scanner", [0.0, 0.0, 0.0]) as Array[float]
+	facing_index = inputs.get("facing_index", 0) as int
+	robot_id = inputs.get("id", 0.0) as float
+	robot_gps_data = inputs.get("gps", [0.0, 0.0]) as Array[float]
 
 func get_sight() -> Array: return sight if is_main else parent_interpreter.get_sight()
 func get_front_material() -> MapView.MaterialType: return front_material if is_main else parent_interpreter.get_front_material()
@@ -263,7 +266,7 @@ func channels_alike() -> bool:
 	return true
 
 func snap_signal(value: float) -> float:
-	return snappedf(clampf(value, 0.0, 1.0), PRECISION_STEP)
+	return snappedf(clampf(value, 0.0, 1.0), Hive.PRECISION_STEP)
 
 func write_port(x: int, y: int, port: int, value: float) -> void:
 	var index: int = get_buffer_index(x, y, port)
@@ -444,6 +447,20 @@ func micro_tick() -> void:
 						write_port(x, y, ports[PortDir.RIGHT], top)
 						write_port(x, y, ports[PortDir.BOTTOM], top)
 						write_port(x, y, ports[PortDir.LEFT], top)
+					BlockData.Op.BEHIND:
+						write_port(x, y, ports[PortDir.BOTTOM], get_sight()[3])
+					BlockData.Op.RADIO_TX:
+						pass
+					BlockData.Op.RADIO_RX:
+						pass
+					BlockData.Op.GPS:
+						write_port(x, y, ports[PortDir.RIGHT], robot_gps_data[0])
+						write_port(x, y, ports[PortDir.BOTTOM], robot_gps_data[1])
+					BlockData.Op.ID:
+						write_port(x, y, ports[PortDir.BOTTOM], robot_id)
+					BlockData.Op.EQ:
+						var result = 1.0 if abs(left - right) < 0.001 else 0.0
+						write_port(x, y, ports[PortDir.BOTTOM], result)
 					BlockData.Op.CUSTOM:
 						var sub: ProgramInterpreter = sub_interpreters[counter]
 						var def_ports: Array = custom_block_ports.get(counter, [0, 0, 0, 0])

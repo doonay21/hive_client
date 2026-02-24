@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://cy0c81d25xnxs"]
+
+[ext_resource type="Texture2D" uid="uid://5whwyrl3prvx" path="res://assets/images/brain_editor/block_icons/gps.png" id="1_k88ui"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_0qwlv"]
+
+[resource]
+script = ExtResource("2_0qwlv")
+display_name = "blocks.gps.title"
+op = 51
+icon = ExtResource("1_k88ui")
+ports = [0, 2, 2, 0]
+port_labels = Array[String](["", "X", "Y", ""])
+info_text = "blocks.gps.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

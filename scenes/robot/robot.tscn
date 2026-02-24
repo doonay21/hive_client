@@ -23,3 +23,8 @@ default_color = Color(0, 0.72156864, 0.8, 0.5019608)
 points = PackedVector2Array(4, 0, 4, 0)
 width = 4.0
 default_color = Color(0, 0.72156864, 0.8, 0.5019608)
+
+[node name="RadarBack" type="Line2D" parent="." unique_id=876977840]
+points = PackedVector2Array(0, 4, 0, 4)
+width = 4.0
+default_color = Color(1, 0.72156864, 0.8, 0.5019608)

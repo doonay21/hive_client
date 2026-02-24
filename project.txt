@@ -400,6 +400,60 @@ Klocki:
                 W - wejście
             Opcje dodatkowe: brak
 
+        Tył
+            Opis: Zwraca odległość do przeszkody z tyłu. Zasięg 2 jednostki. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed.
+            IO:
+                N - NIC
+                E - NIC
+                S - wyjście
+                W - NIC
+            Opcje dodatkowe: brak
+        
+        Radio TX
+            Opis: Wysyła do 4 sygnałów do innych robotów. Możliwość wyboru priorytetu sygnału.
+            IO:
+                N - wejście
+                E - wejście
+                S - wejście
+                W - wejście
+            Opcje dodatkowe: Wybór priorytetu sygnału (0 - 10).
+        
+        Radio Rx
+            Opis: Odbiera do 4 sygnałów wysłanych blokiem TX przez inne roboty. W przypadku konfliktu wygrywa sygnał o wyższym priorytecie.
+            IO:
+                N - wyjście
+                E - wyjście
+                S - wyjście
+                W - wyjście
+            Opcje dodatkowe: brak
+        
+        GPS
+            Opis: Zwraca znormalizowaną pozycję robota na mapie.
+            IO:
+                N - NIC
+                E - wyjście X
+                S - wyjście Y
+                W - NIC
+            Opcje dodatkowe: brak
+        
+        ID
+            Opis: Zwraca unikalny identyfikator robota.
+            IO:
+                N - NIC
+                E - NIC
+                S - wyjście
+                W - NIC
+            Opcje dodatkowe: brak
+        
+        Równość
+            Opis: Zwraca 1.0 jeśli sygnały są równe, 0.0 w przeciwnym przypadku.
+            IO:
+                N - NIC
+                E - wejście
+                S - wyjście
+                W - wejście
+            Opcje dodatkowe: brak
+
         Przewód W -> E
             Opis: Łączy wejście z wyjściem.
             IO:

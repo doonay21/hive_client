@@ -3,6 +3,7 @@ class_name Robot extends Node2D
 @onready var radar_left: Line2D = $RadarLeft
 @onready var radar_front: Line2D = $RadarFront
 @onready var radar_right: Line2D = $RadarRight
+@onready var radar_back: Line2D = $RadarBack
 
 const DIRS: Array[Vector2i] = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
 
@@ -13,7 +14,7 @@ var target_global_position: Vector2 = Vector2.ZERO
 var target_rotation: float = 0.0
 var facing_index: int = 0
 
-var sight: Array[float] = [0.0, 0.0, 0.0]
+var sight: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var front_material: MapView.MaterialType = MapView.MaterialType.VOID
 var gold_scanner_values: Array[float] = [0.0, 0.0, 0.0]
 
@@ -21,8 +22,12 @@ var has_moved: bool = false
 
 var interpreter: ProgramInterpreter
 
-func setup(target_map: MapView, start_pos: Vector2i, program_data: Dictionary) -> void:
+var my_id: float
+var gps_data: Array = [0.0, 0.0]
+
+func setup(target_map: MapView, start_pos: Vector2i, program_data: Dictionary, id: int) -> void:
 	map = target_map
+	my_id = float(id / 100.0)
 	
 	if not map.map_changed.is_connected(update_inputs):
 		map.map_changed.connect(update_inputs)
@@ -37,7 +42,16 @@ func _process(_delta: float) -> void:
 	rotation = lerp_angle(rotation, target_rotation, 0.3)
 
 func tick() -> void:
-	interpreter.set_inputs(sight, front_material, has_moved, gold_scanner_values, facing_index)
+	var inputs: Dictionary = {
+		"sight": sight,
+		"front_material": front_material,
+		"moved_last_tick": has_moved,
+		"gold_scanner": gold_scanner_values,
+		"facing_index": facing_index,
+		"gps": gps_data
+	}
+	
+	interpreter.set_inputs(inputs)
 	has_moved = false
 	
 	interpreter.tick()
@@ -78,6 +92,8 @@ func set_grid_position(new_pos: Vector2i, instant: bool = false) -> void:
 		
 	grid_pos = new_pos
 	
+	set_gps_data()
+	
 	map.set_tile_v(grid_pos, MapView.MaterialType.ROBOT)
 	
 	if instant:
@@ -87,6 +103,13 @@ func set_grid_position(new_pos: Vector2i, instant: bool = false) -> void:
 		target_global_position = map.tile_map.to_global(map.tile_map.map_to_local(grid_pos))
 	
 	update_inputs()
+
+func set_gps_data() -> void:
+	var x: float = grid_pos.x / float(MapView.MAP_SIZE.x)
+	var y: float = grid_pos.y / float(MapView.MAP_SIZE.y)
+	
+	gps_data[0] = snappedf(x, Hive.PRECISION_STEP)
+	gps_data[1] = snappedf(y, Hive.PRECISION_STEP)
 
 func try_move(direction: Vector2i) -> bool:
 	var target_pos = grid_pos + direction
@@ -106,17 +129,18 @@ func update_inputs() -> void:
 	var dir_front = DIRS[facing_index]
 	var dir_right = DIRS[(facing_index + 1) % 4]
 	var dir_left  = DIRS[(facing_index + 3) % 4]
+	var dir_back  = DIRS[(facing_index + 2) % 4]
 	
-	sight[0] = update_single_radar(radar_left, dir_left,  Vector2i.LEFT, Vector2(-4, 0), tile_size)
-	sight[1] = update_single_radar(radar_front, dir_front, Vector2i.UP, Vector2(0, -4), tile_size)
-	sight[2] = update_single_radar(radar_right, dir_right, Vector2i.RIGHT, Vector2(4, 0), tile_size)
+	sight[0] = update_single_radar(radar_left, dir_left,  Vector2i.LEFT, Vector2(-4, 0), tile_size, 10)
+	sight[1] = update_single_radar(radar_front, dir_front, Vector2i.UP, Vector2(0, -4), tile_size, 10)
+	sight[2] = update_single_radar(radar_right, dir_right, Vector2i.RIGHT, Vector2(4, 0), tile_size, 10)
+	sight[3] = update_single_radar(radar_back, dir_back, Vector2i.DOWN, Vector2(0, 4), tile_size, 2)
 	
 	check_front_material(dir_front)
 	update_gold_scanner(dir_front)
 
-func update_single_radar(radar: Line2D, grid_dir: Vector2i, local_dir: Vector2i, start_offset: Vector2, tile_size: Vector2i) -> float:
+func update_single_radar(radar: Line2D, grid_dir: Vector2i, local_dir: Vector2i, start_offset: Vector2, tile_size: Vector2i, max_steps: int) -> float:
 	var steps: int = 1
-	var max_steps: int = 10
 	var obstacle_found: bool = false
 	
 	while steps <= max_steps:

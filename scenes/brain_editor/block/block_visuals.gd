@@ -60,7 +60,7 @@ static func update_visuals(block: Block) -> void:
 
 static func update_labels_text(block: Block) -> void:
 	if not block.block_data: return
-
+	
 	for i in range(4):
 		var label: Label = block.label_nodes[i]
 		if label:

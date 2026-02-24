@@ -1,16 +1,19 @@
 class_name ProgramSimulator extends Window
 
+const robot_scene: PackedScene = preload("res://scenes/robot/robot.tscn")
+
 @onready var map_tools: MapTools = %MapTools
 @onready var program_visualizer: ProgramVisualizer = %ProgramVisualizer
 @onready var map_view: MapView = %MapView
 @onready var map_camera: Camera2D = %MapCamera
 @onready var sub_viewport: SubViewport = %SubViewport
-@onready var robot_node: Robot = %Robot
+@onready var robots_container: Node2D = %Robots
 
 var brain_editor: BrainEditor
 var program_data: Dictionary = {}
 
 var robots: Array = []
+var robot_id_counter: int = 0
 
 func _ready() -> void:
 	popup_centered_ratio(0.9)
@@ -30,8 +33,13 @@ func spawn_robot() -> void:
 	var spawn_pos = map_view.get_random_empty_spawn_point()
 	
 	if spawn_pos != Vector2i(-1, -1):
-		robot_node.setup(map_view, spawn_pos, program_data)
-		robots.append(robot_node)
+		var robot: Robot = robot_scene.instantiate()
+		robots_container.add_child(robot)
+		
+		robot.setup(map_view, spawn_pos, program_data, robot_id_counter)
+		robots.append(robot)
+		
+		robot_id_counter += 1
 
 func center_and_fit_map() -> void:
 	if not is_instance_valid(map_view) or not is_instance_valid(map_camera) or not is_instance_valid(sub_viewport):

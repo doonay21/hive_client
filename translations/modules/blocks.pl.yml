@@ -115,16 +115,34 @@ blocks:
     info: Jeśli na wejściu jest > 0.5 losowana jest nowa wartość wyjścia.
   geo_mk1:
     title: Geoskan 1
-    info: Skaner złota. Działa na dystansie 2 jednostek. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
+    info: Skaner złota. Działa na dystansie 2 jednostek. Zwraca proporcjonalny sygnał w przypadku gdy złoto jest w pobliżu.
   geo_mk2:
     title: Geoskan 2
-    info: Skaner złota. Działa na dystansie 5 jednostek. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
+    info: Skaner złota. Działa na dystansie 5 jednostek. Zwraca proporcjonalny sygnał w przypadku gdy złoto jest w pobliżu.
   geo_mk3:
     title: Geoskan 3
-    info: Skaner złota. Działa na dystansie 15 jednostek przed robotem. Zwraca sygnał w przypadku gdy złoto jest w pobliżu.
+    info: Skaner złota. Działa na dystansie 15 jednostek przed robotem. Zwraca proporcjonalny sygnał w przypadku gdy złoto jest w pobliżu.
   sense:
     title: Zmysł
     info: Zwraca 1.0 jeśli przed robotem jest obiekt danego typu.
   can_dig:
     title: Kopanie?
     info: Czy przed robotem jest materiał, który można wykopać?
+  behind:
+    title: Tył
+    info: Zwraca odległość do przeszkody z tyłu. Zasięg 2 jednostki. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed.
+  radio_tx:
+    title: TX
+    info: Wysyła do 4 sygnałów do innych robotów. Możliwość wyboru priorytetu sygnału.
+  radio_rx:
+    title: RX
+    info: Odbiera do 4 sygnałów wysłanych blokiem TX przez inne roboty. W przypadku konfliktu wygrywa sygnał o wyższym priorytecie.
+  gps:
+    title: GPS
+    info: Zwraca znormalizowaną pozycję robota na mapie.
+  id:
+    title: ID
+    info: Zwraca unikalny identyfikator robota.
+  eq:
+    title: Równość
+    info: Zwraca 1.0 jeśli sygnały są równe, 0.0 w przeciwnym przypadku.

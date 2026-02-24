@@ -115,16 +115,34 @@ blocks:
     info: If input is > 0.5, a new output value is randomized.
   geo_mk1:
     title: Geoscan 1
-    info: Gold scanner. Range of 2 units. Returns a signal of gold is nearby.
+    info: Gold scanner. Operates within a range of 2 units. Returns a proportional signal when gold is nearby.
   geo_mk2:
     title: Geoscan 2
-    info: Gold scanner. Range of 5 units. Returns a signal of gold is nearby.
+    info: Gold scanner. Operates within a range of 5 units. Returns a proportional signal when gold is nearby.
   geo_mk3:
     title: Geoscan 3
-    info: Gold scanner. Range of 15 units in front. Returns a signal of gold is nearby.
+    info: Gold scanner. Operates within a range of 15 units in front of the robot. Returns a proportional signal when gold is nearby.
   sense:
     title: Sense
-    info: Returns 1.0 if there is a object in front of the robot.
+    info: Returns 1.0 if an object of the specified type is in front of the robot.
   can_dig:
     title: Can dig?
-    info: Is the material in front of the robot digable?
+    info: Is there diggable material in front of the robot?
+  behind:
+    title: Behind
+    info: Returns the distance to an obstacle behind the robot. Range 2 units. 0.0 - no obstacles, 1.0 - obstacle directly adjacent.
+  radio_tx:
+    title: TX
+    info: Sends up to 4 signals to other robots. Allows for signal priority selection.
+  radio_rx:
+    title: RX
+    info: Receives up to 4 signals sent via the TX block by other robots. In case of conflict, the higher priority signal wins.
+  gps:
+    title: GPS
+    info: Returns the robot's normalized position on the map.
+  id:
+    title: ID
+    info: Returns the robot's unique identifier.
+  eq:
+    title: Equality
+    info: Returns 1.0 if the signals are equal, 0.0 otherwise.

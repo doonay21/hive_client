@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://b82y6ro36fe5a"]
+
+[ext_resource type="Texture2D" uid="uid://cueykmrun6qe" path="res://assets/images/brain_editor/block_icons/behind.png" id="1_nb6uu"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/brain_editor/block/block_data.gd" id="2_h2uhl"]
+
+[resource]
+script = ExtResource("2_h2uhl")
+display_name = "blocks.behind.title"
+op = 48
+icon = ExtResource("1_nb6uu")
+ports = [0, 0, 2, 0]
+info_text = "blocks.behind.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"
