@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bfccwjm5poteo"]
+
+[ext_resource type="Script" uid="uid://bjmsrwo76unl5" path="res://scenes/brain_editor/new_block/new_block.gd" id="1_enlnb"]
+[ext_resource type="Shader" uid="uid://gpnnotfacox7" path="res://shaders/block_line.gdshader" id="2_6suck"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g2anl"]
+shader = ExtResource("2_6suck")
+shader_parameter/inner_color = Color(0.7411765, 0.7411765, 0.7411765, 1)
+shader_parameter/outer_color = Color(0.8784314, 0.8784314, 0.8784314, 1)
+shader_parameter/split = 0.50000002375
+
+[node name="NewBlock" type="Control" unique_id=1748682286]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 80.0
+script = ExtResource("1_enlnb")
+
+[node name="Background" type="Polygon2D" parent="." unique_id=1442196252]
+color = Color(1, 1, 1, 0.15)
+polygon = PackedVector2Array(2, 2, 26.4, 2, 40, 2, 52.8, 2, 78, 2, 78, 26.4, 78, 40, 78, 52.8, 78, 78, 52.8, 78, 40, 78, 26.4, 78, 2, 78, 2, 52.8, 2, 40, 2, 26.4)
+
+[node name="Border" type="Line2D" parent="." unique_id=1190427061]
+material = SubResource("ShaderMaterial_g2anl")
+points = PackedVector2Array(2, 2, 26.4, 2, 40, 2, 52.8, 2, 78, 2, 78, 26.4, 78, 40, 78, 52.8, 78, 78, 52.8, 78, 40, 78, 26.4, 78, 2, 78, 2, 52.8, 2, 40, 2, 26.4)
+closed = true
+width = 4.0
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
