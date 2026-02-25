@@ -2,12 +2,34 @@
 
 [ext_resource type="Script" uid="uid://bjmsrwo76unl5" path="res://scenes/brain_editor/new_block/new_block.gd" id="1_enlnb"]
 [ext_resource type="Shader" uid="uid://gpnnotfacox7" path="res://shaders/block_line.gdshader" id="2_6suck"]
+[ext_resource type="Script" uid="uid://svk1r5voxlxo" path="res://scenes/brain_editor/block/value_drag.gd" id="3_g2anl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g2anl"]
 shader = ExtResource("2_6suck")
 shader_parameter/inner_color = Color(0.7411765, 0.7411765, 0.7411765, 1)
 shader_parameter/outer_color = Color(0.8784314, 0.8784314, 0.8784314, 1)
 shader_parameter/split = 0.50000002375
+
+[sub_resource type="LabelSettings" id="LabelSettings_swt2g"]
+font_size = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_comsq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_eqo0v"]
+font_color = Color(0, 0, 0, 1)
+outline_size = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_s5hhd"]
+font_color = Color(0, 0, 0, 1)
+outline_size = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_hc3do"]
+font_color = Color(0, 0, 0, 1)
+outline_size = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_t1oap"]
+font_color = Color(0, 0, 0, 1)
+outline_size = 6
 
 [node name="NewBlock" type="Control" unique_id=1748682286]
 custom_minimum_size = Vector2(80, 80)
@@ -16,6 +38,7 @@ anchors_preset = 0
 offset_right = 80.0
 offset_bottom = 80.0
 script = ExtResource("1_enlnb")
+is_toolbox_source = null
 
 [node name="Background" type="Polygon2D" parent="." unique_id=1442196252]
 color = Color(1, 1, 1, 0.15)
@@ -30,3 +53,142 @@ texture_mode = 1
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
+round_precision = 12
+
+[node name="IconBig" type="TextureRect" parent="." unique_id=2132127114]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -43.0
+offset_right = 43.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1184521350]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=84726424]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=1446442788]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 4
+stretch_mode = 5
+
+[node name="DisplayName" type="Label" parent="CenterContainer/VBoxContainer" unique_id=350979777]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_swt2g")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer" unique_id=2008050098]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/VBoxContainer/MarginContainer" unique_id=1073431039]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ValueDrag" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/PanelContainer" unique_id=2137405782]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 1
+text = "1.00"
+label_settings = SubResource("LabelSettings_comsq")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_g2anl")
+
+[node name="Labels" type="Control" parent="." unique_id=1924282465]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Top" type="Label" parent="Labels" unique_id=604663353]
+z_index = 1000
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = -31.0
+offset_right = 40.0
+offset_bottom = -8.0
+grow_horizontal = 2
+pivot_offset = Vector2(40, 11.5)
+label_settings = SubResource("LabelSettings_eqo0v")
+horizontal_alignment = 1
+
+[node name="Right" type="Label" parent="Labels" unique_id=458644275]
+z_index = 1000
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -11.5
+offset_right = 92.0
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(40, 11.5)
+label_settings = SubResource("LabelSettings_s5hhd")
+
+[node name="Bottom" type="Label" parent="Labels" unique_id=1482137838]
+z_index = 1000
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(40, 11.5)
+label_settings = SubResource("LabelSettings_hc3do")
+horizontal_alignment = 1
+
+[node name="Left" type="Label" parent="Labels" unique_id=676891285]
+z_index = 1000
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = -11.5
+offset_right = -12.0
+offset_bottom = 11.5
+grow_vertical = 2
+pivot_offset = Vector2(40, 11.5)
+label_settings = SubResource("LabelSettings_t1oap")
+horizontal_alignment = 2
