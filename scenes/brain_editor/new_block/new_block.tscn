@@ -40,11 +40,22 @@ offset_bottom = 80.0
 script = ExtResource("1_enlnb")
 is_toolbox_source = null
 
-[node name="Background" type="Polygon2D" parent="." unique_id=1442196252]
+[node name="BackgroundContainer" type="Control" parent="." unique_id=491638887]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+
+[node name="Background" type="Polygon2D" parent="BackgroundContainer" unique_id=1442196252]
+unique_name_in_owner = true
 color = Color(1, 1, 1, 0.15)
 polygon = PackedVector2Array(2, 2, 26.4, 2, 40, 2, 52.8, 2, 78, 2, 78, 26.4, 78, 40, 78, 52.8, 78, 78, 52.8, 78, 40, 78, 26.4, 78, 2, 78, 2, 52.8, 2, 40, 2, 26.4)
 
-[node name="Border" type="Line2D" parent="." unique_id=1190427061]
+[node name="Border" type="Line2D" parent="BackgroundContainer" unique_id=1190427061]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_g2anl")
 points = PackedVector2Array(2, 2, 26.4, 2, 40, 2, 52.8, 2, 78, 2, 78, 26.4, 78, 40, 78, 52.8, 78, 78, 52.8, 78, 40, 78, 26.4, 78, 2, 78, 2, 52.8, 2, 40, 2, 26.4)
 closed = true

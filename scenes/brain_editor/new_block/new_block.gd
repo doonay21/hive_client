@@ -3,7 +3,6 @@ class_name NewBlock extends Control
 signal edit_requested(uuid: String)
 signal context_menu_requested(uuid: String, global_pos: Vector2)
 
-enum PortType { NONE, IN, OUT }
 enum Side { TOP, RIGHT, BOTTOM, LEFT }
 
 const DEPTH_NONE = 0.0
@@ -15,13 +14,14 @@ const DEPTH_CONNECTED = 7.0
 @export var is_toolbox_source: bool = false
 
 @export_group("Port Configuration")
-@export var top_type: PortType = PortType.NONE: set = set_top
-@export var right_type: PortType = PortType.NONE: set = set_right
-@export var bottom_type: PortType = PortType.NONE: set = set_bottom
-@export var left_type: PortType = PortType.NONE: set = set_left
+@export var top_type: BlockData.Port = BlockData.Port.NONE: set = set_top
+@export var right_type: BlockData.Port = BlockData.Port.NONE: set = set_right
+@export var bottom_type: BlockData.Port = BlockData.Port.NONE: set = set_bottom
+@export var left_type: BlockData.Port = BlockData.Port.NONE: set = set_left
 
-@onready var background: Polygon2D = $Background
-@onready var border: Line2D = $Border
+@onready var background_container: Control = $BackgroundContainer
+@onready var background: Polygon2D = %Background
+@onready var border: Line2D = %Border
 @onready var icon: TextureRect = %Icon
 @onready var display_name_label: Label = %DisplayName
 @onready var icon_big: TextureRect = %IconBig
@@ -88,19 +88,19 @@ func initialize(data: Dictionary) -> void:
 	update_visuals()
 
 func load_data() -> void:
-	NewBlockVisuals.load_data(self)
+	BlockVisuals.load_data(self)
 
 func update_visuals() -> void:
-	NewBlockVisuals.update_visuals(self)
+	BlockVisuals.update_visuals(self)
 
 func get_save_data() -> Dictionary:
-	return NewBlockSerializer.get_save_data(self)
+	return BlockSerializer.get_save_data(self)
 
 func get_program_data() -> Dictionary:
-	return NewBlockSerializer.get_program_data(self)
+	return BlockSerializer.get_program_data(self)
 
 func load_save_data(saved_data: Dictionary) -> void:
-	NewBlockSerializer.load_save_data(self, saved_data)
+	BlockSerializer.load_save_data(self, saved_data)
 	
 	load_data()
 	
@@ -199,14 +199,14 @@ func _gui_input(event: InputEvent) -> void:
 func rotate_clockwise():
 	rotation_index = (rotation_index + 1) % 4
 	target_rotation += 90.0
-	NewBlockVisuals.animate_rotation(self)
-	NewBlockVisuals.animate_labels_change(self)
+	BlockVisuals.animate_rotation(self)
+	BlockVisuals.animate_labels_change(self)
 
 func rotate_counter_clockwise():
 	rotation_index = (rotation_index - 1 + 4) % 4
 	target_rotation -= 90.0
-	NewBlockVisuals.animate_rotation(self)
-	NewBlockVisuals.animate_labels_change(self)
+	BlockVisuals.animate_rotation(self)
+	BlockVisuals.animate_labels_change(self)
 
 func delete_block_animated():
 	mouse_filter = Control.MOUSE_FILTER_IGNORE 
@@ -219,7 +219,7 @@ func on_mouse_entered() -> void:
 	if is_toolbox_source:
 		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	else:
-		NewBlockVisuals.animate_labels(self, 1.0)
+		BlockVisuals.animate_labels(self, 1.0)
 	
 	if not custom_block_uuid.is_empty():
 		var description = block_data.info_text if block_data else ""
@@ -237,7 +237,7 @@ func on_mouse_entered() -> void:
 
 func on_mouse_exited() -> void:
 	if not is_toolbox_source:
-		NewBlockVisuals.animate_labels(self, 0.0)
+		BlockVisuals.animate_labels(self, 0.0)
 	
 	Events.info_text_hide_requested.emit()
 
@@ -252,7 +252,7 @@ func on_events_custom_block_changed(uuid: String, new_ports: Array) -> void:
 		block_data.ports = typed_ports
 		
 		update_visuals()
-		NewBlockVisuals.update_labels_text(self)
+		BlockVisuals.update_labels_text(self)
 
 func ensure_geometry():
 	var pts = PackedVector2Array()
@@ -325,19 +325,19 @@ func animate_port(side: Side, target_depth: float, connection_anim: bool = false
 		0.4 if connection_anim else 0.25
 	)
 
-func get_target_offset(side: Side, type: PortType) -> float:
+func get_target_offset(side: Side, type: BlockData.Port) -> float:
 	var is_conn = connections[side]
 	var depth = DEPTH_CONNECTED if is_conn else DEPTH_NORMAL
 	
 	match type:
-		PortType.NONE: return 0.0
-		PortType.IN:
+		BlockData.Port.NONE: return 0.0
+		BlockData.Port.INPUT:
 			match side:
 				Side.TOP: return depth
 				Side.BOTTOM: return -depth
 				Side.RIGHT: return -depth
 				Side.LEFT: return depth
-		PortType.OUT:
+		BlockData.Port.OUTPUT:
 			match side:
 				Side.TOP: return -depth
 				Side.BOTTOM: return depth
@@ -345,13 +345,13 @@ func get_target_offset(side: Side, type: PortType) -> float:
 				Side.LEFT: return -depth
 	return 0.0
 
-func update_side(side: int, new_type: PortType):
+func update_side(side: int, new_type: BlockData.Port):
 	var target = get_target_offset(side, new_type)
 	animate_port(side, target)
 
 func set_connected(side: int, is_conn: bool):
 	connections[side] = is_conn
-	var current_type = PortType.NONE
+	var current_type = BlockData.Port.NONE
 	
 	match side:
 		Side.TOP: current_type = top_type
