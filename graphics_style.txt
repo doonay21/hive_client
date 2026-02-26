@@ -1,0 +1,4 @@
+UI
+	zaokrąglenie		12%
+	grubość krawędzi	2
+	alpha tła			

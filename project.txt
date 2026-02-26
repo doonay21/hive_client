@@ -1,15 +1,15 @@
 Hive Bytes
 
 Opis:
-    Interfejs programowania autonomicznych robotów poszukujących złota.
+	Interfejs programowania autonomicznych robotów poszukujących złota.
 
 Świat:
-    Dyskretny. Matryca 200x200 pikseli. Każdy piksel to dokładnie jedna rzecz.
-    W danej pozycji może być wyłącznie jeden robot. Robot nie może wchodzić na materię, złoto ani innego robota.
-    Kopanie materii polega na wywołaniu akcji "kop", która w usuwa materię znajdującą się dokładnie przed robotem.
+	Dyskretny. Matryca 200x200 pikseli. Każdy piksel to dokładnie jedna rzecz.
+	W danej pozycji może być wyłącznie jeden robot. Robot nie może wchodzić na materię, złoto ani innego robota.
+	Kopanie materii polega na wywołaniu akcji "kop", która w usuwa materię znajdującą się dokładnie przed robotem.
 	Usunięcie 1 bloku materii wymaga wykonania akcji kop X razy (zależnie od rodzaju materii). Każdy obiekt materii posiada własny stan i pamięć włśanych uszkodzeń, roboty mogą współpracować przy niszczeniu bloków.
-    Zbieranie złota odbywa się na tej samej zasadzie jak kopanie materii.
-    Wykopana materia bezpowrotnie znika. Wykopane złoto zasila wirtualny portfel gracza.
+	Zbieranie złota odbywa się na tej samej zasadzie jak kopanie materii.
+	Wykopana materia bezpowrotnie znika. Wykopane złoto zasila wirtualny portfel gracza.
 	Przed każdym taktem losowana jest przypadkowa kolejność symulacji robotów.
 	
 	Możliwe elementy świata:
@@ -21,534 +21,534 @@ Opis:
 		robot: czerwony, brak możliwości usunięcia
 
 Generacja mapy:
-    Mapa generowana jest proceduralnie. Generowane są skomplikowane struktury geometryczne.
-    Złoto generowane jest w żyłach w większości wewnątrz struktur geometrycznych.
-    Po środku mapy generowany jest pusty obszar "spawn area" o średnicy 12 pikseli.
+	Mapa generowana jest proceduralnie. Generowane są skomplikowane struktury geometryczne.
+	Złoto generowane jest w żyłach w większości wewnątrz struktur geometrycznych.
+	Po środku mapy generowany jest pusty obszar "spawn area" o średnicy 12 pikseli.
 
 Robot:
-    Zajmuje 1 piksel. Programowany przez gracza, autonomicznie porusza się po świecie, wykopuje materię, szuka i zbiera złoto.
-    Ma swój zwrot. Może się poruszać w 4 kierunkach (NESW), nigdy na ukos. Może się obracać w lewo, prawo i o 180 stopni.
-    Robot porusza się dyskretnie, z jednostajną prędkością (zgodnie z taktem symulacji). W danym takcie może się obrócić, poruszyć lub wykonać akcję kopania.
-    Robot wykonuje jedną akcję w danym takcie: idź, skręć, kop. Akcja wybierana jest na podstawie siły sygnału, a w przypadku remisu obowiązuje hierarchia: Kop > Obrót LP > Obrót 180 > Ruch. W przypadku remisu obrotu LP stosuje sie hierarchię Prawo > Lewo.
-    Wzrok robota polega na wyrażeniu odległości do przeszkody na dystansie 10 jednostek sygnałem. Wzrok działa na maksymalnym dystancie 10 jednostek. Sygnał 1.0 oznacza, że materia jest bezpośrednio przed robotem, a 0.0 oznacza, że robot na dystansie 10 pikseli widzi pustkę.
+	Zajmuje 1 piksel. Programowany przez gracza, autonomicznie porusza się po świecie, wykopuje materię, szuka i zbiera złoto.
+	Ma swój zwrot. Może się poruszać w 4 kierunkach (NESW), nigdy na ukos. Może się obracać w lewo, prawo i o 180 stopni.
+	Robot porusza się dyskretnie, z jednostajną prędkością (zgodnie z taktem symulacji). W danym takcie może się obrócić, poruszyć lub wykonać akcję kopania.
+	Robot wykonuje jedną akcję w danym takcie: idź, skręć, kop. Akcja wybierana jest na podstawie siły sygnału, a w przypadku remisu obowiązuje hierarchia: Kop > Obrót LP > Obrót 180 > Ruch. W przypadku remisu obrotu LP stosuje sie hierarchię Prawo > Lewo.
+	Wzrok robota polega na wyrażeniu odległości do przeszkody na dystansie 10 jednostek sygnałem. Wzrok działa na maksymalnym dystancie 10 jednostek. Sygnał 1.0 oznacza, że materia jest bezpośrednio przed robotem, a 0.0 oznacza, że robot na dystansie 10 pikseli widzi pustkę.
 	Robot nie ma poziomu energii, w ogóle to pojęcie nie występuje w tej grze.
-    Pozycja startowa jest losowym punktem z "spawn area".
-    Gracz może mieć max 100 robotów na jednej mapie.
-    
-    Sensory:
-        - wzrok: co widzi na dystansie 10 jednostek przed sobą, w lewej i z prawej
-        - ruch: czy w poprzednim takcie robot się poruszył
-        - skaner geologiczny: czy na dystansie 2 pikseli przed sobą znajduje się złoto
-        - czy materia bezpośrednio przed robotem może być wykopana
-    
-    Elementy wykonawcze:
-        - obróć się w lewo
-        - idź do przodu
-        - obróć się w prawo
-        - obróć się o 180 stopni
-        - kop/zbieraj
-    
+	Pozycja startowa jest losowym punktem z "spawn area".
+	Gracz może mieć max 100 robotów na jednej mapie.
+	
+	Sensory:
+		- wzrok: co widzi na dystansie 10 jednostek przed sobą, w lewej i z prawej
+		- ruch: czy w poprzednim takcie robot się poruszył
+		- skaner geologiczny: czy na dystansie 2 pikseli przed sobą znajduje się złoto
+		- czy materia bezpośrednio przed robotem może być wykopana
+	
+	Elementy wykonawcze:
+		- obróć się w lewo
+		- idź do przodu
+		- obróć się w prawo
+		- obróć się o 180 stopni
+		- kop/zbieraj
+	
 Program:
-    Program składa się z klocków umieszczanych przez gracza na matrycy 5x5, 7x7 lub 9x9 (pierwsze poziomy tutorial będą na mniejszej matrycy, większe dostępne do zakupu za złoto).
-    Klocki łączą się ze sobą podobnie do puzzli. Wyjście to wypukły trójkąt, wejście to wklęsły trójkąt.
-    Wykonywanie programu polega na przekształcaniu sygnału analogowego w zakresie 0.0 - 1.0.
-    Każdy klocek może mieć od 1 do 4 wejśc/wyjść. Są one umieszczone na 4 krawędziach klocka.
-    Sygnał podąża od wejścia/wejść do wyjścia/wyjść. Wyjątkiem jest "bezprzewodowy" nadajnik sygnału.
-    Sygnał poddany jest funkcji "clamp" przed podaniem go na wyjście. Sygnał zawsze utrzymuje zakres 0.0 - 1.0.
-    System wykorzystuje mechanizm relaksacji sygnału w pętli (max 50 mikro ticków),
-    Klocki umieszczone w swojej bezpośredniej bliskości wymieniają się sygnałem pod warunkiem, że ich stykające się krawędzie są kompatybilne: wyjście -> wejście.
-    Przekazanie sygnału na dalsze odległości jest możliwe przez użycie klocków typu "przewód" lub nadajnik. Nadajnik i odbiornik komunikują się w ramach robota osobno, kanały nie są współdzielone między robotami.
+	Program składa się z klocków umieszczanych przez gracza na matrycy 5x5, 7x7 lub 9x9 (pierwsze poziomy tutorial będą na mniejszej matrycy, większe dostępne do zakupu za złoto).
+	Klocki łączą się ze sobą podobnie do puzzli. Wyjście to wypukły trójkąt, wejście to wklęsły trójkąt.
+	Wykonywanie programu polega na przekształcaniu sygnału analogowego w zakresie 0.0 - 1.0.
+	Każdy klocek może mieć od 1 do 4 wejśc/wyjść. Są one umieszczone na 4 krawędziach klocka.
+	Sygnał podąża od wejścia/wejść do wyjścia/wyjść. Wyjątkiem jest "bezprzewodowy" nadajnik sygnału.
+	Sygnał poddany jest funkcji "clamp" przed podaniem go na wyjście. Sygnał zawsze utrzymuje zakres 0.0 - 1.0.
+	System wykorzystuje mechanizm relaksacji sygnału w pętli (max 50 mikro ticków),
+	Klocki umieszczone w swojej bezpośredniej bliskości wymieniają się sygnałem pod warunkiem, że ich stykające się krawędzie są kompatybilne: wyjście -> wejście.
+	Przekazanie sygnału na dalsze odległości jest możliwe przez użycie klocków typu "przewód" lub nadajnik. Nadajnik i odbiornik komunikują się w ramach robota osobno, kanały nie są współdzielone między robotami.
 
 Własne klocki:
-    Gracz może tworzyć własne klocki wykonawcze. Edycja własnego klocka włącza osobną matrycę 5x5.
-    Matryca 5x5 własnego klocka działa na tej samej zasadzie co główna z różnicą wynikającą z określania wejść/wyjść tworzonego klocka.
-    Na każdej krawędzi matrycy środkowe sloty to wejścia/wyjścia układu. Gracz decyduje (zmienia) czy dana krawędź to wejście, wyjście czy nic.
-    W matrycy własnego klocka można umieszczać dowolne klocki sygnałowe, logiczne i wykonawcze.
-    Umieszczanie własnych klocków wewnątrz matryc własnych klocków jest zabronione.
-    Uwaga: Nie ma możliwości by własny klocek miał więcej niż 1 wejście/wyjście na krawędź!
+	Gracz może tworzyć własne klocki wykonawcze. Edycja własnego klocka włącza osobną matrycę 5x5.
+	Matryca 5x5 własnego klocka działa na tej samej zasadzie co główna z różnicą wynikającą z określania wejść/wyjść tworzonego klocka.
+	Na każdej krawędzi matrycy środkowe sloty to wejścia/wyjścia układu. Gracz decyduje (zmienia) czy dana krawędź to wejście, wyjście czy nic.
+	W matrycy własnego klocka można umieszczać dowolne klocki sygnałowe, logiczne i wykonawcze.
+	Umieszczanie własnych klocków wewnątrz matryc własnych klocków jest zabronione.
+	Uwaga: Nie ma możliwości by własny klocek miał więcej niż 1 wejście/wyjście na krawędź!
 
 Klocki:
-    Klocki to kwadraty z wejściamy/wyjściami na 4 krawędziach.
-    Klocki można obracać o 90, 180 i 270 stopni w każdym kierunku.
-    Klocki łączą się wyłącznie poprzez połączenie wejścia z wyjściem (lub klockiem bezprzewodowym).
-    Klocki mogą być dodawane w dowolnej ilości bez ograniczeń innych niż dostępna przestrzeń.
-    
-    Lista:
-        Wzrok
-            Opis: Dystans do widzianej przeszkody z 3 stron robota. Maksymalnie 10 jednostek (pikseli).
-            IO:
-                N - wyjście (wzrok front)
-                E - wyjście (wzrok prawo)
-                S - NIC
-                W - wyjście (wzrok lewo)
-            Opcje dodatkowe: brak
+	Klocki to kwadraty z wejściamy/wyjściami na 4 krawędziach.
+	Klocki można obracać o 90, 180 i 270 stopni w każdym kierunku.
+	Klocki łączą się wyłącznie poprzez połączenie wejścia z wyjściem (lub klockiem bezprzewodowym).
+	Klocki mogą być dodawane w dowolnej ilości bez ograniczeń innych niż dostępna przestrzeń.
+	
+	Lista:
+		Wzrok
+			Opis: Dystans do widzianej przeszkody z 3 stron robota. Maksymalnie 10 jednostek (pikseli).
+			IO:
+				N - wyjście (wzrok front)
+				E - wyjście (wzrok prawo)
+				S - NIC
+				W - wyjście (wzrok lewo)
+			Opcje dodatkowe: brak
 
-        Ruch?
-            Opis: Ustawia na wyjściu wartość 1.0 jeśli w poprzednim takcie robot wykonał ruch (tylko zmiana pozycji w świecie).
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        Kopanie?
-            Opis: Ustawia na wyjściu wartość 1.0 jeśli bezpośrednio przed robotem jest materiał, który można kopać.
-            IO:
-                N - wyjście
-                E - NIC
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        Zmysł
-            Opis: Ustawia na wyjściu wartość 1.0 jeśli bezpośrednio przed robotem jest materiał danego typu (typ konfigurowalny na klocku).
-            IO:
-                N - wyjście
-                E - NIC
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
+		Ruch?
+			Opis: Ustawia na wyjściu wartość 1.0 jeśli w poprzednim takcie robot wykonał ruch (tylko zmiana pozycji w świecie).
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		Kopanie?
+			Opis: Ustawia na wyjściu wartość 1.0 jeśli bezpośrednio przed robotem jest materiał, który można kopać.
+			IO:
+				N - wyjście
+				E - NIC
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		Zmysł
+			Opis: Ustawia na wyjściu wartość 1.0 jeśli bezpośrednio przed robotem jest materiał danego typu (typ konfigurowalny na klocku).
+			IO:
+				N - wyjście
+				E - NIC
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: brak
 
-        Geoskan Mk1
-            Opis: Skaner złota na dystansie 2 jednostek dookoła robota. 0.0: brak złota, 0.5: złoto na dystansie 2 jednostek, 1.0: złoto bezpośrednio przy robocie.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        Geoskan Mk2
-            Opis: Skaner złota na dystansie 5 jednostek dookoła robota. 0.0: brak złota, 1.0: złoto bezpośrednio przy robocie. Pośrednie stany zgodnie ze wzorem: out = max(0.0, 1.0 - (dist/r_max))
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        Geoskan Mk3
-            Opis: Skaner złota na dystansie 15 jednostek przed robotem. Sygnał proporcjonalny do odległości, gdzie 0.0 to brak złota, 1.0 to złoto bezpośrednio przed robotem.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
+		Geoskan Mk1
+			Opis: Skaner złota na dystansie 2 jednostek dookoła robota. 0.0: brak złota, 0.5: złoto na dystansie 2 jednostek, 1.0: złoto bezpośrednio przy robocie.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		Geoskan Mk2
+			Opis: Skaner złota na dystansie 5 jednostek dookoła robota. 0.0: brak złota, 1.0: złoto bezpośrednio przy robocie. Pośrednie stany zgodnie ze wzorem: out = max(0.0, 1.0 - (dist/r_max))
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		Geoskan Mk3
+			Opis: Skaner złota na dystansie 15 jednostek przed robotem. Sygnał proporcjonalny do odległości, gdzie 0.0 to brak złota, 1.0 to złoto bezpośrednio przed robotem.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: brak
 
-        Kompas
-            Opis: Zwraca sygnał zależny od kierunku obrotu robota. Sygnały wyjść:
-                - EW: 0.0=W, 1.0=E, 0.5=N/S
-                - NS: 0.0=N, 1.0=S, 0.4=E/W
-            IO:
-                N - NIC
-                E - wyjście EW
-                S - wyjście NS
-                W - NIC
-            Opcje dodatkowe: brak
+		Kompas
+			Opis: Zwraca sygnał zależny od kierunku obrotu robota. Sygnały wyjść:
+				- EW: 0.0=W, 1.0=E, 0.5=N/S
+				- NS: 0.0=N, 1.0=S, 0.4=E/W
+			IO:
+				N - NIC
+				E - wyjście EW
+				S - wyjście NS
+				W - NIC
+			Opcje dodatkowe: brak
 
 		Zegar
-            Opis: Generuje chwilowy impuls 1.0 co X taktów symulacji.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: Wybór co ile taktów symulacji generować impuls 1.0 na wyjściu.
+			Opis: Generuje chwilowy impuls 1.0 co X taktów symulacji.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: Wybór co ile taktów symulacji generować impuls 1.0 na wyjściu.
 
-        Odwróć
-            Opis: Odwraca sygnał A zgodnie ze wzorem Out = 1.0 - In. Efektywnie odwraca natężenie sygnału.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Odwróć
+			Opis: Odwraca sygnał A zgodnie ze wzorem Out = 1.0 - In. Efektywnie odwraca natężenie sygnału.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Porównaj
-            Opis: Zwraca 1.0, jeśli sygnał A jest większy od B, w przeciwnym razie zwraca 0.0.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Porównaj
+			Opis: Zwraca 1.0, jeśli sygnał A jest większy od B, w przeciwnym razie zwraca 0.0.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Minimum
-            Opis: Zwraca mniejszy z dwóch sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Minimum
+			Opis: Zwraca mniejszy z dwóch sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Maksimum
-            Opis: Zwraca większy z dwóch sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Maksimum
+			Opis: Zwraca większy z dwóch sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Dodaj
-            Opis: Zwraca sumę sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Dodaj
+			Opis: Zwraca sumę sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Odejmij
-            Opis: Zwraca różnicę sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Odejmij
+			Opis: Zwraca różnicę sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Pomnóż
-            Opis: Zwraca iloczyn sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
-        
-        Podziel
-            Opis: Zwraca iloraz sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
-        
-        Reszta z dzielenia
-            Opis: Zwraca resztę z dzielenia sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
-        
-        Średnia
-            Opis: Zwraca średnią sygnałów A i B.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Pomnóż
+			Opis: Zwraca iloczyn sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
+		
+		Podziel
+			Opis: Zwraca iloraz sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
+		
+		Reszta z dzielenia
+			Opis: Zwraca resztę z dzielenia sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
+		
+		Średnia
+			Opis: Zwraca średnią sygnałów A i B.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Abs
-            Opis: Zwraca wartość absolutną różnicy sygnałów A i B zgodnie ze wzorem Out = |A - B|.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Abs
+			Opis: Zwraca wartość absolutną różnicy sygnałów A i B zgodnie ze wzorem Out = |A - B|.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Opóźnienie
-            Opis: Przekazuje na wyjście sygnał z wejścia ze skonfigurowanym opóźnieniem.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: Wybór ilości taktów opóźnienia (od 1 do 100).
+		Opóźnienie
+			Opis: Przekazuje na wyjście sygnał z wejścia ze skonfigurowanym opóźnieniem.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: Wybór ilości taktów opóźnienia (od 1 do 100).
 
-        Pamięć
-            Opis: Utrzymuje na wyjściu stałą wartość 1.0 po otrzymaniu sygnału A, sygnał B zeruje wartość wyjściową. Próg aktywacji: 0.5.
-            IO:
-                N - NIC
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Pamięć
+			Opis: Utrzymuje na wyjściu stałą wartość 1.0 po otrzymaniu sygnału A, sygnał B zeruje wartość wyjściową. Próg aktywacji: 0.5.
+			IO:
+				N - NIC
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Licznik
-            Opis: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls 1.0 na wyjściu po czym ustawia wewnętrzną wartość licznika na resztę.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Licznik
+			Opis: Kumuluje sygnał wejściowy do osiągnięcia 1.0, po czym wysyła impuls 1.0 na wyjściu po czym ustawia wewnętrzną wartość licznika na resztę.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Przełącznik
-            Opis: Przekazuje na wyjście sygnał A, gdy wejście CON jest niskie, lub sygnał B, gdy CON przekroczy 0.5.
-            IO:
-                N - wejście CON
-                E - sygnał B
-                S - wyjście
-                W - sygnał A
-            Opcje dodatkowe: brak
+		Przełącznik
+			Opis: Przekazuje na wyjście sygnał A, gdy wejście CON jest niskie, lub sygnał B, gdy CON przekroczy 0.5.
+			IO:
+				N - wejście CON
+				E - sygnał B
+				S - wyjście
+				W - sygnał A
+			Opcje dodatkowe: brak
 
-        Krawędź
-            Opis: Generuje chwilowy (1 takt) impuls 1.0 na wyjściu, gdy sygnał wejściowy wzrośnie powyżej poziomu 0.5.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Krawędź
+			Opis: Generuje chwilowy (1 takt) impuls 1.0 na wyjściu, gdy sygnał wejściowy wzrośnie powyżej poziomu 0.5.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Próg (histereza)
-            Opis: Ustawia wyjście na 1.0, gdy sygnał wejściowy przekroczy 0.8, i utrzymuje je do momentu spadku sygnału poniżej 0.2.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Próg (histereza)
+			Opis: Ustawia wyjście na 1.0, gdy sygnał wejściowy przekroczy 0.8, i utrzymuje je do momentu spadku sygnału poniżej 0.2.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Emiter
-            Opis: Wysyła sygnał A lokalnie do Odbiornika na matrycy tego robota.
-            IO:
-                N - NIC
-                E - NIC
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: Wybór kanału nadawczego. Dostępne 5 kanałów: CH1, CH2, CH3, CH4, CH5
+		Emiter
+			Opis: Wysyła sygnał A lokalnie do Odbiornika na matrycy tego robota.
+			IO:
+				N - NIC
+				E - NIC
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: Wybór kanału nadawczego. Dostępne 5 kanałów: CH1, CH2, CH3, CH4, CH5
 
-        Odbiornik
-            Opis: Odczytuje lokalny sygnał z Emitera na matrycy tego robota.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: Wybór kanału odbiorczego. Dostępne 5 kanałów: CH1, CH2, CH3, CH4, CH5
-        
-        W lewo
-            Opis: Skręć w lewo
-            IO:
-                N - NIC
-                E - NIC
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Odbiornik
+			Opis: Odczytuje lokalny sygnał z Emitera na matrycy tego robota.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: Wybór kanału odbiorczego. Dostępne 5 kanałów: CH1, CH2, CH3, CH4, CH5
+		
+		W lewo
+			Opis: Skręć w lewo
+			IO:
+				N - NIC
+				E - NIC
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Idź
-            Opis: Idź do przodu.
-            IO:
-                N - NIC
-                E - NIC
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Idź
+			Opis: Idź do przodu.
+			IO:
+				N - NIC
+				E - NIC
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        W prawo
-            Opis: Skręć w prawo
-            IO:
-                N - NIC
-                E - NIC
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		W prawo
+			Opis: Skręć w prawo
+			IO:
+				N - NIC
+				E - NIC
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        180 stopni
-            Opis: Skręć o 180 stopni.
-            IO:
-                N - NIC
-                E - NIC
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		180 stopni
+			Opis: Skręć o 180 stopni.
+			IO:
+				N - NIC
+				E - NIC
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Kop
-            Opis: Wykonaj akcję kopania.
-            IO:
-                N - NIC
-                E - NIC
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Kop
+			Opis: Wykonaj akcję kopania.
+			IO:
+				N - NIC
+				E - NIC
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Stała
-            Opis: Wmituje na wyjściu sygnał o określonej mocy/wartości.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: Wybór mocy sygnału (0.0 - 1.0).
+		Stała
+			Opis: Wmituje na wyjściu sygnał o określonej mocy/wartości.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: Wybór mocy sygnału (0.0 - 1.0).
 
-        Sinus
-            Opis: Generuje sygnał zmienny w czasie (Sin(time)).
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - NIC
-            Opcje dodatkowe: brak
+		Sinus
+			Opis: Generuje sygnał zmienny w czasie (Sin(time)).
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - NIC
+			Opcje dodatkowe: brak
 
-        Losowość
-            Opis: Ustawia na wyjściu losową wartość za każdym razem jak sygnał na wejściu przekroczy 0.5.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Losowość
+			Opis: Ustawia na wyjściu losową wartość za każdym razem jak sygnał na wejściu przekroczy 0.5.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Tył
-            Opis: Zwraca odległość do przeszkody z tyłu. Zasięg 2 jednostki. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed.
-            IO:
-                N - NIC
-                E - NIC
-                S - wyjście
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        Radio TX
-            Opis: Wysyła do 4 sygnałów do innych robotów. Możliwość wyboru priorytetu sygnału.
-            IO:
-                N - wejście
-                E - wejście
-                S - wejście
-                W - wejście
-            Opcje dodatkowe: Wybór priorytetu sygnału (0 - 10).
-        
-        Radio Rx
-            Opis: Odbiera do 4 sygnałów wysłanych blokiem TX przez inne roboty. W przypadku konfliktu wygrywa sygnał o wyższym priorytecie.
-            IO:
-                N - wyjście
-                E - wyjście
-                S - wyjście
-                W - wyjście
-            Opcje dodatkowe: brak
-        
-        GPS
-            Opis: Zwraca znormalizowaną pozycję robota na mapie.
-            IO:
-                N - NIC
-                E - wyjście X
-                S - wyjście Y
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        ID
-            Opis: Zwraca unikalny identyfikator robota.
-            IO:
-                N - NIC
-                E - NIC
-                S - wyjście
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        Równość
-            Opis: Zwraca 1.0 jeśli sygnały są równe, 0.0 w przeciwnym przypadku.
-            IO:
-                N - NIC
-                E - wejście
-                S - wyjście
-                W - wejście
-            Opcje dodatkowe: brak
-        
-        Różnica
-            Opis: Oblicza przesuniętą różnicę. Wyjście 0.5 oznacza, że sygnały są równe (A = B). Wartości < 0.5 to A < B, a > 0.5 to A > B.
-            IO:
-                N - wejście
-                E - wyjście
-                S - wejście
-                W - NIC
-            Opcje dodatkowe: brak
-        
-        Azymut
-            Opis: Oblicza kąt do celu na podstawie sygnałów z bloków Różnica (dX i dY). 0.0 - góra, 0.25 - prawo, 0.5 - dół, 0.75 - lewo.
-            IO:
-                N - wejście
-                E - NIC
-                S - wyjście
-                W - wejście
-            Opcje dodatkowe: brak
-        
-        Pierwiastek
-            Opis: Zwraca pierwiastek kwadratowy sygnału wejściowego.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
-        
-        Rejestr
-            Opis: Zapamiętuje i trzyma dokładną wartość sygnału A w momencie, gdy sygnał B (zapis) jest wysoki (> 0.5).
-            IO:
-                N - wejście
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Tył
+			Opis: Zwraca odległość do przeszkody z tyłu. Zasięg 2 jednostki. 0.0 - brak przeszkód, 1.0 - przeszkoda bezpośrednio przed.
+			IO:
+				N - NIC
+				E - NIC
+				S - wyjście
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		Radio TX
+			Opis: Wysyła do 4 sygnałów do innych robotów. Możliwość wyboru priorytetu sygnału.
+			IO:
+				N - wejście
+				E - wejście
+				S - wejście
+				W - wejście
+			Opcje dodatkowe: Wybór priorytetu sygnału (0 - 10).
+		
+		Radio Rx
+			Opis: Odbiera do 4 sygnałów wysłanych blokiem TX przez inne roboty. W przypadku konfliktu wygrywa sygnał o wyższym priorytecie.
+			IO:
+				N - wyjście
+				E - wyjście
+				S - wyjście
+				W - wyjście
+			Opcje dodatkowe: brak
+		
+		GPS
+			Opis: Zwraca znormalizowaną pozycję robota na mapie.
+			IO:
+				N - NIC
+				E - wyjście X
+				S - wyjście Y
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		ID
+			Opis: Zwraca unikalny identyfikator robota.
+			IO:
+				N - NIC
+				E - NIC
+				S - wyjście
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		Równość
+			Opis: Zwraca 1.0 jeśli sygnały są równe, 0.0 w przeciwnym przypadku.
+			IO:
+				N - NIC
+				E - wejście
+				S - wyjście
+				W - wejście
+			Opcje dodatkowe: brak
+		
+		Różnica
+			Opis: Oblicza przesuniętą różnicę. Wyjście 0.5 oznacza, że sygnały są równe (A = B). Wartości < 0.5 to A < B, a > 0.5 to A > B.
+			IO:
+				N - wejście
+				E - wyjście
+				S - wejście
+				W - NIC
+			Opcje dodatkowe: brak
+		
+		Azymut
+			Opis: Oblicza kąt do celu na podstawie sygnałów z bloków Różnica (dX i dY). 0.0 - góra, 0.25 - prawo, 0.5 - dół, 0.75 - lewo.
+			IO:
+				N - wejście
+				E - NIC
+				S - wyjście
+				W - wejście
+			Opcje dodatkowe: brak
+		
+		Pierwiastek
+			Opis: Zwraca pierwiastek kwadratowy sygnału wejściowego.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
+		
+		Rejestr
+			Opis: Zapamiętuje i trzyma dokładną wartość sygnału A w momencie, gdy sygnał B (zapis) jest wysoki (> 0.5).
+			IO:
+				N - wejście
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Przewód W -> E
-            Opis: Łączy wejście z wyjściem.
-            IO:
-                N - NIC
-                E - wyjście
-                S - NIC
-                W - wejście
-            Opcje dodatkowe: brak
+		Przewód W -> E
+			Opis: Łączy wejście z wyjściem.
+			IO:
+				N - NIC
+				E - wyjście
+				S - NIC
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Przewód E -> S
-            Opis: Łączy wejście z wyjściem.
-            IO:
-                N - NIC
-                E - wejście
-                S - wyjście
-                W - NIC
-            Opcje dodatkowe: brak
+		Przewód E -> S
+			Opis: Łączy wejście z wyjściem.
+			IO:
+				N - NIC
+				E - wejście
+				S - wyjście
+				W - NIC
+			Opcje dodatkowe: brak
 
-        Przewód W -> S
-            Opis: Łączy wejście z wyjściem.
-            IO:
-                N - NIC
-                E - NIC
-                S - wyjście
-                W - wejście
-            Opcje dodatkowe: brak
+		Przewód W -> S
+			Opis: Łączy wejście z wyjściem.
+			IO:
+				N - NIC
+				E - NIC
+				S - wyjście
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Przewód W -> ES
-            Opis: Łączy wejście z wyjściami.
-            IO:
-                N - NIC
-                E - wyjście
-                S - wyjście
-                W - wejście
-            Opcje dodatkowe: brak
+		Przewód W -> ES
+			Opis: Łączy wejście z wyjściami.
+			IO:
+				N - NIC
+				E - wyjście
+				S - wyjście
+				W - wejście
+			Opcje dodatkowe: brak
 
-        Przewód E -> WS
-            Opis: Łączy wejście z wyjściami.
-            IO:
-                N - NIC
-                E - wejście
-                S - wyjście
-                W - wyjście
-            Opcje dodatkowe: brak
+		Przewód E -> WS
+			Opis: Łączy wejście z wyjściami.
+			IO:
+				N - NIC
+				E - wejście
+				S - wyjście
+				W - wyjście
+			Opcje dodatkowe: brak
 
-        Mostek W -> E i N -> S
-            Opis: Mostkuje połączenia z wejścia A do B i z C do D.
-            IO:
-                N - wejście C
-                E - wyjście B
-                S - wyjście D
-                W - wejście A
-            Opcje dodatkowe: brak
+		Mostek W -> E i N -> S
+			Opis: Mostkuje połączenia z wejścia A do B i z C do D.
+			IO:
+				N - wejście C
+				E - wyjście B
+				S - wyjście D
+				W - wejście A
+			Opcje dodatkowe: brak
 
-        Przewód N -> WES
-            Opis: Łączy wejście z wyjściami.
-            IO:
-                N - wejście
-                E - wyjście
-                S - wyjście
-                W - wyjście
-            Opcje dodatkowe: brak
+		Przewód N -> WES
+			Opis: Łączy wejście z wyjściami.
+			IO:
+				N - wejście
+				E - wyjście
+				S - wyjście
+				W - wyjście
+			Opcje dodatkowe: brak

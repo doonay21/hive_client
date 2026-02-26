@@ -16,6 +16,10 @@ anchors_preset = 0
 offset_right = 80.0
 offset_bottom = 80.0
 script = ExtResource("1_enlnb")
+depth_normal = 7.0
+depth_connected = 9.0
+port_base_width = 0.569
+port_tip_width = 0.417
 
 [node name="BackgroundContainer" type="Control" parent="." unique_id=491638887]
 layout_mode = 1
@@ -29,12 +33,12 @@ pivot_offset = Vector2(40, 40)
 [node name="Background" type="Polygon2D" parent="BackgroundContainer" unique_id=1442196252]
 unique_name_in_owner = true
 color = Color(1, 1, 1, 0.15)
-polygon = PackedVector2Array(2, 2, 26.4, 2, 40, 2, 52.8, 2, 78, 2, 78, 26.4, 78, 40, 78, 52.8, 78, 78, 52.8, 78, 40, 78, 26.4, 78, 2, 78, 2, 52.8, 2, 40, 2, 26.4)
+polygon = PackedVector2Array(2, 2, 17.24, 2, 23.32, 2, 56.68, 2, 62.76, 2, 78, 2, 78, 17.24, 78, 23.32, 78, 56.68, 78, 62.76, 78, 78, 62.76, 78, 56.68, 78, 23.32, 78, 17.24, 78, 2, 78, 2, 62.76, 2, 56.68, 2, 23.32, 2, 17.24)
 
 [node name="Border" type="Line2D" parent="BackgroundContainer" unique_id=1190427061]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_g2anl")
-points = PackedVector2Array(2, 2, 26.4, 2, 40, 2, 52.8, 2, 78, 2, 78, 26.4, 78, 40, 78, 52.8, 78, 78, 52.8, 78, 40, 78, 26.4, 78, 2, 78, 2, 52.8, 2, 40, 2, 26.4)
+points = PackedVector2Array(2, 2, 17.24, 2, 23.32, 2, 56.68, 2, 62.76, 2, 78, 2, 78, 17.24, 78, 23.32, 78, 56.68, 78, 62.76, 78, 78, 62.76, 78, 56.68, 78, 23.32, 78, 17.24, 78, 2, 78, 2, 62.76, 2, 56.68, 2, 23.32, 2, 17.24)
 closed = true
 width = 4.0
 texture_mode = 1
