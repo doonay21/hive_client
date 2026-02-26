@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://cbug8u6uxxpek"]
+
+[ext_resource type="Theme" uid="uid://cv4vijei3nug0" path="res://assets/themes/main_theme.tres" id="1_x01wl"]
+
+[sub_resource type="Gradient" id="Gradient_kgcqg"]
+colors = PackedColorArray(0.13333334, 0.16470589, 0.25490198, 1, 0.047058824, 0.09019608, 0.16862746, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x01wl"]
+gradient = SubResource("Gradient_kgcqg")
+width = 256
+height = 256
+use_hdr = true
+fill_to = Vector2(1, 1.1)
+
+[node name="ProgramEditor" type="Control" unique_id=258465918]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_x01wl")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=419403247]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_x01wl")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1595472544]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=66601147]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LeftPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=1352024206]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/LeftPanel" unique_id=1254189063]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/LeftPanel/MarginContainer" unique_id=292079351]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/LeftPanel/MarginContainer/VBoxContainer" unique_id=1719537963]
+layout_mode = 2
+text = "SAVE"
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/HBoxContainer" unique_id=1942769476]
+layout_mode = 2
+size_flags_horizontal = 3
+current_tab = 0
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/TabContainer" unique_id=1512253712]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/TabContainer" unique_id=1606160830]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1

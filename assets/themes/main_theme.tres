@@ -1,0 +1,33 @@
+[gd_resource type="Theme" format=3 uid="uid://cv4vijei3nug0"]
+
+[ext_resource type="Texture2D" uid="uid://c0jcn8jo7537v" path="res://assets/images/ui/ui_atlas.png" id="1_3f3va"]
+[ext_resource type="FontFile" uid="uid://do8tatbmbdtxc" path="res://assets/fonts/Exo2-Bold.ttf" id="2_lxams"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxams"]
+atlas = ExtResource("1_3f3va")
+region = Rect2(1, 1, 64, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vhku8"]
+texture = SubResource("AtlasTexture_lxams")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(1, 1, 1, 0.2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3f3va"]
+atlas = ExtResource("1_3f3va")
+region = Rect2(1, 1, 64, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lxams"]
+texture = SubResource("AtlasTexture_3f3va")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(1, 1, 1, 0.2)
+
+[resource]
+default_font = ExtResource("2_lxams")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_vhku8")
+TabContainer/styles/panel = SubResource("StyleBoxTexture_lxams")
