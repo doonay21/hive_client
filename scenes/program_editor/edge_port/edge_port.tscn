@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btoeb3y2m0wnm"]
 
 [ext_resource type="Script" uid="uid://bribjugovk62m" path="res://scenes/program_editor/edge_port/edge_port.gd" id="1_et6ps"]
-[ext_resource type="Texture2D" uid="uid://ce8l2he1u11cn" path="res://assets/images/brain_editor/edge_port_none.png" id="2_g0s30"]
+[ext_resource type="Texture2D" uid="uid://ce8l2he1u11cn" path="res://assets/images/program_editor/edge_port_none.png" id="2_g0s30"]
 
 [node name="EdgePort" type="Control" unique_id=962343000]
 modulate = Color(1, 1, 1, 0.2509804)

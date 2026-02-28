@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://clm65r8eai1ku"]
 
-[ext_resource type="Texture2D" uid="uid://cnc47k3ajf4cg" path="res://assets/images/brain_editor/block_icons/sense.png" id="1_g6707"]
+[ext_resource type="Texture2D" uid="uid://cnc47k3ajf4cg" path="res://assets/images/program_editor/block_icons/sense.png" id="1_g6707"]
 [ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_jy6r2"]
 
 [resource]

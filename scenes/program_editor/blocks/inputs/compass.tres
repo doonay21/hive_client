@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://kjm25ps86kkd"]
 
-[ext_resource type="Texture2D" uid="uid://bfxp1qyjrdc6v" path="res://assets/images/brain_editor/block_icons/compass.png" id="1_k74iy"]
+[ext_resource type="Texture2D" uid="uid://bfxp1qyjrdc6v" path="res://assets/images/program_editor/block_icons/compass.png" id="1_k74iy"]
 [ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_07fas"]
 
 [resource]
