@@ -1,6 +1,6 @@
 class_name ProgramNode extends Node2D
 
-const MISSING_IMAGE = preload("res://assets/images/brain_editor/block_icons/missing.png")
+const MISSING_IMAGE = preload("res://assets/images/program_editor/block_icons/missing.png")
 const ORIGINAL_SIZE: float = 44.0
 
 @onready var background: Sprite2D = $Background

@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://df8v6ufd87dd4"]
+
+[ext_resource type="Script" uid="uid://c0iy64o4vcqqe" path="res://scenes/program_editor/program_grid/program_grid.gd" id="1_mfx10"]
+[ext_resource type="PackedScene" uid="uid://btoeb3y2m0wnm" path="res://scenes/program_editor/edge_port/edge_port.tscn" id="2_1ofqj"]
+
+[node name="ProgramGrid" type="VBoxContainer" unique_id=54899681]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mfx10")
+
+[node name="LabelContainer" type="MarginContainer" parent="." unique_id=14845708]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+
+[node name="Label" type="Label" parent="LabelContainer" unique_id=1747844189]
+layout_mode = 2
+mouse_filter = 0
+text = "program_editor.new_program.def_descr"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2020567786]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1757712344]
+layout_mode = 2
+
+[node name="EdgePortTopContainer" type="Control" parent="CenterContainer/VBoxContainer" unique_id=324571880]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="EdgePortTop" parent="CenterContainer/VBoxContainer/EdgePortTopContainer" unique_id=962343000 instance=ExtResource("2_1ofqj")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 40.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 3.1415927
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1841477857]
+layout_mode = 2
+
+[node name="EdgePortLeftContainer" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1384178102]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+
+[node name="EdgePortLeft" parent="CenterContainer/VBoxContainer/HBoxContainer/EdgePortLeftContainer" unique_id=857531997 instance=ExtResource("2_1ofqj")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -10.0
+offset_right = 43.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+size_flags_horizontal = 0
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=538455667]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="EdgePortRightContainer" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=576347966]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+
+[node name="EdgePortRight" parent="CenterContainer/VBoxContainer/HBoxContainer/EdgePortRightContainer" unique_id=1445254675 instance=ExtResource("2_1ofqj")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -10.0
+offset_right = 37.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 4.712389
+size_flags_horizontal = 0
+
+[node name="EdgePortBottomContainer" type="Control" parent="CenterContainer/VBoxContainer" unique_id=148349425]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="EdgePortBottom" parent="CenterContainer/VBoxContainer/EdgePortBottomContainer" unique_id=1682371389 instance=ExtResource("2_1ofqj")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.0
+offset_top = -14.0
+offset_right = 39.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PopupMenu" type="PopupMenu" parent="." unique_id=640846781]
+item_count = 3
+item_0/text = "program_editor.edge_port.none"
+item_0/id = 0
+item_1/text = "program_editor.edge_port.input"
+item_1/id = 1
+item_2/text = "program_editor.edge_port.output"
+item_2/id = 2
+
+[connection signal="id_pressed" from="PopupMenu" to="." method="on_context_menu_id_pressed"]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://bswda4dd1vtaj"]
+
+[ext_resource type="Texture2D" uid="uid://di8k71pi5g3dy" path="res://assets/images/brain_editor/block_icons/can_dig.png" id="1_nnto1"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_p4o8c"]
+
+[resource]
+script = ExtResource("2_p4o8c")
+display_name = "blocks.can_dig.title"
+op = 45
+icon = ExtResource("1_nnto1")
+ports = [2, 0, 0, 0]
+info_text = "blocks.can_dig.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

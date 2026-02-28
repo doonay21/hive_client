@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://bl5mamm0j7d2w"]
+
+[ext_resource type="Texture2D" uid="uid://cseggd1yrx7uo" path="res://assets/images/brain_editor/block_icons/geo.png" id="1_vgnpy"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_3jkve"]
+
+[resource]
+script = ExtResource("2_3jkve")
+display_name = "blocks.geo_mk2.title"
+op = 46
+icon = ExtResource("1_vgnpy")
+ports = [0, 2, 0, 0]
+info_text = "blocks.geo_mk2.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

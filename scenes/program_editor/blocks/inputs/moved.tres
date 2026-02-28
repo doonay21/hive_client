@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://cd3377n5wjdfv"]
+
+[ext_resource type="Texture2D" uid="uid://b4fvve0jgprtc" path="res://assets/images/brain_editor/block_icons/moved.png" id="1_armcn"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_ojo5k"]
+
+[resource]
+script = ExtResource("2_ojo5k")
+display_name = "blocks.moved.title"
+op = 2
+icon = ExtResource("1_armcn")
+ports = [0, 2, 0, 0]
+info_text = "blocks.moved.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

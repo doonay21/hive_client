@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://b5nhwlavmvxoa"]
+
+[ext_resource type="Texture2D" uid="uid://cwcl6mrtc8rta" path="res://assets/images/brain_editor/block_icons/turn_around.png" id="1_xbbsr"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_14owd"]
+
+[resource]
+script = ExtResource("2_14owd")
+display_name = "blocks.turn.around.title"
+op = 31
+icon = ExtResource("1_xbbsr")
+style = 2
+ports = [0, 0, 0, 1]
+info_text = "blocks.turn.around.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://c7t4h83eaf47u"]
+
+[ext_resource type="Texture2D" uid="uid://bocc2hfkdad5o" path="res://assets/images/brain_editor/block_icons/constant.png" id="1_mllro"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_m6rcq"]
+
+[resource]
+script = ExtResource("2_m6rcq")
+display_name = "blocks.constant.title"
+op = 33
+icon = ExtResource("1_mllro")
+display = 2
+style = 3
+ports = [0, 2, 0, 0]
+info_text = "blocks.constant.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

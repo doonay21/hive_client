@@ -1,4 +1,4 @@
-brain_editor:
+program_editor:
   save: Save
   program_label: "Program: {program_name}"
   main: Main program

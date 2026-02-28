@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://clm65r8eai1ku"]
+
+[ext_resource type="Texture2D" uid="uid://cnc47k3ajf4cg" path="res://assets/images/brain_editor/block_icons/sense.png" id="1_g6707"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_jy6r2"]
+
+[resource]
+script = ExtResource("2_jy6r2")
+display_name = "blocks.sense.title"
+op = 44
+icon = ExtResource("1_g6707")
+display = 2
+ports = [2, 0, 0, 0]
+info_text = "blocks.sense.info"
+value_mode = 3
+value_strings = Array[String](["map.material_type.void", "map.material_type.soft_rock", "map.material_type.hard_rock", "map.material_type.bedrock", "map.material_type.gold", "map.material_type.robot"])
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

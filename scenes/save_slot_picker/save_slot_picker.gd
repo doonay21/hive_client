@@ -1,6 +1,6 @@
 class_name SaveSlotPicker extends Control
 
-const brain_editor_scene: PackedScene = preload("res://scenes/brain_editor/brain_editor.tscn")
+const program_editor_scene: PackedScene = preload("res://scenes/program_editor/program_editor.tscn")
 
 @onready var program_list: ItemList = %ProgramList
 @onready var new_program_dialog: ConfirmationDialog = $NewProgramDialog
@@ -48,12 +48,12 @@ func on_new_program_dialog_create_new_program(program_name: String) -> void:
 		AlertSystem.show_alert(tr("alert_error"), tr("save_slot_picker.new_program.error"), Alert.MessageType.ERROR)
 
 func open_program(program_id: int, program_name: String) -> void:
-	var brain_editor = brain_editor_scene.instantiate()
-	brain_editor.program_id = program_id
-	brain_editor.program_name = program_name
+	var program_editor = program_editor_scene.instantiate()
+	program_editor.program_id = program_id
+	program_editor.program_name = program_name
 	
-	get_tree().root.add_child(brain_editor)
-	get_tree().current_scene = brain_editor
+	get_tree().root.add_child(program_editor)
+	get_tree().current_scene = program_editor
 	queue_free()
 
 func on_program_list_item_activated(index: int) -> void:

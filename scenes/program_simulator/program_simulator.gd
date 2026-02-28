@@ -10,7 +10,7 @@ const robot_scene: PackedScene = preload("res://scenes/robot/robot.tscn")
 @onready var robots_container: Node2D = %Robots
 @onready var label_time: Label = $HSplitContainer/SystemContainer/VSplitContainer/PanelContainer2/TabContainer/Control/VBoxContainer/HBoxContainer/LHSTime
 
-var brain_editor: BrainEditor
+var program_editor: BrainEditor
 var program_data: Dictionary = {}
 
 var robots: Array = []
@@ -26,7 +26,7 @@ func _ready() -> void:
 	
 	get_tree().root.size_changed.connect(on_root_size_changed)
 	
-	program_data = brain_editor.get_program_data()
+	program_data = program_editor.get_program_data()
 	program_visualizer.start(program_data)
 	
 	call_deferred("center_and_fit_map")

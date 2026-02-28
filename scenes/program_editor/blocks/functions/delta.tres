@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://cq2hhirqrbs4j"]
+
+[ext_resource type="Texture2D" uid="uid://dtx4g6g4wc0a6" path="res://assets/images/brain_editor/block_icons/delta.png" id="1_x1eui"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_mh13j"]
+
+[resource]
+script = ExtResource("2_mh13j")
+display_name = "blocks.delta.title"
+op = 54
+icon = ExtResource("1_x1eui")
+style = 1
+ports = [1, 2, 1, 0]
+port_labels = Array[String](["A", "", "B", ""])
+info_text = "blocks.delta.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

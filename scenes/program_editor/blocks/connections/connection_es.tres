@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://dqapxs6yd4ymb"]
+
+[ext_resource type="Texture2D" uid="uid://bp5w4uatyag6q" path="res://assets/images/brain_editor/block_icons/conn_es.png" id="1_xegfb"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_8eyc3"]
+
+[resource]
+script = ExtResource("2_8eyc3")
+display_name = ""
+op = 38
+icon = ExtResource("1_xegfb")
+display = 1
+style = 4
+ports = [0, 1, 2, 0]
+port_labels = Array[String](["", "A", "B", ""])
+info_text = "blocks.wire.es.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

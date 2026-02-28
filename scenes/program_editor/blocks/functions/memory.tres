@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://f6xqx03ths0n"]
+
+[ext_resource type="Texture2D" uid="uid://cgvy5mhm3su5k" path="res://assets/images/brain_editor/block_icons/memory.png" id="1_1pej6"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_4c4lr"]
+
+[resource]
+script = ExtResource("2_4c4lr")
+display_name = "blocks.memory.title"
+op = 57
+icon = ExtResource("1_1pej6")
+style = 1
+ports = [1, 2, 0, 1]
+port_labels = Array[String](["B", "", "", "A"])
+info_text = "blocks.memory.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"

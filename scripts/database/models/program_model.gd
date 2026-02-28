@@ -22,7 +22,7 @@ func to_dict() -> Dictionary:
 
 func from_dict(data: Dictionary) -> void:
 	super.from_dict(data)
-	name = data.get("name", tr("brain_editor.new_program.def_name"))
+	name = data.get("name", tr("program_editor.new_program.def_name"))
 	size = data.get("size", ProgramGrid.MatrixSize._7x7)
 	
 	var raw_blob = data.get("grid")

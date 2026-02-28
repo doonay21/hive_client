@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://ief65dh3y1la"]
+
+[ext_resource type="Texture2D" uid="uid://dmfxsbrn6c0ev" path="res://assets/images/brain_editor/block_icons/random.png" id="1_2lbv1"]
+[ext_resource type="Script" uid="uid://bxvoxmctemal6" path="res://scenes/program_editor/block/block_data.gd" id="2_3p383"]
+
+[resource]
+script = ExtResource("2_3p383")
+display_name = "blocks.random.title"
+op = 36
+icon = ExtResource("1_2lbv1")
+style = 3
+ports = [0, 2, 0, 1]
+info_text = "blocks.random.info"
+metadata/_custom_type_script = "uid://bxvoxmctemal6"
