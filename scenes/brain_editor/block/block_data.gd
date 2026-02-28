@@ -78,7 +78,7 @@ const COLORS: Dictionary = {
 @export var icon: Texture2D
 @export var display: Display = Display.ICON_TEXT
 @export var style: Style = Style.INPUT
-@export var ports: Array = [Port.NONE, Port.OUTPUT, Port.NONE, Port.NONE]
+@export var ports: Array = [Port.NONE, Port.NONE, Port.NONE, Port.NONE]
 @export var port_labels: Array[String] = ["", "", "", ""]
 @export var info_text: String = ""
 

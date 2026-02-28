@@ -161,7 +161,7 @@ texture = SubResource("AtlasTexture_yi5eq")
 
 [node name="NewBlock" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer/TextureRect" unique_id=1748682286 instance=ExtResource("5_yi5eq")]
 layout_mode = 0
-right_type = 2
+right_shape = 2
 
 [node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer" unique_id=640098977]
 self_modulate = Color(1, 1, 1, 0.096)
@@ -171,7 +171,7 @@ texture = SubResource("AtlasTexture_yi5eq")
 
 [node name="NewBlock" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer/TextureRect2" unique_id=95530010 instance=ExtResource("5_yi5eq")]
 layout_mode = 0
-left_type = 1
+left_shape = 1
 
 [node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer" unique_id=601160747]
 self_modulate = Color(1, 1, 1, 0.096)
