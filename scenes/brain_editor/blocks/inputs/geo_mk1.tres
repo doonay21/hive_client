@@ -8,5 +8,6 @@ script = ExtResource("2_8l4tw")
 display_name = "blocks.geo_mk1.title"
 op = 3
 icon = ExtResource("1_auc12")
+ports = [0, 2, 0, 0]
 info_text = "blocks.geo_mk1.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

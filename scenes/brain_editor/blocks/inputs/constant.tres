@@ -10,5 +10,6 @@ op = 33
 icon = ExtResource("1_mllro")
 display = 2
 style = 3
+ports = [0, 2, 0, 0]
 info_text = "blocks.constant.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

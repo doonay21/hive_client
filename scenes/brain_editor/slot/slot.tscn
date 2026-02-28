@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://cqr6altaq5hf4"]
 
-[ext_resource type="Texture2D" uid="uid://ctrqe03mtpddi" path="res://assets/images/brain_editor/glassPanel_gr.png" id="1_0lum2"]
+[ext_resource type="Texture2D" uid="uid://c0jcn8jo7537v" path="res://assets/images/ui/ui_atlas.png" id="2_2v75o"]
 [ext_resource type="Script" uid="uid://b1mf2637ajiav" path="res://scenes/brain_editor/slot/slot.gd" id="2_4xsqv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5usls"]
+atlas = ExtResource("2_2v75o")
+region = Rect2(1, 66, 80, 80)
 
 [node name="Slot" type="MarginContainer" unique_id=931889520]
 custom_minimum_size = Vector2(80, 80)
@@ -16,8 +20,8 @@ theme_override_constants/margin_bottom = 2
 script = ExtResource("2_4xsqv")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1901245393]
-self_modulate = Color(1, 1, 1, 0.1254902)
+self_modulate = Color(1, 1, 1, 0.020000001)
 texture_filter = 1
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture = ExtResource("1_0lum2")
+texture = SubResource("AtlasTexture_5usls")

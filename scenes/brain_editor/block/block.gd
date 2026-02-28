@@ -7,20 +7,26 @@ signal context_menu_requested(uuid: String, global_pos: Vector2)
 @export var is_toolbox_source: bool = false
 
 @onready var background_container: Control = %BackgroundContainer
-@onready var background: TextureRect = %Background
+@onready var background: Polygon2D = $BackgroundContainer/Background
+@onready var border: Line2D = $BackgroundContainer/Border
 @onready var icon: TextureRect = %Icon
 @onready var display_name_label: Label = %DisplayName
 @onready var icon_big: TextureRect = %IconBig
 @onready var value_drag: Label = %ValueDrag
 @onready var labels: Control = $Labels
 @onready var label_nodes: Array[Label] = [ $Labels/Top, $Labels/Right, $Labels/Bottom, $Labels/Left ]
-@onready var port_sprites: Array[TextureRect] = [ %PortTop, %PortRight, %PortBottom, %PortLeft ]
 
+var border_tween: Tween
 var custom_block_uuid: String = ""
 var rotation_index: int = 0
 var rotation_tween: Tween
 var target_rotation: float = 0.0
 var labels_tween: Tween
+
+var top_connected: bool = false
+var right_connected: bool = false
+var bottom_connected: bool = false
+var left_connected: bool = false
 
 static func parse_save_to_program_data(save_data: Dictionary) -> Dictionary:
 	return BlockSerializer.parse_save_to_program_data(save_data)
@@ -61,6 +67,7 @@ func initialize(data: Dictionary) -> void:
 
 func load_data() -> void:
 	BlockVisuals.load_data(self)
+	snap_to_target()
 
 func update_visuals() -> void:
 	BlockVisuals.update_visuals(self)
@@ -226,3 +233,56 @@ func on_events_custom_block_changed(uuid: String, new_ports: Array) -> void:
 		
 		update_visuals()
 		BlockVisuals.update_labels_text(self)
+
+func snap_to_target() -> void:
+	if not is_node_ready(): return
+	
+	border.top_h = get_target_height(block_data.ports[0], top_connected)
+	border.right_h = get_target_height(block_data.ports[1], right_connected)
+	border.bottom_h = get_target_height(block_data.ports[2], bottom_connected)
+	border.left_h = get_target_height(block_data.ports[3], left_connected)
+	update_border_visuals(1.0)
+	
+func animate_block() -> void:
+	if not is_node_ready():
+		return
+		
+	if border_tween and border_tween.is_valid():
+		border_tween.kill()
+		
+	border_tween = create_tween().set_parallel(true)
+	
+	animate_single_edge("top_h", border.top_h, get_target_height(block_data.ports[0], top_connected))
+	animate_single_edge("right_h", border.right_h, get_target_height(block_data.ports[1], right_connected))
+	animate_single_edge("bottom_h", border.bottom_h, get_target_height(block_data.ports[2], bottom_connected))
+	animate_single_edge("left_h", border.left_h, get_target_height(block_data.ports[3], left_connected))
+	
+	border_tween.tween_method(update_border_visuals, 0.0, 1.0, 0.6)
+
+func animate_single_edge(prop_name: String, current_val: float, target_val: float) -> void:
+	var diff = target_val - current_val
+	if abs(diff) < 0.01:
+		return
+
+	var pull_back_val = current_val - (diff * 0.35)
+	var pull_time = 0.12
+	border_tween.tween_property(border, prop_name, pull_back_val, pull_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		
+	var snap_time = 0.35
+	border_tween.tween_property(border, prop_name, target_val, snap_time).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT).set_delay(pull_time)
+
+func get_target_height(port: BlockData.Port, connected: bool) -> float:
+	if not is_node_ready(): 
+		return 0.0
+		
+	var target_h: float = border.TRIANGLE_HEIGHT_CONNECTED if connected else border.TRIANGLE_HEIGHT_DISCONNECTED
+		
+	match port:
+		BlockData.Port.NONE: return 0.0
+		BlockData.Port.INPUT: return -target_h
+		BlockData.Port.OUTPUT: return target_h
+	return 0.0
+
+func update_border_visuals(_dummy_value: float) -> void:
+	border.update_shape()
+	background.polygon = border.points

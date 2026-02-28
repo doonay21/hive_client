@@ -1,8 +1,10 @@
+@tool
 extends Line2D
 
 const BOX_SIZE: float = 80.0
 const TRIANGLE_BASE: float = 28.0
-const TRIANGLE_HEIGHT: float = 6.0
+const TRIANGLE_HEIGHT_DISCONNECTED: float = 4.0
+const TRIANGLE_HEIGHT_CONNECTED: float = 8.0
 const CORNER_RADIUS: float = 10.0
 const CORNER_RESOLUTION: int = 8
 

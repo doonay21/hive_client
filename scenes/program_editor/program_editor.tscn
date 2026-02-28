@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://dyg3b40xqvx4q" path="res://assets/images/icons/clear.png" id="3_owm0d"]
 [ext_resource type="FontFile" uid="uid://baaf5ofy6c065" path="res://assets/fonts/Exo2-Light.ttf" id="4_sevj3"]
 [ext_resource type="Texture2D" uid="uid://c0jcn8jo7537v" path="res://assets/images/ui/ui_atlas.png" id="4_w7peo"]
-[ext_resource type="PackedScene" uid="uid://bfccwjm5poteo" path="res://scenes/brain_editor/new_block/new_block.tscn" id="5_yi5eq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_owm0d"]
 shader = ExtResource("2_4wk1s")
@@ -159,19 +158,11 @@ custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 texture = SubResource("AtlasTexture_yi5eq")
 
-[node name="NewBlock" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer/TextureRect" unique_id=1748682286 instance=ExtResource("5_yi5eq")]
-layout_mode = 0
-right_shape = 2
-
 [node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer" unique_id=640098977]
 self_modulate = Color(1, 1, 1, 0.096)
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 texture = SubResource("AtlasTexture_yi5eq")
-
-[node name="NewBlock" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer/TextureRect2" unique_id=95530010 instance=ExtResource("5_yi5eq")]
-layout_mode = 0
-left_shape = 1
 
 [node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/CenterContainer/GridContainer" unique_id=601160747]
 self_modulate = Color(1, 1, 1, 0.096)

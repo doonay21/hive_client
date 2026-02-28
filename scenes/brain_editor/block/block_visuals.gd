@@ -1,8 +1,5 @@
 class_name BlockVisuals extends RefCounted
 
-const TEX_NONE = preload("res://assets/images/brain_editor/conn_none.png")
-const TEX_IN = preload("res://assets/images/brain_editor/conn_in.png")
-const TEX_OUT = preload("res://assets/images/brain_editor/conn_out.png")
 const TEX_MISSING = preload("res://assets/images/brain_editor/block_icons/missing.png")
 
 static func load_data(block: Block) -> void:
@@ -46,17 +43,18 @@ static func load_data(block: Block) -> void:
 static func update_visuals(block: Block) -> void:
 	if not block.block_data: return
 	
+	block.animate_block()
+	
 	for i in range(4):
 		var port_def = block.block_data.ports[i]
-		var sprite = block.port_sprites[i]
 		
 		match port_def:
 			BlockData.Port.NONE:
-				sprite.texture = TEX_NONE
+				pass
 			BlockData.Port.INPUT:
-				sprite.texture = TEX_IN
+				pass
 			BlockData.Port.OUTPUT:
-				sprite.texture = TEX_OUT
+				pass
 
 static func update_labels_text(block: Block) -> void:
 	if not block.block_data: return

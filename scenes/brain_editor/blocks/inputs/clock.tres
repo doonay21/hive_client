@@ -9,6 +9,7 @@ display_name = "blocks.clock.title"
 op = 5
 icon = ExtResource("1_rbkum")
 display = 2
+ports = [0, 2, 0, 0]
 info_text = "blocks.clock.info"
 value_mode = 2
 custom_min = 1.0

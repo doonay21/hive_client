@@ -8,5 +8,6 @@ script = ExtResource("2_ojo5k")
 display_name = "blocks.moved.title"
 op = 2
 icon = ExtResource("1_armcn")
+ports = [0, 2, 0, 0]
 info_text = "blocks.moved.info"
 metadata/_custom_type_script = "uid://bxvoxmctemal6"

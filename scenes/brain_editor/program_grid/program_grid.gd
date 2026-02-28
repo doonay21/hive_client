@@ -7,7 +7,7 @@ enum MatrixSize {
 	_9x9
 }
 
-const slot_scene: PackedScene = preload("res://scenes/brain_editor/slot/slot.tscn")
+const SLOT_SCENE: PackedScene = preload("res://scenes/brain_editor/slot/slot.tscn")
 
 @export var matrix_size: MatrixSize = MatrixSize._5x5
 @export var is_block: bool = false
@@ -47,7 +47,7 @@ func initialize() -> void:
 	for y in range(internal_dim):
 		for x in range(internal_dim):
 			var node: Control
-			node = slot_scene.instantiate()
+			node = SLOT_SCENE.instantiate()
 			node.name = "Node_%d_%d" % [x, y]
 			node.program_grid = self
 			grid_container.add_child(node)

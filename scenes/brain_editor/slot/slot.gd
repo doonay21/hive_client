@@ -1,8 +1,8 @@
 class_name Slot extends MarginContainer
 
 const BLOCK_SCENE = preload("res://scenes/brain_editor/block/block.tscn")
-const COLOR_DEFAULT = Color("ffffff20")
-const COLOR_HIGHLIGHT = Color("ffffff")
+const COLOR_DEFAULT = Color("ffffff05")
+const COLOR_HIGHLIGHT = Color("ffffff1a")
 
 @onready var background: TextureRect = $TextureRect
 
