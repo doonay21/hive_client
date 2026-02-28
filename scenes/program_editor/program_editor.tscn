@@ -9,19 +9,19 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_owm0d"]
 shader = ExtResource("2_4wk1s")
 
-[sub_resource type="Gradient" id="Gradient_kgcqg"]
+[sub_resource type="Gradient" id="Gradient_w7peo"]
 offsets = PackedFloat32Array(0.004347826, 1)
 colors = PackedColorArray(0.03529412, 0.043137256, 0.078431375, 1, 0.101960786, 0.0627451, 0.14509805, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_x01wl"]
-gradient = SubResource("Gradient_kgcqg")
+gradient = SubResource("Gradient_w7peo")
 width = 256
 height = 256
 use_hdr = true
 fill = 1
 fill_to = Vector2(1, 1)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_4wk1s"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yi5eq"]
 frequency = 1.0
 fractal_type = 0
 domain_warp_type = 1
@@ -29,7 +29,7 @@ domain_warp_type = 1
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_owm0d"]
 width = 1280
 height = 720
-noise = SubResource("FastNoiseLite_4wk1s")
+noise = SubResource("FastNoiseLite_yi5eq")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yi5eq"]
 atlas = ExtResource("4_w7peo")

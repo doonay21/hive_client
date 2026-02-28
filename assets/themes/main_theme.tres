@@ -3,31 +3,44 @@
 [ext_resource type="Texture2D" uid="uid://c0jcn8jo7537v" path="res://assets/images/ui/ui_atlas.png" id="1_3f3va"]
 [ext_resource type="FontFile" uid="uid://bsy50vq5n1mws" path="res://assets/fonts/Exo2-SemiBold.ttf" id="2_lxams"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y0ixg"]
+load_path = "res://.godot/imported/ui_atlas.png-8ff30cb66f5a7e6450c3221da759e8c1.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nb43s"]
+atlas = SubResource("CompressedTexture2D_y0ixg")
+region = Rect2(1, 147, 64, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7cwyu"]
+texture = SubResource("AtlasTexture_nb43s")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_gvtt4"]
 atlas = ExtResource("1_3f3va")
 region = Rect2(66, 1, 64, 64)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y0ixg"]
-texture = SubResource("AtlasTexture_gvtt4")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
-modulate_color = Color(1, 1, 1, 0.90000004)
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0f6i3"]
 texture = SubResource("AtlasTexture_gvtt4")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_etupa"]
-texture = SubResource("AtlasTexture_gvtt4")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0f6i3"]
+load_path = "res://.godot/imported/ui_atlas.png-8ff30cb66f5a7e6450c3221da759e8c1.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0pxi"]
+atlas = SubResource("CompressedTexture2D_0f6i3")
+region = Rect2(1, 147, 64, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jungl"]
+texture = SubResource("AtlasTexture_n0pxi")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4fp8c"]
 load_path = "res://.godot/imported/ui_atlas.png-8ff30cb66f5a7e6450c3221da759e8c1.ctex"
@@ -40,10 +53,10 @@ region = Rect2(1, 1, 64, 64)
 content_margin_left = 8.0
 content_margin_right = 8.0
 texture = SubResource("AtlasTexture_luy55")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1, 1, 1, 0.2)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4fp8c"]
@@ -54,10 +67,10 @@ region = Rect2(1, 1, 64, 64)
 content_margin_left = 8.0
 content_margin_right = 8.0
 texture = SubResource("AtlasTexture_4fp8c")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1, 1, 1, 0.2)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lxams"]
@@ -66,10 +79,10 @@ region = Rect2(1, 1, 64, 64)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vhku8"]
 texture = SubResource("AtlasTexture_lxams")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1, 1, 1, 0.2)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lxams"]
@@ -107,10 +120,10 @@ region = Rect2(1, 1, 64, 64)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lxams"]
 texture = SubResource("AtlasTexture_3f3va")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1, 1, 1, 0.2)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vhku8"]
@@ -120,32 +133,34 @@ region = Rect2(1, 1, 64, 32)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fp8c"]
 content_margin_left = 10.0
 content_margin_right = 10.0
-content_margin_bottom = 2.0
+content_margin_bottom = 8.0
 texture = SubResource("AtlasTexture_vhku8")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1, 1, 1, 0.2784314)
 draw_center = false
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_axncs"]
 content_margin_left = 10.0
 content_margin_right = 10.0
-content_margin_bottom = 2.0
+content_margin_bottom = 8.0
 texture = SubResource("AtlasTexture_vhku8")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1, 1, 1, 0.39607844)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gvtt4"]
 content_margin_left = 10.0
 content_margin_right = 10.0
-content_margin_bottom = 2.0
+content_margin_bottom = 8.0
 texture = SubResource("AtlasTexture_vhku8")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
 modulate_color = Color(1, 1, 1, 0.2)
 draw_center = false
 
@@ -194,12 +209,12 @@ texture_margin_bottom = 4.0
 
 [resource]
 default_font = ExtResource("2_lxams")
-Button/colors/font_color = Color(1, 1, 1, 1)
-Button/colors/font_hover_color = Color(1, 1, 1, 0.90000004)
+Button/colors/font_color = Color(0.5775, 0.74137497, 0.75, 1)
+Button/colors/font_hover_color = Color(0.5764706, 0.7411765, 0.7490196, 1)
 Button/colors/font_pressed_color = Color(1, 1, 1, 1)
-Button/styles/hover = SubResource("StyleBoxTexture_y0ixg")
+Button/styles/hover = SubResource("StyleBoxTexture_7cwyu")
 Button/styles/normal = SubResource("StyleBoxTexture_0f6i3")
-Button/styles/pressed = SubResource("StyleBoxTexture_etupa")
+Button/styles/pressed = SubResource("StyleBoxTexture_jungl")
 LineEdit/styles/focus = SubResource("StyleBoxTexture_078gm")
 LineEdit/styles/normal = SubResource("StyleBoxTexture_81epl")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_vhku8")

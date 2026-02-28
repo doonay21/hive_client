@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://b3clgkfq23qcn" path="res://scenes/brain_editor/custom_blocks/custom_blocks.gd" id="1_3f13w"]
 [ext_resource type="PackedScene" uid="uid://b877doohxy3wu" path="res://scenes/brain_editor/custom_blocks/new_block_window.tscn" id="2_sax8m"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sax8m"]
+
 [node name="CustomBlocks" type="VBoxContainer" unique_id=379220776]
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3f13w")
 
-[node name="Separator" type="Control" parent="." unique_id=711680404]
+[node name="Separator" type="Control" parent="." unique_id=298968424]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
@@ -21,10 +23,15 @@ text = "brain_editor.category.custom"
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=1464799090]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_sax8m")
 
 [node name="NewBlockButton" type="Button" parent="PanelContainer" unique_id=1675524287]
 layout_mode = 2
 text = "brain_editor.custom_blocks.new"
+
+[node name="Separator2" type="Control" parent="." unique_id=279032635]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
 [node name="Grid" type="GridContainer" parent="." unique_id=1017113798]
 layout_mode = 2
@@ -32,7 +39,7 @@ theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 3
 
-[node name="Separator2" type="Control" parent="." unique_id=279032635]
+[node name="Separator3" type="Control" parent="." unique_id=404006465]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 

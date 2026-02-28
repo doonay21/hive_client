@@ -8,10 +8,10 @@ const TRIANGLE_HEIGHT_CONNECTED: float = 8.0
 const CORNER_RADIUS: float = 10.0
 const CORNER_RESOLUTION: int = 8
 
-var top_h: float = 0.0
-var right_h: float = 0.0
-var bottom_h: float = 0.0
-var left_h: float = 0.0
+@export var top_h: float = 0.0
+@export var right_h: float = 0.0
+@export var bottom_h: float = 0.0
+@export var left_h: float = 0.0
 
 func _ready() -> void:
 	closed = true 
